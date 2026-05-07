@@ -77,6 +77,231 @@ body{font-family:'DM Sans','Segoe UI',sans-serif;background:linear-gradient(135d
 .btn-primary:hover{background:#ffe040;}
 .btn-cancel{background:rgba(255,255,255,0.12);color:#fff;border:1px solid rgba(255,255,255,0.20);border-radius:8px;padding:11px 20px;font-size:13px;font-weight:600;cursor:pointer;text-decoration:none;display:flex;align-items:center;gap:6px;transition:0.2s;}
 .btn-cancel:hover{background:rgba(255,255,255,0.20);}
+
+
+/* Page theme overrides */
+:root {
+    --supervisor-red: #CD1C18;
+    --supervisor-peach: #FFA896;
+    --supervisor-deep: #9B1313;
+    --supervisor-dark: #38000A;
+    --supervisor-panel: #fff7f5;
+    --supervisor-panel-soft: #ffe3dc;
+    --supervisor-muted: #6f2220;
+    --supervisor-border: #38000A;
+    --bg-from: #fff0ec;
+    --bg-to: var(--supervisor-peach);
+    --text: var(--supervisor-dark);
+    --muted: var(--supervisor-muted);
+    --gold: var(--supervisor-red);
+    --gold-bg: var(--supervisor-panel-soft);
+    --gold-br: var(--supervisor-border);
+    --card-bg: var(--supervisor-panel);
+    --card-bdr: var(--supervisor-border);
+    --input-bg: #fff;
+    --input-bdr: var(--supervisor-border);
+    --thead-bg: #ffd6cc;
+    --row-bdr: rgba(56, 0, 10, 0.22);
+    --row-hover: #ffe8e2;
+    --border: rgba(56, 0, 10, 0.26);
+}
+
+body {
+    background: linear-gradient(135deg, #fff7f5 0%, #ffd8d0 46%, var(--supervisor-peach) 100%) !important;
+    color: var(--supervisor-dark) !important;
+    overflow-x: hidden;
+}
+
+body.dark {
+    --text: #fff7f5;
+    --muted: #ffd6cc;
+    --gold: #FFA896;
+    --card-bg: rgba(56, 0, 10, 0.72);
+    --card-bdr: #FFA896;
+    --input-bg: rgba(56, 0, 10, 0.78);
+    --input-bdr: #FFA896;
+    --thead-bg: rgba(56, 0, 10, 0.92);
+    --row-bdr: rgba(255, 168, 150, 0.30);
+    --row-hover: rgba(255, 168, 150, 0.14);
+    background: linear-gradient(135deg, var(--supervisor-dark) 0%, #6d0710 48%, var(--supervisor-deep) 100%) !important;
+    color: #fff7f5 !important;
+}
+
+.navbar {
+    background: linear-gradient(90deg, var(--supervisor-dark) 0%, var(--supervisor-deep) 100%) !important;
+    border-bottom-color: var(--supervisor-border) !important;
+    box-shadow: 0 8px 22px rgba(56, 0, 10, 0.24);
+}
+
+.logo,
+.navbar .logo,
+.navbar .logo *:not(.logo-icon):not(.logo-icon *) {
+    color: #fff !important;
+}
+
+.logo-icon,
+.page-title-icon {
+    background: var(--supervisor-peach) !important;
+    border-color: var(--supervisor-border) !important;
+    color: var(--supervisor-dark) !important;
+}
+
+.logo-icon i,
+.page-title-icon i,
+.page-header i,
+.count-badge i {
+    color: var(--supervisor-dark) !important;
+}
+
+.nav-links a {
+    color: rgba(255, 255, 255, 0.84) !important;
+    border: 1px solid rgba(255, 168, 150, 0.32);
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+    background: rgba(255, 168, 150, 0.22) !important;
+    color: #fff !important;
+    border-color: var(--supervisor-peach) !important;
+}
+
+.navbar .pill,
+.navbar .icon-btn,
+.toggle-btn {
+    background: rgba(255, 168, 150, 0.14) !important;
+    border-color: rgba(255, 168, 150, 0.35) !important;
+    color: #fff !important;
+}
+
+.page-title h1,
+.page-header h1 {
+    color: var(--supervisor-dark) !important;
+}
+
+.page-title p,
+.page-header p {
+    color: var(--supervisor-muted) !important;
+}
+
+.logout-btn {
+    background: var(--supervisor-red) !important;
+    border: 1px solid var(--supervisor-border) !important;
+    color: #fff !important;
+}
+
+.logout-btn:hover {
+    background: var(--supervisor-dark) !important;
+    color: #fff !important;
+}
+
+body.dark .page-title h1,
+body.dark .page-header h1 {
+    color: #fff7f5 !important;
+}
+
+body.dark .page-title p,
+body.dark .page-header p {
+    color: #ffd6cc !important;
+}
+.form-card {
+    background: var(--supervisor-panel) !important;
+    border-color: var(--supervisor-border) !important;
+    color: var(--supervisor-dark) !important;
+    box-shadow: 0 8px 18px rgba(56, 0, 10, 0.12);
+}
+
+.form-card-title,
+.field label {
+    color: var(--supervisor-dark) !important;
+}
+
+.field input,
+.field textarea,
+.field select,
+.file-label {
+    background: var(--input-bg) !important;
+    border-color: var(--input-bdr) !important;
+    color: var(--supervisor-dark) !important;
+}
+
+.field input::placeholder,
+.field textarea::placeholder {
+    color: rgba(56, 0, 10, 0.48) !important;
+}
+
+.field input:focus,
+.field textarea:focus,
+.field select:focus,
+.file-label:hover {
+    border-color: var(--supervisor-red) !important;
+    box-shadow: 0 0 0 3px rgba(205, 28, 24, 0.12);
+}
+
+.btn-primary,
+button[type="submit"] {
+    background: var(--supervisor-red) !important;
+    border: 1px solid var(--supervisor-border) !important;
+    color: #fff !important;
+}
+
+.btn-primary:hover {
+    background: var(--supervisor-peach) !important;
+    color: var(--supervisor-dark) !important;
+}
+
+button[type="submit"]:hover {
+    background: var(--supervisor-dark) !important;
+    color: #fff !important;
+}
+
+.btn-cancel {
+    background: #fff !important;
+    border: 1px solid var(--supervisor-border) !important;
+    color: var(--supervisor-dark) !important;
+    box-shadow: 0 4px 12px rgba(56, 0, 10, 0.10);
+}
+
+.btn-cancel i {
+    color: var(--supervisor-red) !important;
+}
+
+.btn-cancel:hover {
+    background: var(--supervisor-peach) !important;
+    color: var(--supervisor-dark) !important;
+    box-shadow: 0 6px 16px rgba(56, 0, 10, 0.16);
+}
+
+.alert.error {
+    background: rgba(205, 28, 24, 0.14) !important;
+    border-color: var(--supervisor-red) !important;
+    color: var(--supervisor-deep) !important;
+}
+
+body.dark .form-card {
+    background: rgba(56, 0, 10, 0.72) !important;
+}
+
+body.dark .form-card-title,
+body.dark .field label {
+    color: #fff7f5 !important;
+}
+
+body.dark .field input,
+body.dark .field textarea,
+body.dark .field select,
+body.dark .file-label {
+    color: #fff7f5 !important;
+}
+
+body.dark .btn-cancel {
+    background: rgba(255, 168, 150, 0.16) !important;
+    border-color: #FFA896 !important;
+    color: #fff7f5 !important;
+}
+
+body.dark .btn-cancel i {
+    color: #FFA896 !important;
+}
 </style>
 </head>
 <body>
@@ -90,6 +315,7 @@ body{font-family:'DM Sans','Segoe UI',sans-serif;background:linear-gradient(135d
         <a href="dashboard.php">Dashboard</a>
         <a href="fastener.php">Fasteners</a>
         <a href="inventory.php" class="active">Inventory</a>
+        <a href="pick_list.php">Pick List</a>
         <a href="supplier.php">Suppliers</a>
         <a href="orders.php">Orders</a>
     </div>
@@ -129,7 +355,7 @@ body{font-family:'DM Sans','Segoe UI',sans-serif;background:linear-gradient(135d
                             $sel = (isset($_POST['fastener_id']) && $_POST['fastener_id'] == $f['id']) ? 'selected' : '';
                         ?>
                         <option value="<?= $f['id'] ?>" <?= $sel ?>>
-                            <?= htmlspecialchars($f['name']) ?> (<?= htmlspecialchars($f['size']) ?>)
+                            <?= htmlspecialchars($f['name']) ?><?= !empty($f['part_number']) ? ' - ' . htmlspecialchars($f['part_number']) : '' ?> (<?= htmlspecialchars($f['size']) ?>)
                         </option>
                         <?php endwhile; ?>
                     </select>

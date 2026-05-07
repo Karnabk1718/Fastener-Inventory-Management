@@ -157,6 +157,10 @@ body {
     background: var(--card-bg); border: 1px solid var(--card-bdr);
     border-radius: 16px; overflow: hidden;
 }
+.table-scroll {
+    width: 100%;
+    overflow-x: auto;
+}
 .table-card-header {
     padding: 18px 24px; border-bottom: 1px solid var(--card-bdr);
     display: flex; align-items: center; justify-content: space-between; gap: 12px;
@@ -177,58 +181,326 @@ body {
 }
 .search-box::placeholder { color: rgba(255,255,255,0.40); }
 .search-box:focus { border-color: var(--gold); }
-table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+table { width: 100%; min-width: 0; border-collapse: collapse; font-size: 12px; table-layout: fixed; }
 thead tr { background: var(--thead-bg); }
 th {
-    padding: 13px 16px; text-align: left; font-size: 11px; font-weight: 700;
-    text-transform: uppercase; letter-spacing: 1px; color: rgba(255,255,255,0.90); white-space: nowrap;
+    padding: 9px 7px; text-align: left; font-size: 9.5px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.5px; color: rgba(255,255,255,0.90); white-space: nowrap;
 }
+th:nth-child(1) { width: 44px; }
+th:nth-child(2) { width: 56px; }
+th:nth-child(3) { width: 145px; }
+th:nth-child(4) { width: 88px; }
+th:nth-child(5) { width: 84px; }
+th:nth-child(6) { width: 56px; }
+th:nth-child(7) { width: 82px; }
+th:nth-child(8) { width: auto; }
+th:nth-child(9) { width: 104px; }
 td {
-    padding: 14px 16px; border-bottom: 1px solid var(--row-bdr);
+    padding: 9px 7px; border-bottom: 1px solid var(--row-bdr);
     vertical-align: middle; color: #ffffff; font-weight: 500;
+    overflow: hidden;
 }
 tbody tr:last-child td { border-bottom: none; }
 tbody tr:hover { background: var(--row-hover); }
 .id-cell { font-family: 'DM Mono', monospace; font-size: 12px; color: rgba(255,255,255,0.70); font-weight: 500; }
-.name-cell { font-weight: 600; font-size: 14px; }
+.name-cell { font-weight: 600; font-size: 13px; white-space: normal; word-break: break-word; line-height: 1.3; }
+.part-cell { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); word-break: break-word; }
 .type-pill {
     background: rgba(255,215,0,0.18); border: 1px solid rgba(255,215,0,0.40);
-    color: var(--gold); border-radius: 20px; padding: 4px 12px;
-    font-size: 12px; font-weight: 600; display: inline-block;
+    color: var(--gold); border-radius: 20px; padding: 3px 8px;
+    font-size: 11px; font-weight: 600; display: inline-block;
 }
-.size-cell { font-family: 'DM Mono', monospace; font-size: 13px; color: rgba(255,255,255,0.90); }
-.price-cell { font-weight: 700; font-size: 14px; color: #ffffff; }
-.action-cell { display: flex; gap: 6px; align-items: center; }
+.size-cell { font-family: 'DM Mono', monospace; font-size: 11.5px; color: rgba(255,255,255,0.90); }
+.price-cell { font-weight: 700; font-size: 12px; color: #ffffff; }
+.action-cell { display: flex; flex-direction: column; gap: 6px; align-items: stretch; }
 .btn-edit {
     background: rgba(96,165,250,0.20); border: 1px solid rgba(96,165,250,0.40);
-    color: #93c5fd; border-radius: 7px; padding: 5px 13px; font-size: 12px; font-weight: 600;
-    text-decoration: none; display: flex; align-items: center; gap: 5px; transition: 0.2s;
+    color: #93c5fd; border-radius: 7px; padding: 5px 8px; font-size: 11px; font-weight: 600;
+    text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 5px; transition: 0.2s;
 }
 .btn-edit:hover { background: rgba(96,165,250,0.35); }
 .btn-delete {
     background: rgba(255,107,107,0.20); border: 1px solid rgba(255,107,107,0.40);
-    color: #fca5a5; border-radius: 7px; padding: 5px 13px; font-size: 12px; font-weight: 600;
-    text-decoration: none; display: flex; align-items: center; gap: 5px; transition: 0.2s;
+    color: #fca5a5; border-radius: 7px; padding: 5px 8px; font-size: 11px; font-weight: 600;
+    text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 5px; transition: 0.2s;
 }
 .btn-delete:hover { background: rgba(255,107,107,0.35); }
 .empty-state { text-align: center; padding: 48px 20px; color: rgba(255,255,255,0.50); }
 .empty-state i { font-size: 36px; margin-bottom: 12px; display: block; opacity: 0.4; }
 .empty-state p { font-size: 14px; }
 .thumb {
-    width: 48px; height: 48px; object-fit: cover;
+    width: 38px; height: 38px; object-fit: cover;
     border-radius: 8px; border: 1px solid var(--card-bdr);
     display: block;
 }
 .no-img {
-    width: 48px; height: 48px; border-radius: 8px;
+    width: 38px; height: 38px; border-radius: 8px;
     background: rgba(255,255,255,0.07); border: 1px dashed rgba(255,255,255,0.20);
     display: flex; align-items: center; justify-content: center;
     color: rgba(255,255,255,0.30); font-size: 16px;
 }
 .desc-cell {
-    font-size: 13px; color: var(--muted);
-    max-width: 260px; white-space: normal;
-    word-break: break-word; line-height: 1.55;
+    font-size: 11.8px; color: var(--muted);
+    white-space: normal;
+    word-break: break-word; line-height: 1.45;
+}
+
+
+/* Page theme overrides */
+:root {
+    --supervisor-red: #CD1C18;
+    --supervisor-peach: #FFA896;
+    --supervisor-deep: #9B1313;
+    --supervisor-dark: #38000A;
+    --supervisor-panel: #fff7f5;
+    --supervisor-panel-soft: #ffe3dc;
+    --supervisor-muted: #6f2220;
+    --supervisor-border: #38000A;
+    --bg-from: #fff0ec;
+    --bg-to: var(--supervisor-peach);
+    --text: var(--supervisor-dark);
+    --muted: var(--supervisor-muted);
+    --gold: var(--supervisor-red);
+    --gold-bg: var(--supervisor-panel-soft);
+    --gold-br: var(--supervisor-border);
+    --card-bg: var(--supervisor-panel);
+    --card-bdr: var(--supervisor-border);
+    --input-bg: #fff;
+    --input-bdr: var(--supervisor-border);
+    --thead-bg: #ffd6cc;
+    --row-bdr: rgba(56, 0, 10, 0.22);
+    --row-hover: #ffe8e2;
+    --border: rgba(56, 0, 10, 0.26);
+}
+
+body {
+    background: linear-gradient(135deg, #fff7f5 0%, #ffd8d0 46%, var(--supervisor-peach) 100%) !important;
+    color: var(--supervisor-dark) !important;
+    overflow-x: hidden;
+}
+
+body.dark {
+    --text: #fff7f5;
+    --muted: #ffd6cc;
+    --gold: #FFA896;
+    --card-bg: rgba(56, 0, 10, 0.72);
+    --card-bdr: #FFA896;
+    --input-bg: rgba(56, 0, 10, 0.78);
+    --input-bdr: #FFA896;
+    --thead-bg: rgba(56, 0, 10, 0.92);
+    --row-bdr: rgba(255, 168, 150, 0.30);
+    --row-hover: rgba(255, 168, 150, 0.14);
+    background: linear-gradient(135deg, var(--supervisor-dark) 0%, #6d0710 48%, var(--supervisor-deep) 100%) !important;
+    color: #fff7f5 !important;
+}
+
+.navbar {
+    background: linear-gradient(90deg, var(--supervisor-dark) 0%, var(--supervisor-deep) 100%) !important;
+    border-bottom-color: var(--supervisor-border) !important;
+    box-shadow: 0 8px 22px rgba(56, 0, 10, 0.24);
+}
+
+.logo,
+.navbar .logo,
+.navbar .logo *:not(.logo-icon):not(.logo-icon *) {
+    color: #fff !important;
+}
+
+.logo-icon,
+.page-title-icon {
+    background: var(--supervisor-peach) !important;
+    border-color: var(--supervisor-border) !important;
+    color: var(--supervisor-dark) !important;
+}
+
+.logo-icon i,
+.page-title-icon i,
+.page-header i,
+.count-badge i {
+    color: var(--supervisor-dark) !important;
+}
+
+.nav-links a {
+    color: rgba(255, 255, 255, 0.84) !important;
+    border: 1px solid rgba(255, 168, 150, 0.32);
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+    background: rgba(255, 168, 150, 0.22) !important;
+    color: #fff !important;
+    border-color: var(--supervisor-peach) !important;
+}
+
+.navbar .pill,
+.navbar .icon-btn,
+.toggle-btn {
+    background: rgba(255, 168, 150, 0.14) !important;
+    border-color: rgba(255, 168, 150, 0.35) !important;
+    color: #fff !important;
+}
+
+.page-title h1,
+.page-header h1 {
+    color: var(--supervisor-dark) !important;
+}
+
+.page-title p,
+.page-header p {
+    color: var(--supervisor-muted) !important;
+}
+
+.logout-btn {
+    background: var(--supervisor-red) !important;
+    border: 1px solid var(--supervisor-border) !important;
+    color: #fff !important;
+}
+
+.logout-btn:hover {
+    background: var(--supervisor-dark) !important;
+    color: #fff !important;
+}
+
+body.dark .page-title h1,
+body.dark .page-header h1 {
+    color: #fff7f5 !important;
+}
+
+body.dark .page-title p,
+body.dark .page-header p {
+    color: #ffd6cc !important;
+}
+.table-card {
+    background: var(--supervisor-panel) !important;
+    border-color: var(--supervisor-border) !important;
+    color: var(--supervisor-dark) !important;
+    box-shadow: 0 8px 18px rgba(56, 0, 10, 0.12);
+}
+
+.table-card-header {
+    border-bottom-color: var(--supervisor-border) !important;
+}
+
+.table-card-header h3,
+.name-cell,
+.price-cell {
+    color: var(--supervisor-dark) !important;
+}
+
+.table-card-header h3::before {
+    background: var(--supervisor-red) !important;
+}
+
+thead tr,
+th {
+    background: var(--thead-bg) !important;
+    color: var(--supervisor-dark) !important;
+}
+
+td {
+    color: var(--supervisor-dark) !important;
+    border-bottom-color: var(--row-bdr) !important;
+}
+
+tbody tr:hover {
+    background: var(--row-hover) !important;
+}
+
+.id-cell,
+.desc-cell {
+    color: var(--supervisor-muted) !important;
+}
+
+.search-box {
+    background: var(--input-bg) !important;
+    border-color: var(--input-bdr) !important;
+    color: var(--supervisor-dark) !important;
+}
+
+.search-box::placeholder {
+    color: rgba(56, 0, 10, 0.48) !important;
+}
+
+.search-box:focus {
+    border-color: var(--supervisor-red) !important;
+    box-shadow: 0 0 0 3px rgba(205, 28, 24, 0.12);
+}
+
+.btn-add,
+.btn-export {
+    background: var(--supervisor-red) !important;
+    border: 1px solid var(--supervisor-border) !important;
+    color: #fff !important;
+}
+
+.btn-add:hover,
+.btn-export:hover {
+    background: var(--supervisor-peach) !important;
+    color: var(--supervisor-dark) !important;
+}
+
+.count-badge,
+.type-pill {
+    background: var(--supervisor-peach) !important;
+    border-color: var(--supervisor-border) !important;
+    color: var(--supervisor-dark) !important;
+}
+
+.btn-edit {
+    background: rgba(255, 168, 150, 0.45) !important;
+    border-color: var(--supervisor-border) !important;
+    color: var(--supervisor-dark) !important;
+}
+
+.btn-delete {
+    background: rgba(205, 28, 24, 0.12) !important;
+    border-color: var(--supervisor-red) !important;
+    color: var(--supervisor-deep) !important;
+}
+
+.alert.success {
+    background: #ffe3dc !important;
+    border-color: var(--supervisor-border) !important;
+    color: var(--supervisor-dark) !important;
+}
+
+.stock-status.ok {
+    background: #ffe3dc !important;
+    border-color: var(--supervisor-border) !important;
+    color: var(--supervisor-dark) !important;
+}
+
+.stock-status.low,
+.qty-cell.low-stock {
+    background: rgba(205, 28, 24, 0.14) !important;
+    border-color: var(--supervisor-red) !important;
+    color: var(--supervisor-deep) !important;
+}
+
+.thumb,
+.no-img {
+    border-color: var(--supervisor-border) !important;
+}
+
+body.dark .table-card {
+    background: rgba(56, 0, 10, 0.72) !important;
+}
+
+body.dark .table-card-header h3,
+body.dark td,
+body.dark .name-cell,
+body.dark .price-cell {
+    color: #fff7f5 !important;
+}
+
+body.dark .id-cell,
+body.dark .desc-cell {
+    color: #ffd6cc !important;
+}
+
+body.dark .search-box {
+    color: #fff7f5 !important;
 }
 </style>
 </head>
@@ -243,6 +515,7 @@ tbody tr:hover { background: var(--row-hover); }
         <a href="dashboard.php">Dashboard</a>
         <a href="fastener.php" class="active">Fasteners</a>
         <a href="inventory.php">Inventory</a>
+        <a href="pick_list.php">Pick List</a>
         <a href="supplier.php">Suppliers</a>
         <a href="orders.php">Orders</a>
     </div>
@@ -267,7 +540,7 @@ tbody tr:hover { background: var(--row-hover); }
         </div>
         <div class="page-header-right">
             <div class="count-badge"><i class="fa fa-layer-group"></i> <?= $totalCount ?> Records</div>
-            <a href="export_report.php?type=fastener" class="btn-export"><i class="fa fa-file-pdf"></i> Fastener PDF</a>
+            <a href="export_report.php?type=fastener" class="btn-export"><i class="fa fa-file-pdf"></i> Download</a>
             <a href="add_fastener.php" class="btn-add"><i class="fa fa-plus"></i> Add Fastener</a>
         </div>
     </div>
@@ -281,15 +554,16 @@ tbody tr:hover { background: var(--row-hover); }
             <h3>All Fasteners</h3>
             <input type="text" class="search-box" id="searchInput" placeholder="Search fasteners…" onkeyup="filterTable()">
         </div>
+        <div class="table-scroll">
         <table id="fastenerTable">
             <thead>
                 <tr>
-                    <th>ID</th><th>Image</th><th>Name</th><th>Type</th><th>Size</th><th>Price / Unit (₹)</th><th>Description</th><th>Actions</th>
+                    <th>ID</th><th>Image</th><th>Name</th><th>Part No.</th><th>Type</th><th>Size</th><th>Price / Unit (₹)</th><th>Description</th><th>Actions</th>
                 </tr>
             </thead>
             <tbody>
                 <?php if($totalCount === 0): ?>
-                <tr><td colspan="8">
+                <tr><td colspan="9">
                     <div class="empty-state">
                         <i class="fa-solid fa-screwdriver-wrench"></i>
                         <p>No fasteners found. <a href="add_fastener.php" style="color:var(--gold)">Add one now.</a></p>
@@ -312,6 +586,7 @@ tbody tr:hover { background: var(--row-hover); }
                         <?php endif; ?>
                     </td>
                     <td class="name-cell"><?= htmlspecialchars($row['name']) ?></td>
+                    <td class="part-cell"><?= htmlspecialchars($row['part_number'] ?? '—') ?></td>
                     <td><span class="type-pill"><?= htmlspecialchars($row['type']) ?></span></td>
                     <td class="size-cell"><?= htmlspecialchars($row['size']) ?></td>
                     <td class="price-cell">₹<?= number_format($row['unit_price'], 2) ?></td>
@@ -331,6 +606,7 @@ tbody tr:hover { background: var(--row-hover); }
                 <?php endforeach; endif; ?>
             </tbody>
         </table>
+        </div>
     </div>
 
 </div>
@@ -347,6 +623,14 @@ function toggleDark() {
     localStorage.setItem('boltTheme', document.body.classList.contains('dark') ? 'dark' : 'light');
 }
 if(localStorage.getItem('boltTheme') === 'dark') document.body.classList.add('dark');
+setTimeout(() => {
+    document.querySelectorAll('.alert.success').forEach(alert => {
+        alert.style.transition = 'opacity 0.25s ease, transform 0.25s ease';
+        alert.style.opacity = '0';
+        alert.style.transform = 'translateY(-6px)';
+        setTimeout(() => alert.remove(), 300);
+    });
+}, 4000);
 function filterTable() {
     const q = document.getElementById('searchInput').value.toLowerCase();
     document.querySelectorAll('#fastenerTable tbody tr').forEach(r => {

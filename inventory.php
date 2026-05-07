@@ -21,11 +21,12 @@ if(isset($_GET['success'])) {
     if($_GET['success'] === 'added')   $successMsg = 'Stock added successfully.';
     if($_GET['success'] === 'updated') $successMsg = 'Stock updated successfully.';
     if($_GET['success'] === 'deleted') $successMsg = 'Stock record deleted successfully.';
+    if($_GET['success'] === 'picked')  $successMsg = 'Stock picked successfully.';
 }
 
 // FETCH STOCK
 $result = mysqli_query($conn, "
-    SELECT s.id, s.fastener_id, f.name, f.type, f.size, f.unit_price, s.quantity, f.image, f.description
+    SELECT s.id, s.fastener_id, f.name, f.part_number, f.type, f.size, f.unit_price, s.quantity, f.image, f.description
     FROM stock s
     JOIN fastener f ON s.fastener_id = f.id
     ORDER BY s.id ASC
@@ -201,13 +202,13 @@ th {
 th:nth-child(1)  { width: 44px;  }   /* ID */
 th:nth-child(2)  { width: 72px;  }   /* Image */
 th:nth-child(3)  { width: 130px; }   /* Fastener Name */
-th:nth-child(4)  { width: 90px;  }   /* Type */
-th:nth-child(5)  { width: 70px;  }   /* Size */
-th:nth-child(6)  { width: 90px;  }   /* Price */
-th:nth-child(7)  { width: 62px;  }   /* Quantity */
-th:nth-child(8)  { width: 88px;  }   /* Status */
-th:nth-child(9)  { width: 180px; }   /* Description */
-th:nth-child(10) { width: 100px; }   /* Actions */
+th:nth-child(4)  { width: 92px;  }   /* Part No */
+th:nth-child(5)  { width: 82px;  }   /* Type */
+th:nth-child(6)  { width: 64px;  }   /* Size */
+th:nth-child(7)  { width: 82px;  }   /* Price */
+th:nth-child(8)  { width: 58px;  }   /* Quantity */
+th:nth-child(9)  { width: 84px;  }   /* Status */
+th:nth-child(10) { width: 180px; }   /* Description */
 td {
     padding: 10px 10px; border-bottom: 1px solid var(--row-bdr);
     vertical-align: middle; color: #ffffff; font-weight: 500;
@@ -219,6 +220,7 @@ tbody tr:hover { background: var(--row-hover); }
 /* ── Cell styles — pixel-perfect match to fastener.php ── */
 .id-cell   { font-family: 'DM Mono', monospace; font-size: 12.5px; color: rgba(255,255,255,0.70); font-weight: 500; }
 .name-cell { font-weight: 600; font-size: 14px; white-space: normal; word-break: break-word; }
+.part-cell { font-family: 'DM Mono', monospace; font-size: 11.5px; color: var(--muted); word-break: break-word; }
 .type-pill {
     background: rgba(255,215,0,0.18); border: 1px solid rgba(255,215,0,0.40);
     color: var(--gold); border-radius: 20px; padding: 4px 10px;
@@ -269,6 +271,263 @@ tbody tr.table-low-stock { background: rgba(255,107,107,0.04); }
     display: flex; align-items: center; justify-content: center;
     color: rgba(255,255,255,0.30); font-size: 18px;
 }
+
+
+/* Page theme overrides */
+:root {
+    --supervisor-red: #CD1C18;
+    --supervisor-peach: #FFA896;
+    --supervisor-deep: #9B1313;
+    --supervisor-dark: #38000A;
+    --supervisor-panel: #fff7f5;
+    --supervisor-panel-soft: #ffe3dc;
+    --supervisor-muted: #6f2220;
+    --supervisor-border: #38000A;
+    --bg-from: #fff0ec;
+    --bg-to: var(--supervisor-peach);
+    --text: var(--supervisor-dark);
+    --muted: var(--supervisor-muted);
+    --gold: var(--supervisor-red);
+    --gold-bg: var(--supervisor-panel-soft);
+    --gold-br: var(--supervisor-border);
+    --card-bg: var(--supervisor-panel);
+    --card-bdr: var(--supervisor-border);
+    --input-bg: #fff;
+    --input-bdr: var(--supervisor-border);
+    --thead-bg: #ffd6cc;
+    --row-bdr: rgba(56, 0, 10, 0.22);
+    --row-hover: #ffe8e2;
+    --border: rgba(56, 0, 10, 0.26);
+}
+
+body {
+    background: linear-gradient(135deg, #fff7f5 0%, #ffd8d0 46%, var(--supervisor-peach) 100%) !important;
+    color: var(--supervisor-dark) !important;
+    overflow-x: hidden;
+}
+
+body.dark {
+    --text: #fff7f5;
+    --muted: #ffd6cc;
+    --gold: #FFA896;
+    --card-bg: rgba(56, 0, 10, 0.72);
+    --card-bdr: #FFA896;
+    --input-bg: rgba(56, 0, 10, 0.78);
+    --input-bdr: #FFA896;
+    --thead-bg: rgba(56, 0, 10, 0.92);
+    --row-bdr: rgba(255, 168, 150, 0.30);
+    --row-hover: rgba(255, 168, 150, 0.14);
+    background: linear-gradient(135deg, var(--supervisor-dark) 0%, #6d0710 48%, var(--supervisor-deep) 100%) !important;
+    color: #fff7f5 !important;
+}
+
+.navbar {
+    background: linear-gradient(90deg, var(--supervisor-dark) 0%, var(--supervisor-deep) 100%) !important;
+    border-bottom-color: var(--supervisor-border) !important;
+    box-shadow: 0 8px 22px rgba(56, 0, 10, 0.24);
+}
+
+.logo,
+.navbar .logo,
+.navbar .logo *:not(.logo-icon):not(.logo-icon *) {
+    color: #fff !important;
+}
+
+.logo-icon,
+.page-title-icon {
+    background: var(--supervisor-peach) !important;
+    border-color: var(--supervisor-border) !important;
+    color: var(--supervisor-dark) !important;
+}
+
+.logo-icon i,
+.page-title-icon i,
+.page-header i,
+.count-badge i {
+    color: var(--supervisor-dark) !important;
+}
+
+.nav-links a {
+    color: rgba(255, 255, 255, 0.84) !important;
+    border: 1px solid rgba(255, 168, 150, 0.32);
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+    background: rgba(255, 168, 150, 0.22) !important;
+    color: #fff !important;
+    border-color: var(--supervisor-peach) !important;
+}
+
+.navbar .pill,
+.navbar .icon-btn,
+.toggle-btn {
+    background: rgba(255, 168, 150, 0.14) !important;
+    border-color: rgba(255, 168, 150, 0.35) !important;
+    color: #fff !important;
+}
+
+.page-title h1,
+.page-header h1 {
+    color: var(--supervisor-dark) !important;
+}
+
+.page-title p,
+.page-header p {
+    color: var(--supervisor-muted) !important;
+}
+
+.logout-btn {
+    background: var(--supervisor-red) !important;
+    border: 1px solid var(--supervisor-border) !important;
+    color: #fff !important;
+}
+
+.logout-btn:hover {
+    background: var(--supervisor-dark) !important;
+    color: #fff !important;
+}
+
+body.dark .page-title h1,
+body.dark .page-header h1 {
+    color: #fff7f5 !important;
+}
+
+body.dark .page-title p,
+body.dark .page-header p {
+    color: #ffd6cc !important;
+}
+.table-card {
+    background: var(--supervisor-panel) !important;
+    border-color: var(--supervisor-border) !important;
+    color: var(--supervisor-dark) !important;
+    box-shadow: 0 8px 18px rgba(56, 0, 10, 0.12);
+}
+
+.table-card-header {
+    border-bottom-color: var(--supervisor-border) !important;
+}
+
+.table-card-header h3,
+.name-cell,
+.price-cell {
+    color: var(--supervisor-dark) !important;
+}
+
+.table-card-header h3::before {
+    background: var(--supervisor-red) !important;
+}
+
+thead tr,
+th {
+    background: var(--thead-bg) !important;
+    color: var(--supervisor-dark) !important;
+}
+
+td {
+    color: var(--supervisor-dark) !important;
+    border-bottom-color: var(--row-bdr) !important;
+}
+
+tbody tr:hover {
+    background: var(--row-hover) !important;
+}
+
+.id-cell,
+.desc-cell {
+    color: var(--supervisor-muted) !important;
+}
+
+.search-box {
+    background: var(--input-bg) !important;
+    border-color: var(--input-bdr) !important;
+    color: var(--supervisor-dark) !important;
+}
+
+.search-box::placeholder {
+    color: rgba(56, 0, 10, 0.48) !important;
+}
+
+.search-box:focus {
+    border-color: var(--supervisor-red) !important;
+    box-shadow: 0 0 0 3px rgba(205, 28, 24, 0.12);
+}
+
+.btn-add,
+.btn-export {
+    background: var(--supervisor-red) !important;
+    border: 1px solid var(--supervisor-border) !important;
+    color: #fff !important;
+}
+
+.btn-add:hover,
+.btn-export:hover {
+    background: var(--supervisor-peach) !important;
+    color: var(--supervisor-dark) !important;
+}
+
+.count-badge,
+.type-pill {
+    background: var(--supervisor-peach) !important;
+    border-color: var(--supervisor-border) !important;
+    color: var(--supervisor-dark) !important;
+}
+
+.btn-edit {
+    background: rgba(255, 168, 150, 0.45) !important;
+    border-color: var(--supervisor-border) !important;
+    color: var(--supervisor-dark) !important;
+}
+
+.btn-delete {
+    background: rgba(205, 28, 24, 0.12) !important;
+    border-color: var(--supervisor-red) !important;
+    color: var(--supervisor-deep) !important;
+}
+
+.alert.success {
+    background: #ffe3dc !important;
+    border-color: var(--supervisor-border) !important;
+    color: var(--supervisor-dark) !important;
+}
+
+.stock-status.ok {
+    background: #ffe3dc !important;
+    border-color: var(--supervisor-border) !important;
+    color: var(--supervisor-dark) !important;
+}
+
+.stock-status.low,
+.qty-cell.low-stock {
+    background: rgba(205, 28, 24, 0.14) !important;
+    border-color: var(--supervisor-red) !important;
+    color: var(--supervisor-deep) !important;
+}
+
+.thumb,
+.no-img {
+    border-color: var(--supervisor-border) !important;
+}
+
+body.dark .table-card {
+    background: rgba(56, 0, 10, 0.72) !important;
+}
+
+body.dark .table-card-header h3,
+body.dark td,
+body.dark .name-cell,
+body.dark .price-cell {
+    color: #fff7f5 !important;
+}
+
+body.dark .id-cell,
+body.dark .desc-cell {
+    color: #ffd6cc !important;
+}
+
+body.dark .search-box {
+    color: #fff7f5 !important;
+}
 </style>
 </head>
 <body>
@@ -282,6 +541,7 @@ tbody tr.table-low-stock { background: rgba(255,107,107,0.04); }
         <a href="dashboard.php">Dashboard</a>
         <a href="fastener.php">Fasteners</a>
         <a href="inventory.php" class="active">Inventory</a>
+        <a href="pick_list.php">Pick List</a>
         <a href="supplier.php">Suppliers</a>
         <a href="orders.php">Orders</a>
     </div>
@@ -309,7 +569,8 @@ tbody tr.table-low-stock { background: rgba(255,107,107,0.04); }
             <a href="low_stock.php" class="count-badge alert-badge">
                 <i class="fa fa-triangle-exclamation"></i> <?= $lowStockCount ?> Low Stock
             </a>
-            <a href="export_report.php?type=inventory" class="btn-export"><i class="fa fa-file-pdf"></i> Inventory PDF</a>
+            <a href="export_report.php?type=inventory" class="btn-export"><i class="fa fa-file-pdf"></i> Download</a>
+            <a href="pick_list.php" class="btn-add"><i class="fa fa-clipboard-list"></i> Pick Stock</a>
             <a href="add_inventory.php" class="btn-add"><i class="fa fa-plus"></i> Add Stock</a>
         </div>
     </div>
@@ -329,13 +590,13 @@ tbody tr.table-low-stock { background: rgba(255,107,107,0.04); }
                     <th>ID</th>
                     <th>Image</th>
                     <th>Fastener Name</th>
+                    <th>Part No.</th>
                     <th>Type</th>
                     <th>Size</th>
                     <th>Price / Unit (₹)</th>
                     <th>Quantity</th>
                     <th>Status</th>
                     <th>Description</th>
-                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -361,6 +622,7 @@ tbody tr.table-low-stock { background: rgba(255,107,107,0.04); }
                         <?php endif; ?>
                     </td>
                     <td class="name-cell"><?= htmlspecialchars($row['name']) ?></td>
+                    <td class="part-cell"><?= htmlspecialchars($row['part_number'] ?? '—') ?></td>
                     <td><span class="type-pill"><?= htmlspecialchars($row['type']) ?></span></td>
                     <td class="size-cell"><?= htmlspecialchars($row['size']) ?></td>
                     <td class="price-cell">&#8377;<?= number_format($row['unit_price'], 2) ?></td>
@@ -372,17 +634,6 @@ tbody tr.table-low-stock { background: rgba(255,107,107,0.04); }
                         </span>
                     </td>
                     <td class="desc-cell"><?= htmlspecialchars($row['description'] ?? '—') ?></td>
-                    <td>
-                        <div class="action-cell">
-                            <a href="edit_inventory.php?id=<?= $row['id'] ?>" class="btn-edit">
-                                <i class="fa fa-pen"></i> Edit
-                            </a>
-                            <a href="?delete=<?= $row['id'] ?>" class="btn-delete"
-                               onclick="return confirm('Delete this stock record?')">
-                                <i class="fa fa-trash"></i> Delete
-                            </a>
-                        </div>
-                    </td>
                 </tr>
                 <?php endforeach; endif; ?>
             </tbody>
@@ -403,6 +654,14 @@ function toggleDark() {
     localStorage.setItem('boltTheme', document.body.classList.contains('dark') ? 'dark' : 'light');
 }
 if(localStorage.getItem('boltTheme') === 'dark') document.body.classList.add('dark');
+setTimeout(() => {
+    document.querySelectorAll('.alert.success').forEach(alert => {
+        alert.style.transition = 'opacity 0.25s ease, transform 0.25s ease';
+        alert.style.opacity = '0';
+        alert.style.transform = 'translateY(-6px)';
+        setTimeout(() => alert.remove(), 300);
+    });
+}, 4000);
 function filterTable() {
     const q = document.getElementById('searchInput').value.toLowerCase();
     document.querySelectorAll('#stockTable tbody tr').forEach(r => {

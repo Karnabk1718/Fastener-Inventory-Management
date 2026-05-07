@@ -8,6 +8,8 @@
 
 <a href="inventory.php" style="display:block;color:white;margin:10px 0;">📦 Inventory</a>
 
+<a href="pick_list.php" style="display:block;color:white;margin:10px 0;">Pick List</a>
+
 <a href="supplier.php" style="display:block;color:white;margin:10px 0;">🏭 Suppliers</a>
 
 <a href="logout.php" style="display:block;color:red;margin-top:20px;">🚪 Logout</a>

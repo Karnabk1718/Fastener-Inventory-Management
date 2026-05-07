@@ -1,6 +1,8 @@
 <?php
-session_start();
-include "db.php";
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+include_once "db.php";
 
 if (!isset($_SESSION['username'])) {
     header("Location: login.php");
@@ -248,6 +250,67 @@ function build_professional_pdf(string $title, string $filename, array $columns,
     return [$pdf, $filename];
 }
 
+function render_report_choice(string $title): void
+{
+    $params = $_GET;
+    $params['format'] = 'pdf';
+    $pdfUrl = htmlspecialchars($_SERVER['PHP_SELF'] . '?' . http_build_query($params));
+    $params['format'] = 'excel';
+    $excelUrl = htmlspecialchars($_SERVER['PHP_SELF'] . '?' . http_build_query($params));
+    $safeTitle = htmlspecialchars($title);
+
+    echo <<<HTML
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Download Report</title>
+<style>
+*{box-sizing:border-box}body{margin:0;min-height:100vh;display:grid;place-items:center;font-family:Segoe UI,Arial,sans-serif;background:linear-gradient(135deg,#fff7f5,#ffa896);color:#38000a}.panel{width:min(420px,calc(100% - 32px));background:#fff7f5;border:1px solid #38000a;border-radius:12px;padding:26px;box-shadow:0 18px 44px rgba(56,0,10,.22)}h1{font-size:22px;margin:0 0 8px}p{margin:0 0 22px;color:#6f2220}.actions{display:flex;gap:12px;flex-wrap:wrap}a{flex:1 1 150px;text-align:center;text-decoration:none;border:1px solid #38000a;border-radius:8px;padding:12px 16px;font-weight:800}.pdf{background:#cd1c18;color:#fff}.excel{background:#176a36;color:#fff}.back{display:block;margin-top:14px;color:#38000a;font-size:13px;font-weight:700}
+</style>
+</head>
+<body>
+<div class="panel">
+<h1>{$safeTitle}</h1>
+<p>Choose the file format for this report.</p>
+<div class="actions">
+<a class="pdf" href="{$pdfUrl}">Download</a>
+<a class="excel" href="{$excelUrl}">Download Excel</a>
+</div>
+<a class="back" href="javascript:history.back()">Back</a>
+</div>
+</body>
+</html>
+HTML;
+}
+
+function build_excel_report(string $title, string $filename, array $columns, array $rows): array
+{
+    $excelName = preg_replace('/\.pdf$/', '.xls', $filename);
+    $html = "<html><head><meta charset=\"UTF-8\"></head><body>";
+    $html .= "<h2>" . htmlspecialchars($title) . "</h2>";
+    $html .= "<table border=\"1\"><thead><tr>";
+    foreach ($columns as $column) {
+        $html .= "<th>" . htmlspecialchars($column['label']) . "</th>";
+    }
+    $html .= "</tr></thead><tbody>";
+    foreach ($rows as $row) {
+        $html .= "<tr>";
+        foreach ($columns as $column) {
+            $html .= "<td>" . htmlspecialchars((string)($row[$column['key']] ?? '-')) . "</td>";
+        }
+        $html .= "</tr>";
+        if (!empty($row['_detail_label']) || !empty($row['_detail_value'])) {
+            $html .= "<tr><td colspan=\"" . count($columns) . "\"><strong>"
+                . htmlspecialchars((string)($row['_detail_label'] ?? 'Details')) . ":</strong> "
+                . htmlspecialchars((string)($row['_detail_value'] ?? '-')) . "</td></tr>";
+        }
+    }
+    $html .= "</tbody></table></body></html>";
+    return [$html, $excelName];
+}
+
 $type = $_GET['type'] ?? '';
 $title = '';
 $filename = '';
@@ -261,15 +324,17 @@ switch ($type) {
         $columns = [
             ['key' => 'id', 'label' => 'ID', 'width' => 8],
             ['key' => 'name', 'label' => 'Name', 'width' => 24],
+            ['key' => 'part_number', 'label' => 'Part No.', 'width' => 16],
             ['key' => 'type', 'label' => 'Type', 'width' => 18],
             ['key' => 'size', 'label' => 'Size', 'width' => 16],
             ['key' => 'price', 'label' => 'Unit Price', 'width' => 16],
         ];
-        $result = mysqli_query($conn, "SELECT id, name, type, size, unit_price, description FROM fastener ORDER BY id ASC");
+        $result = mysqli_query($conn, "SELECT id, name, part_number, type, size, unit_price, description FROM fastener ORDER BY id ASC");
         while ($row = mysqli_fetch_assoc($result)) {
             $rows[] = [
                 'id' => '#' . $row['id'],
                 'name' => $row['name'],
+                'part_number' => $row['part_number'] ?: '-',
                 'type' => $row['type'],
                 'size' => $row['size'],
                 'price' => 'Rs. ' . number_format((float)$row['unit_price'], 2),
@@ -285,6 +350,7 @@ switch ($type) {
         $columns = [
             ['key' => 'id', 'label' => 'ID', 'width' => 7],
             ['key' => 'name', 'label' => 'Fastener', 'width' => 23],
+            ['key' => 'part_number', 'label' => 'Part No.', 'width' => 14],
             ['key' => 'type', 'label' => 'Type', 'width' => 16],
             ['key' => 'size', 'label' => 'Size', 'width' => 13],
             ['key' => 'quantity', 'label' => 'Qty', 'width' => 10],
@@ -292,7 +358,7 @@ switch ($type) {
             ['key' => 'status', 'label' => 'Status', 'width' => 17],
         ];
         $result = mysqli_query($conn, "
-            SELECT s.id, f.name, f.type, f.size, s.quantity, f.unit_price, f.description
+            SELECT s.id, f.name, f.part_number, f.type, f.size, s.quantity, f.unit_price, f.description
             FROM stock s
             JOIN fastener f ON s.fastener_id = f.id
             ORDER BY s.id ASC
@@ -301,6 +367,7 @@ switch ($type) {
             $rows[] = [
                 'id' => '#' . $row['id'],
                 'name' => $row['name'],
+                'part_number' => $row['part_number'] ?: '-',
                 'type' => $row['type'],
                 'size' => $row['size'],
                 'quantity' => $row['quantity'],
@@ -318,6 +385,7 @@ switch ($type) {
         $columns = [
             ['key' => 'id', 'label' => 'ID', 'width' => 7],
             ['key' => 'name', 'label' => 'Fastener', 'width' => 24],
+            ['key' => 'part_number', 'label' => 'Part No.', 'width' => 14],
             ['key' => 'type', 'label' => 'Type', 'width' => 17],
             ['key' => 'size', 'label' => 'Size', 'width' => 14],
             ['key' => 'quantity', 'label' => 'Qty', 'width' => 10],
@@ -325,7 +393,7 @@ switch ($type) {
             ['key' => 'status', 'label' => 'Status', 'width' => 14],
         ];
         $result = mysqli_query($conn, "
-            SELECT s.id, f.name, f.type, f.size, s.quantity, f.unit_price, f.description
+            SELECT s.id, f.name, f.part_number, f.type, f.size, s.quantity, f.unit_price, f.description
             FROM stock s
             JOIN fastener f ON s.fastener_id = f.id
             WHERE s.quantity < 20
@@ -335,6 +403,7 @@ switch ($type) {
             $rows[] = [
                 'id' => '#' . $row['id'],
                 'name' => $row['name'],
+                'part_number' => $row['part_number'] ?: '-',
                 'type' => $row['type'],
                 'size' => $row['size'],
                 'quantity' => $row['quantity'],
@@ -342,6 +411,37 @@ switch ($type) {
                 'status' => 'Low Stock',
                 '_detail_label' => 'Description',
                 '_detail_value' => $row['description'] ?: '-',
+            ];
+        }
+        break;
+
+    case 'pick_list':
+        $title = 'Pick List Report';
+        $filename = 'pick-list-report.pdf';
+        $columns = [
+            ['key' => 'id', 'label' => 'ID', 'width' => 8],
+            ['key' => 'name', 'label' => 'Fastener', 'width' => 24],
+            ['key' => 'part_number', 'label' => 'Part No.', 'width' => 16],
+            ['key' => 'size', 'label' => 'Size', 'width' => 12],
+            ['key' => 'quantity', 'label' => 'Picked Qty', 'width' => 12],
+            ['key' => 'picked_by', 'label' => 'Picked By', 'width' => 14],
+            ['key' => 'picked_at', 'label' => 'Picked At', 'width' => 18],
+        ];
+        $result = mysqli_query($conn, "
+            SELECT p.id, p.quantity, p.picked_by, p.picked_at, f.name, f.part_number, f.size
+            FROM pick_list p
+            JOIN fastener f ON p.fastener_id = f.id
+            ORDER BY p.picked_at DESC, p.id DESC
+        ");
+        while ($row = mysqli_fetch_assoc($result)) {
+            $rows[] = [
+                'id' => '#' . $row['id'],
+                'name' => $row['name'],
+                'part_number' => $row['part_number'] ?: '-',
+                'size' => $row['size'],
+                'quantity' => $row['quantity'],
+                'picked_by' => $row['picked_by'] ?: '-',
+                'picked_at' => $row['picked_at'],
             ];
         }
         break;
@@ -374,22 +474,40 @@ switch ($type) {
         $columns = [
             ['key' => 'id', 'label' => 'Order ID', 'width' => 10],
             ['key' => 'fastener', 'label' => 'Fastener', 'width' => 25],
+            ['key' => 'part_number', 'label' => 'Part No.', 'width' => 14],
             ['key' => 'supplier', 'label' => 'Supplier', 'width' => 25],
             ['key' => 'quantity', 'label' => 'Qty', 'width' => 10],
             ['key' => 'order_date', 'label' => 'Order Date', 'width' => 14],
             ['key' => 'status', 'label' => 'Status', 'width' => 16],
         ];
+        $where = [];
+        if (!empty($_GET['from']) && preg_match('/^\d{4}-\d{2}-\d{2}$/', $_GET['from'])) {
+            $from = mysqli_real_escape_string($conn, $_GET['from']);
+            $where[] = "DATE(o.order_date) >= '$from'";
+        }
+        if (!empty($_GET['to']) && preg_match('/^\d{4}-\d{2}-\d{2}$/', $_GET['to'])) {
+            $to = mysqli_real_escape_string($conn, $_GET['to']);
+            $where[] = "DATE(o.order_date) <= '$to'";
+        }
+        if (!empty($_GET['status']) && $_GET['status'] !== 'all') {
+            $status = mysqli_real_escape_string($conn, $_GET['status']);
+            $where[] = "o.status = '$status'";
+        }
+        $whereSql = $where ? 'WHERE ' . implode(' AND ', $where) : '';
+
         $result = mysqli_query($conn, "
-            SELECT o.order_id, f.name AS fastener_name, s.name AS supplier_name, o.quantity, o.order_date, o.status
+            SELECT o.order_id, f.name AS fastener_name, f.part_number, s.name AS supplier_name, o.quantity, o.order_date, o.status
             FROM orders o
             JOIN fastener f ON o.fastener_id = f.id
             JOIN supplier s ON o.supplier_id = s.id
+            $whereSql
             ORDER BY o.order_id DESC
         ");
         while ($row = mysqli_fetch_assoc($result)) {
             $rows[] = [
                 'id' => '#' . $row['order_id'],
                 'fastener' => $row['fastener_name'],
+                'part_number' => $row['part_number'] ?: '-',
                 'supplier' => $row['supplier_name'],
                 'quantity' => $row['quantity'],
                 'order_date' => $row['order_date'],
@@ -409,6 +527,21 @@ if (!$rows) {
         $columns[0]['key'] ?? 'id' => '-',
         $columns[1]['key'] ?? 'name' => 'No records found',
     ];
+}
+
+$format = strtolower($_GET['format'] ?? '');
+if ($format === '') {
+    render_report_choice($title);
+    exit();
+}
+
+if ($format === 'excel') {
+    [$excel, $downloadName] = build_excel_report($title, $filename, $columns, $rows);
+    header('Content-Type: application/vnd.ms-excel; charset=UTF-8');
+    header('Content-Disposition: attachment; filename="' . $downloadName . '"');
+    header('Content-Length: ' . strlen($excel));
+    echo $excel;
+    exit();
 }
 
 [$pdf, $downloadName] = build_professional_pdf($title, $filename, $columns, $rows);

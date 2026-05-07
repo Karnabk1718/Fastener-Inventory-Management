@@ -8,7 +8,7 @@ if(!isset($_SESSION['username'])) {
 }
 
 $result = mysqli_query($conn, "
-    SELECT s.id, s.fastener_id, f.name, f.type, f.size, f.unit_price, s.quantity, f.image, f.description
+    SELECT s.id, s.fastener_id, f.name, f.part_number, f.type, f.size, f.unit_price, s.quantity, f.image, f.description
     FROM stock s
     JOIN fastener f ON s.fastener_id = f.id
     WHERE s.quantity < 20
@@ -156,7 +156,7 @@ body {
 .search-box::placeholder { color: rgba(255,255,255,0.40); }
 .search-box:focus { border-color: #ff8a8a; }
 .table-scroll { overflow-x: auto; }
-table { width: 100%; border-collapse: collapse; font-size: 13.5px; min-width: 960px; }
+table { width: 100%; border-collapse: collapse; font-size: 12.5px; min-width: 0; table-layout: fixed; }
 thead tr { background: var(--thead-bg); }
 th {
     padding: 13px 16px; text-align: left; font-size: 11px; font-weight: 700;
@@ -170,6 +170,7 @@ tbody tr:last-child td { border-bottom: none; }
 tbody tr:hover { background: var(--row-hover); }
 .id-cell { font-family: 'DM Mono', monospace; font-size: 12px; color: rgba(255,255,255,0.70); font-weight: 500; }
 .name-cell { font-weight: 600; font-size: 14px; }
+.part-cell { font-family: 'DM Mono', monospace; font-size: 11.5px; color: var(--muted); word-break: break-word; }
 .type-pill {
     background: rgba(255,215,0,0.18); border: 1px solid rgba(255,215,0,0.40);
     color: var(--gold); border-radius: 20px; padding: 4px 12px;
@@ -209,6 +210,289 @@ tbody tr:hover { background: var(--row-hover); }
 .empty-state { text-align: center; padding: 48px 20px; color: rgba(255,255,255,0.50); }
 .empty-state i { font-size: 36px; margin-bottom: 12px; display: block; opacity: 0.4; }
 .empty-state p { font-size: 14px; }
+
+
+/* Page theme overrides */
+:root {
+    --supervisor-red: #CD1C18;
+    --supervisor-peach: #FFA896;
+    --supervisor-deep: #9B1313;
+    --supervisor-dark: #38000A;
+    --supervisor-panel: #fff7f5;
+    --supervisor-panel-soft: #ffe3dc;
+    --supervisor-muted: #6f2220;
+    --supervisor-border: #38000A;
+    --bg-from: #fff0ec;
+    --bg-to: var(--supervisor-peach);
+    --text: var(--supervisor-dark);
+    --muted: var(--supervisor-muted);
+    --gold: var(--supervisor-red);
+    --gold-bg: var(--supervisor-panel-soft);
+    --gold-br: var(--supervisor-border);
+    --card-bg: var(--supervisor-panel);
+    --card-bdr: var(--supervisor-border);
+    --input-bg: #fff;
+    --input-bdr: var(--supervisor-border);
+    --thead-bg: #ffd6cc;
+    --row-bdr: rgba(56, 0, 10, 0.22);
+    --row-hover: #ffe8e2;
+    --border: rgba(56, 0, 10, 0.26);
+}
+
+body {
+    background: linear-gradient(135deg, #fff7f5 0%, #ffd8d0 46%, var(--supervisor-peach) 100%) !important;
+    color: var(--supervisor-dark) !important;
+    overflow-x: hidden;
+}
+
+body.dark {
+    --text: #fff7f5;
+    --muted: #ffd6cc;
+    --gold: #FFA896;
+    --card-bg: rgba(56, 0, 10, 0.72);
+    --card-bdr: #FFA896;
+    --input-bg: rgba(56, 0, 10, 0.78);
+    --input-bdr: #FFA896;
+    --thead-bg: rgba(56, 0, 10, 0.92);
+    --row-bdr: rgba(255, 168, 150, 0.30);
+    --row-hover: rgba(255, 168, 150, 0.14);
+    background: linear-gradient(135deg, var(--supervisor-dark) 0%, #6d0710 48%, var(--supervisor-deep) 100%) !important;
+    color: #fff7f5 !important;
+}
+
+.navbar {
+    background: linear-gradient(90deg, var(--supervisor-dark) 0%, var(--supervisor-deep) 100%) !important;
+    border-bottom-color: var(--supervisor-border) !important;
+    box-shadow: 0 8px 22px rgba(56, 0, 10, 0.24);
+}
+
+.logo,
+.navbar .logo,
+.navbar .logo *:not(.logo-icon):not(.logo-icon *) {
+    color: #fff !important;
+}
+
+.logo-icon,
+.page-title-icon {
+    background: var(--supervisor-peach) !important;
+    border-color: var(--supervisor-border) !important;
+    color: var(--supervisor-dark) !important;
+}
+
+.logo-icon i,
+.page-title-icon i,
+.page-header i,
+.count-badge i {
+    color: var(--supervisor-dark) !important;
+}
+
+.nav-links a {
+    color: rgba(255, 255, 255, 0.84) !important;
+    border: 1px solid rgba(255, 168, 150, 0.32);
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+    background: rgba(255, 168, 150, 0.22) !important;
+    color: #fff !important;
+    border-color: var(--supervisor-peach) !important;
+}
+
+.navbar .pill,
+.navbar .icon-btn,
+.toggle-btn {
+    background: rgba(255, 168, 150, 0.14) !important;
+    border-color: rgba(255, 168, 150, 0.35) !important;
+    color: #fff !important;
+}
+
+.page-title h1,
+.page-header h1 {
+    color: var(--supervisor-dark) !important;
+}
+
+.page-title p,
+.page-header p {
+    color: var(--supervisor-muted) !important;
+}
+
+.logout-btn {
+    background: var(--supervisor-red) !important;
+    border: 1px solid var(--supervisor-border) !important;
+    color: #fff !important;
+}
+
+.logout-btn:hover {
+    background: var(--supervisor-dark) !important;
+    color: #fff !important;
+}
+
+body.dark .page-title h1,
+body.dark .page-header h1 {
+    color: #fff7f5 !important;
+}
+
+body.dark .page-title p,
+body.dark .page-header p {
+    color: #ffd6cc !important;
+}
+.table-card {
+    background: var(--supervisor-panel) !important;
+    border-color: var(--supervisor-border) !important;
+    color: var(--supervisor-dark) !important;
+    box-shadow: 0 8px 18px rgba(56, 0, 10, 0.12);
+}
+
+.table-card-header {
+    border-bottom-color: var(--supervisor-border) !important;
+}
+
+.table-card-header h3,
+.name-cell,
+.price-cell {
+    color: var(--supervisor-dark) !important;
+}
+
+.table-card-header h3::before {
+    background: var(--supervisor-red) !important;
+}
+
+thead tr,
+th {
+    background: var(--thead-bg) !important;
+    color: var(--supervisor-dark) !important;
+}
+
+td {
+    color: var(--supervisor-dark) !important;
+    border-bottom-color: var(--row-bdr) !important;
+}
+
+tbody tr:hover {
+    background: var(--row-hover) !important;
+}
+
+.id-cell,
+.desc-cell {
+    color: var(--supervisor-muted) !important;
+}
+
+.search-box {
+    background: var(--input-bg) !important;
+    border-color: var(--input-bdr) !important;
+    color: var(--supervisor-dark) !important;
+}
+
+.search-box::placeholder {
+    color: rgba(56, 0, 10, 0.48) !important;
+}
+
+.search-box:focus {
+    border-color: var(--supervisor-red) !important;
+    box-shadow: 0 0 0 3px rgba(205, 28, 24, 0.12);
+}
+
+.btn-add,
+.btn-export {
+    background: var(--supervisor-red) !important;
+    border: 1px solid var(--supervisor-border) !important;
+    color: #fff !important;
+}
+
+.btn-add:hover,
+.btn-export:hover {
+    background: var(--supervisor-peach) !important;
+    color: var(--supervisor-dark) !important;
+}
+
+.count-badge,
+.type-pill {
+    background: var(--supervisor-peach) !important;
+    border-color: var(--supervisor-border) !important;
+    color: var(--supervisor-dark) !important;
+}
+
+.btn-edit {
+    background: rgba(255, 168, 150, 0.45) !important;
+    border-color: var(--supervisor-border) !important;
+    color: var(--supervisor-dark) !important;
+}
+
+.btn-delete {
+    background: rgba(205, 28, 24, 0.12) !important;
+    border-color: var(--supervisor-red) !important;
+    color: var(--supervisor-deep) !important;
+}
+
+.alert.success {
+    background: #ffe3dc !important;
+    border-color: var(--supervisor-border) !important;
+    color: var(--supervisor-dark) !important;
+}
+
+.stock-status.ok {
+    background: #ffe3dc !important;
+    border-color: var(--supervisor-border) !important;
+    color: var(--supervisor-dark) !important;
+}
+
+.stock-status.low,
+.qty-cell.low-stock {
+    background: rgba(205, 28, 24, 0.14) !important;
+    border-color: var(--supervisor-red) !important;
+    color: var(--supervisor-deep) !important;
+}
+
+.thumb,
+.no-img {
+    border-color: var(--supervisor-border) !important;
+}
+
+body.dark .table-card {
+    background: rgba(56, 0, 10, 0.72) !important;
+}
+
+body.dark .table-card-header h3,
+body.dark td,
+body.dark .name-cell,
+body.dark .price-cell {
+    color: #fff7f5 !important;
+}
+
+body.dark .id-cell,
+body.dark .desc-cell {
+    color: #ffd6cc !important;
+}
+
+body.dark .search-box {
+    color: #fff7f5 !important;
+}
+.btn-back {
+    background: var(--supervisor-peach) !important;
+    border: 1px solid var(--supervisor-border) !important;
+    color: var(--supervisor-dark) !important;
+    font-weight: 800 !important;
+}
+
+.btn-back:hover {
+    background: #fff7f5 !important;
+    color: var(--supervisor-dark) !important;
+    box-shadow: 0 5px 14px rgba(205, 28, 24, 0.16);
+}
+
+.stock-status {
+    background: rgba(205, 28, 24, 0.14) !important;
+    border: 1px solid var(--supervisor-red) !important;
+    color: var(--supervisor-deep) !important;
+    font-weight: 800 !important;
+}
+
+body.dark .btn-back,
+body.dark .stock-status {
+    background: #FFA896 !important;
+    border-color: #FFA896 !important;
+    color: #38000A !important;
+}
 </style>
 </head>
 <body>
@@ -222,6 +506,7 @@ tbody tr:hover { background: var(--row-hover); }
         <a href="dashboard.php">Dashboard</a>
         <a href="fastener.php">Fasteners</a>
         <a href="inventory.php" class="active">Inventory</a>
+        <a href="pick_list.php">Pick List</a>
         <a href="supplier.php">Suppliers</a>
         <a href="orders.php">Orders</a>
     </div>
@@ -245,7 +530,7 @@ tbody tr:hover { background: var(--row-hover); }
         </div>
         <div class="page-header-right">
             <div class="count-badge"><i class="fa fa-triangle-exclamation"></i> <?= $totalCount ?> Alerts</div>
-            <a href="export_report.php?type=low_stock" class="btn-export"><i class="fa fa-file-pdf"></i> Low Stock PDF</a>
+            <a href="export_report.php?type=low_stock" class="btn-export"><i class="fa fa-file-pdf"></i> Download</a>
             <a href="inventory.php" class="btn-back"><i class="fa fa-arrow-left"></i> Back to Inventory</a>
         </div>
     </div>
@@ -262,13 +547,13 @@ tbody tr:hover { background: var(--row-hover); }
                     <th>ID</th>
                     <th>Image</th>
                     <th>Fastener Name</th>
+                    <th>Part No.</th>
                     <th>Type</th>
                     <th>Size</th>
                     <th>Price / Unit (₹)</th>
                     <th>Quantity</th>
                     <th>Status</th>
                     <th>Description</th>
-                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -293,19 +578,13 @@ tbody tr:hover { background: var(--row-hover); }
                         <?php endif; ?>
                     </td>
                     <td class="name-cell"><?= htmlspecialchars($row['name']) ?></td>
+                    <td class="part-cell"><?= htmlspecialchars($row['part_number'] ?? '—') ?></td>
                     <td><span class="type-pill"><?= htmlspecialchars($row['type']) ?></span></td>
                     <td class="size-cell"><?= htmlspecialchars($row['size']) ?></td>
                     <td class="price-cell">₹<?= number_format($row['unit_price'], 2) ?></td>
                     <td class="qty-cell"><?= $row['quantity'] ?></td>
                     <td><span class="stock-status">Below Minimum</span></td>
                     <td class="desc-cell"><?= htmlspecialchars($row['description'] ?? '—') ?></td>
-                    <td>
-                        <div class="action-cell">
-                            <a href="edit_inventory.php?id=<?= $row['id'] ?>" class="btn-edit">
-                                <i class="fa fa-pen"></i> Edit Stock
-                            </a>
-                        </div>
-                    </td>
                 </tr>
                 <?php endforeach; endif; ?>
             </tbody>

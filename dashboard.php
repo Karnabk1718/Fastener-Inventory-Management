@@ -358,6 +358,208 @@ body {
 }
 .report-btn:hover { background: var(--card-h); }
 
+
+
+/* Page theme overrides */
+:root {
+    --supervisor-red: #CD1C18;
+    --supervisor-peach: #FFA896;
+    --supervisor-deep: #9B1313;
+    --supervisor-dark: #38000A;
+    --supervisor-panel: #fff7f5;
+    --supervisor-panel-soft: #ffe3dc;
+    --supervisor-muted: #6f2220;
+    --supervisor-border: #38000A;
+    --bg-from: #fff0ec;
+    --bg-to: var(--supervisor-peach);
+    --text: var(--supervisor-dark);
+    --muted: var(--supervisor-muted);
+    --gold: var(--supervisor-red);
+    --gold-bg: var(--supervisor-panel-soft);
+    --gold-br: var(--supervisor-border);
+    --card-bg: var(--supervisor-panel);
+    --card-bdr: var(--supervisor-border);
+    --input-bg: #fff;
+    --input-bdr: var(--supervisor-border);
+    --thead-bg: #ffd6cc;
+    --row-bdr: rgba(56, 0, 10, 0.22);
+    --row-hover: #ffe8e2;
+    --border: rgba(56, 0, 10, 0.26);
+}
+
+body {
+    background: linear-gradient(135deg, #fff7f5 0%, #ffd8d0 46%, var(--supervisor-peach) 100%) !important;
+    color: var(--supervisor-dark) !important;
+    overflow-x: hidden;
+}
+
+body.dark {
+    --text: #fff7f5;
+    --muted: #ffd6cc;
+    --gold: #FFA896;
+    --card-bg: rgba(56, 0, 10, 0.72);
+    --card-bdr: #FFA896;
+    --input-bg: rgba(56, 0, 10, 0.78);
+    --input-bdr: #FFA896;
+    --thead-bg: rgba(56, 0, 10, 0.92);
+    --row-bdr: rgba(255, 168, 150, 0.30);
+    --row-hover: rgba(255, 168, 150, 0.14);
+    background: linear-gradient(135deg, var(--supervisor-dark) 0%, #6d0710 48%, var(--supervisor-deep) 100%) !important;
+    color: #fff7f5 !important;
+}
+
+.navbar {
+    background: linear-gradient(90deg, var(--supervisor-dark) 0%, var(--supervisor-deep) 100%) !important;
+    border-bottom-color: var(--supervisor-border) !important;
+    box-shadow: 0 8px 22px rgba(56, 0, 10, 0.24);
+}
+
+.logo,
+.navbar .logo,
+.navbar .logo *:not(.logo-icon):not(.logo-icon *) {
+    color: #fff !important;
+}
+
+.logo-icon,
+.page-title-icon {
+    background: var(--supervisor-peach) !important;
+    border-color: var(--supervisor-border) !important;
+    color: var(--supervisor-dark) !important;
+}
+
+.logo-icon i,
+.page-title-icon i,
+.page-header i,
+.count-badge i {
+    color: var(--supervisor-dark) !important;
+}
+
+.nav-links a {
+    color: rgba(255, 255, 255, 0.84) !important;
+    border: 1px solid rgba(255, 168, 150, 0.32);
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+    background: rgba(255, 168, 150, 0.22) !important;
+    color: #fff !important;
+    border-color: var(--supervisor-peach) !important;
+}
+
+.navbar .pill,
+.navbar .icon-btn,
+.toggle-btn {
+    background: rgba(255, 168, 150, 0.14) !important;
+    border-color: rgba(255, 168, 150, 0.35) !important;
+    color: #fff !important;
+}
+
+.page-title h1,
+.page-header h1 {
+    color: var(--supervisor-dark) !important;
+}
+
+.page-title p,
+.page-header p {
+    color: var(--supervisor-muted) !important;
+}
+
+.logout-btn {
+    background: var(--supervisor-red) !important;
+    border: 1px solid var(--supervisor-border) !important;
+    color: #fff !important;
+}
+
+.logout-btn:hover {
+    background: var(--supervisor-dark) !important;
+    color: #fff !important;
+}
+
+body.dark .page-title h1,
+body.dark .page-header h1 {
+    color: #fff7f5 !important;
+}
+
+body.dark .page-title p,
+body.dark .page-header p {
+    color: #ffd6cc !important;
+}
+.stat-card,
+.action-card,
+.report-card {
+    background: var(--supervisor-panel) !important;
+    border-color: var(--supervisor-border) !important;
+    color: var(--supervisor-dark) !important;
+    box-shadow: 0 8px 18px rgba(56, 0, 10, 0.12);
+}
+
+.stat-card:hover,
+.action-card:hover,
+.report-card:hover {
+    background: var(--supervisor-panel-soft) !important;
+    border-color: var(--supervisor-border) !important;
+    color: var(--supervisor-dark) !important;
+    box-shadow: 0 12px 26px rgba(56, 0, 10, 0.18);
+}
+
+.welcome-text h1,
+.ac-title,
+.stat-value,
+.report-meta h3,
+.section-title {
+    color: var(--supervisor-dark) !important;
+}
+
+.welcome-text p,
+.ac-desc,
+.ac-count,
+.stat-label,
+.stat-sub,
+.report-meta p {
+    color: var(--supervisor-muted) !important;
+}
+
+.stat-icon,
+.ac-icon {
+    background: var(--supervisor-peach) !important;
+    border-color: var(--supervisor-border) !important;
+    color: var(--supervisor-dark) !important;
+}
+
+.stat-icon i,
+.ac-icon i {
+    color: var(--supervisor-dark) !important;
+}
+
+.stat-card::before {
+    opacity: 0.28 !important;
+    filter: saturate(1.15);
+}
+
+.stat-card.s1::before { background: var(--supervisor-red) !important; }
+.stat-card.s2::before { background: #9B1313 !important; }
+.stat-card.s3::before { background: #FFA896 !important; opacity: 0.42 !important; }
+.stat-card.s4::before { background: #38000A !important; }
+
+.ac-btn,
+.report-btn {
+    background: var(--supervisor-red) !important;
+    border: 1px solid var(--supervisor-border) !important;
+    color: #fff !important;
+}
+
+.ac-btn:hover,
+.report-btn:hover {
+    background: var(--supervisor-peach) !important;
+    color: var(--supervisor-dark) !important;
+}
+
+body.dark .stat-card,
+body.dark .action-card,
+body.dark .report-card {
+    background: rgba(56, 0, 10, 0.72) !important;
+    color: #fff7f5 !important;
+}
 </style>
 </head>
 <body>
@@ -374,6 +576,7 @@ body {
         <a href="dashboard.php" class="active">Dashboard</a>
         <a href="fastener.php">Fasteners</a>
         <a href="inventory.php">Inventory</a>
+        <a href="pick_list.php">Pick List</a>
         <a href="supplier.php">Suppliers</a>
         <a href="orders.php">Orders</a>
     </div>
@@ -506,28 +709,28 @@ body {
                 <h3>Fasteners PDF</h3>
                 <p>Download all fastener details in one report.</p>
             </div>
-            <a href="export_report.php?type=fastener" class="report-btn">Export PDF</a>
+            <a href="export_report.php?type=fastener" class="report-btn">Download</a>
         </div>
         <div class="report-card">
             <div class="report-meta">
-                <h3>Inventory PDF</h3>
+                <h3>Download</h3>
                 <p>Includes stock quantities and low-stock status.</p>
             </div>
-            <a href="export_report.php?type=inventory" class="report-btn">Export PDF</a>
+            <a href="export_report.php?type=inventory" class="report-btn">Download</a>
         </div>
         <div class="report-card">
             <div class="report-meta">
                 <h3>Suppliers PDF</h3>
                 <p>Collect supplier contacts and contract details.</p>
             </div>
-            <a href="export_report.php?type=supplier" class="report-btn">Export PDF</a>
+            <a href="export_report.php?type=supplier" class="report-btn">Download</a>
         </div>
         <div class="report-card">
             <div class="report-meta">
-                <h3>Orders PDF</h3>
+                <h3>Download</h3>
                 <p>Download order quantities, dates, and statuses.</p>
             </div>
-            <a href="export_report.php?type=orders" class="report-btn">Export PDF</a>
+            <a href="export_report.php?type=orders" class="report-btn">Download</a>
         </div>
     </div>
 
