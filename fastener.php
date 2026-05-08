@@ -181,48 +181,49 @@ body {
 }
 .search-box::placeholder { color: rgba(255,255,255,0.40); }
 .search-box:focus { border-color: var(--gold); }
-table { width: 100%; min-width: 0; border-collapse: collapse; font-size: 12px; table-layout: fixed; }
+table { width: 100%; border-collapse: collapse; font-size: 12.5px; table-layout: fixed; }
 thead tr { background: var(--thead-bg); }
 th {
-    padding: 9px 7px; text-align: left; font-size: 9.5px; font-weight: 700;
-    text-transform: uppercase; letter-spacing: 0.5px; color: rgba(255,255,255,0.90); white-space: nowrap;
+    padding: 10px 10px; text-align: left; font-size: 10px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.8px; color: rgba(255,255,255,0.90); white-space: nowrap;
+    overflow: hidden;
 }
-th:nth-child(1) { width: 44px; }
-th:nth-child(2) { width: 56px; }
-th:nth-child(3) { width: 145px; }
-th:nth-child(4) { width: 88px; }
-th:nth-child(5) { width: 84px; }
-th:nth-child(6) { width: 56px; }
-th:nth-child(7) { width: 82px; }
-th:nth-child(8) { width: auto; }
-th:nth-child(9) { width: 104px; }
+th:nth-child(1) { width: 44px; }  /* ID */
+th:nth-child(2) { width: 72px; }  /* Image */
+th:nth-child(3) { width: 130px; } /* Name */
+th:nth-child(4) { width: 92px; }  /* Part No */
+th:nth-child(5) { width: 82px; }  /* Type */
+th:nth-child(6) { width: 64px; }  /* Size */
+th:nth-child(7) { width: 82px; }  /* Price */
+th:nth-child(8) { width: 180px; } /* Description */
+th:nth-child(9) { width: 104px; } /* Actions */
 td {
-    padding: 9px 7px; border-bottom: 1px solid var(--row-bdr);
+    padding: 10px 10px; border-bottom: 1px solid var(--row-bdr);
     vertical-align: middle; color: #ffffff; font-weight: 500;
     overflow: hidden;
 }
 tbody tr:last-child td { border-bottom: none; }
 tbody tr:hover { background: var(--row-hover); }
-.id-cell { font-family: 'DM Mono', monospace; font-size: 12px; color: rgba(255,255,255,0.70); font-weight: 500; }
-.name-cell { font-weight: 600; font-size: 13px; white-space: normal; word-break: break-word; line-height: 1.3; }
-.part-cell { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); word-break: break-word; }
+.id-cell { font-family: 'DM Mono', monospace; font-size: 12.5px; color: rgba(255,255,255,0.70); font-weight: 500; }
+.name-cell { font-weight: 600; font-size: 14px; white-space: normal; word-break: break-word; line-height: 1.3; }
+.part-cell { font-family: 'DM Mono', monospace; font-size: 11.5px; color: var(--muted); word-break: break-word; }
 .type-pill {
     background: rgba(255,215,0,0.18); border: 1px solid rgba(255,215,0,0.40);
-    color: var(--gold); border-radius: 20px; padding: 3px 8px;
-    font-size: 11px; font-weight: 600; display: inline-block;
+    color: var(--gold); border-radius: 20px; padding: 4px 10px;
+    font-size: 12px; font-weight: 600; display: inline-block;
 }
-.size-cell { font-family: 'DM Mono', monospace; font-size: 11.5px; color: rgba(255,255,255,0.90); }
-.price-cell { font-weight: 700; font-size: 12px; color: #ffffff; }
-.action-cell { display: flex; flex-direction: column; gap: 6px; align-items: stretch; }
+.size-cell { font-family: 'DM Mono', monospace; font-size: 13px; color: rgba(255,255,255,0.90); }
+.price-cell { font-weight: 700; font-size: 13.5px; color: #ffffff; white-space: nowrap; }
+.action-cell { display: flex; flex-direction: column; gap: 5px; align-items: stretch; }
 .btn-edit {
     background: rgba(96,165,250,0.20); border: 1px solid rgba(96,165,250,0.40);
-    color: #93c5fd; border-radius: 7px; padding: 5px 8px; font-size: 11px; font-weight: 600;
+    color: #93c5fd; border-radius: 7px; padding: 5px 13px; font-size: 12px; font-weight: 600;
     text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 5px; transition: 0.2s;
 }
 .btn-edit:hover { background: rgba(96,165,250,0.35); }
 .btn-delete {
     background: rgba(255,107,107,0.20); border: 1px solid rgba(255,107,107,0.40);
-    color: #fca5a5; border-radius: 7px; padding: 5px 8px; font-size: 11px; font-weight: 600;
+    color: #fecaca; border-radius: 7px; padding: 5px 13px; font-size: 12px; font-weight: 600;
     text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 5px; transition: 0.2s;
 }
 .btn-delete:hover { background: rgba(255,107,107,0.35); }

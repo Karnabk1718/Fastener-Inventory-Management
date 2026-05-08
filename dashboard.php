@@ -62,7 +62,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 14px 28px;
+    padding: 16px 30px;
     background: rgba(0,0,0,0.40);
     backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--border);
@@ -72,7 +72,7 @@ body {
 }
 
 .logo {
-    font-size: 20px;
+    font-size: 22px;
     font-weight: 700;
     display: flex;
     align-items: center;
@@ -81,25 +81,25 @@ body {
 }
 
 .logo-icon {
-    width: 34px;
-    height: 34px;
+    width: 36px;
+    height: 36px;
     background: var(--gold-bg);
     border: 1.5px solid var(--gold);
     border-radius: 8px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 17px;
+    font-size: 18px;
 }
 
 .nav-links { display: flex; gap: 4px; }
 
 .nav-links a {
     color: rgba(255,255,255,0.80);
-    padding: 6px 13px;
+    padding: 8px 15px;
     border-radius: 8px;
     text-decoration: none;
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 500;
     transition: 0.2s;
 }
@@ -583,7 +583,6 @@ body.dark .report-card {
 
     <div class="nav-right">
         <div class="pill"><i class="fa fa-calendar"></i><span id="dateStr"></span></div>
-        <div class="pill"><i class="fa fa-clock"></i><span id="timeStr"></span></div>
         <div class="pill"><i class="fa fa-user"></i><?= htmlspecialchars($_SESSION['username']) ?></div>
         <div class="toggle-btn" onclick="toggleDark()" title="Toggle dark mode">
             <i class="fa-solid fa-moon"></i>
@@ -741,7 +740,6 @@ body.dark .report-card {
 function tick() {
     const now = new Date();
     document.getElementById('dateStr').textContent = now.toLocaleDateString('en-IN');
-    document.getElementById('timeStr').textContent = now.toLocaleTimeString('en-IN');
 }
 setInterval(tick, 1000);
 tick();

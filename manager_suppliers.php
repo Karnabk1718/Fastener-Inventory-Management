@@ -474,7 +474,6 @@ body.dark .readonly-notice:hover * {
         <a href="manager_dashboard.php">Dashboard</a>
         <a href="manager_fasteners.php">Fasteners</a>
         <a href="manager_inventory.php">Inventory</a>
-        <a href="pick_list.php">Pick List</a>
         <a href="manager_suppliers.php" class="active">Suppliers</a>
         <a href="manager_orders.php">Orders</a>
         <a href="manager_reports.php">Reports</a>

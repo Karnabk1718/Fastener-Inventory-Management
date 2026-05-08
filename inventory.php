@@ -194,23 +194,23 @@ body {
 table { width: 100%; border-collapse: collapse; font-size: 12.5px; table-layout: fixed; }
 thead tr { background: var(--thead-bg); }
 th {
-    padding: 10px 10px; text-align: left; font-size: 10px; font-weight: 700;
+    padding: 8px 8px; text-align: left; font-size: 10px; font-weight: 700;
     text-transform: uppercase; letter-spacing: 0.8px; color: rgba(255,255,255,0.90); white-space: nowrap;
     overflow: hidden;
 }
 /* Fixed column widths so everything fits */
-th:nth-child(1)  { width: 44px;  }   /* ID */
-th:nth-child(2)  { width: 72px;  }   /* Image */
-th:nth-child(3)  { width: 130px; }   /* Fastener Name */
-th:nth-child(4)  { width: 92px;  }   /* Part No */
-th:nth-child(5)  { width: 82px;  }   /* Type */
-th:nth-child(6)  { width: 64px;  }   /* Size */
-th:nth-child(7)  { width: 82px;  }   /* Price */
-th:nth-child(8)  { width: 58px;  }   /* Quantity */
-th:nth-child(9)  { width: 84px;  }   /* Status */
-th:nth-child(10) { width: 180px; }   /* Description */
+th:nth-child(1)  { width: 40px;  }   /* ID */
+th:nth-child(2)  { width: 60px;  }   /* Image */
+th:nth-child(3)  { width: 120px; }   /* Fastener Name */
+th:nth-child(4)  { width: 70px;  }   /* Part No */
+th:nth-child(5)  { width: 58px;  }   /* Type */
+th:nth-child(6)  { width: 44px;  }   /* Size */
+th:nth-child(7)  { width: 72px;  }   /* Price */
+th:nth-child(8)  { width: 48px;  }   /* Quantity */
+th:nth-child(9)  { width: 92px;  }   /* Status */
+th:nth-child(10) { width: 160px; }   /* Description */
 td {
-    padding: 10px 10px; border-bottom: 1px solid var(--row-bdr);
+    padding: 8px 8px; border-bottom: 1px solid var(--row-bdr);
     vertical-align: middle; color: #ffffff; font-weight: 500;
     overflow: hidden;
 }

@@ -275,7 +275,7 @@ function render_report_choice(string $title): void
 <h1>{$safeTitle}</h1>
 <p>Choose the file format for this report.</p>
 <div class="actions">
-<a class="pdf" href="{$pdfUrl}">Download</a>
+<a class="pdf" href="{$pdfUrl}">Download PDF</a>
 <a class="excel" href="{$excelUrl}">Download Excel</a>
 </div>
 <a class="back" href="javascript:history.back()">Back</a>

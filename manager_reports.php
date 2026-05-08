@@ -516,7 +516,6 @@ body.dark .readonly-notice:hover * {
         <a href="manager_dashboard.php">Dashboard</a>
         <a href="manager_fasteners.php">Fasteners</a>
         <a href="manager_inventory.php">Inventory</a>
-        <a href="pick_list.php">Pick List</a>
         <a href="manager_suppliers.php">Suppliers</a>
         <a href="manager_orders.php">Orders</a>
         <a href="manager_reports.php" class="active">Reports</a>
@@ -631,32 +630,6 @@ body.dark .readonly-notice:hover * {
             <div class="stat"><?= mysqli_fetch_row(mysqli_query($conn,"SELECT COUNT(*) FROM orders"))[0] ?></div>
             <a href="manager_report_export.php?type=orders" class="btn-dl"><i class="fa fa-file-pdf"></i> Download</a>
         </div>
-    </div>
-
-    <!-- Custom Date Range -->
-    <div class="sec-head"><i class="fa fa-sliders"></i> Custom Date Range Report</div>
-    <div class="range-card">
-        <h3><i class="fa fa-calendar-range"></i> Generate Orders Report for Custom Period</h3>
-        <form class="range-form" action="manager_report_export.php" method="GET">
-            <input type="hidden" name="type" value="custom">
-            <div class="range-field">
-                <label>From Date</label>
-                <input type="date" name="from" value="<?= date('Y-m-01') ?>" max="<?= date('Y-m-d') ?>" required>
-            </div>
-            <div class="range-field">
-                <label>To Date</label>
-                <input type="date" name="to" value="<?= date('Y-m-d') ?>" max="<?= date('Y-m-d') ?>" required>
-            </div>
-            <div class="range-field">
-                <label>Status Filter</label>
-                <select name="status">
-                    <option value="all">All Orders</option>
-                    <option value="Pending">Pending Only</option>
-                    <option value="Delivered">Delivered Only</option>
-                </select>
-            </div>
-            <button type="submit" class="btn-dl"><i class="fa fa-file-pdf"></i> Download</button>
-        </form>
     </div>
 
 </div>

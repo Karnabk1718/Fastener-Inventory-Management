@@ -156,56 +156,78 @@ body {
 .search-box::placeholder { color: rgba(255,255,255,0.40); }
 .search-box:focus { border-color: #ff8a8a; }
 .table-scroll { overflow-x: auto; }
-table { width: 100%; border-collapse: collapse; font-size: 12.5px; min-width: 0; table-layout: fixed; }
+table { width: 100%; border-collapse: collapse; font-size: 12.5px; table-layout: fixed; }
 thead tr { background: var(--thead-bg); }
 th {
-    padding: 13px 16px; text-align: left; font-size: 11px; font-weight: 700;
-    text-transform: uppercase; letter-spacing: 1px; color: rgba(255,255,255,0.90); white-space: nowrap;
+    padding: 10px 10px; text-align: left; font-size: 10px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.8px; color: rgba(255,255,255,0.90); white-space: nowrap;
+    overflow: hidden;
 }
+/* Fixed column widths so everything fits */
+th:nth-child(1)  { width: 42px;  }   /* ID */
+th:nth-child(2)  { width: 68px;  }   /* Image */
+th:nth-child(3)  { width: 80px;  }   /* Fastener Name */
+th:nth-child(4)  { width: 70px;  }   /* Part No */
+th:nth-child(5)  { width: 50px;  }   /* Type */
+th:nth-child(6)  { width: 50px;  }   /* Size */
+th:nth-child(7)  { width: 78px;  }   /* Price */
+th:nth-child(8)  { width: 54px;  }   /* Quantity */
+th:nth-child(9)  { width: 100px; }   /* Status */
+th:nth-child(10) { width: 140px; }   /* Description */
 td {
-    padding: 14px 16px; border-bottom: 1px solid var(--row-bdr);
+    padding: 10px 10px; border-bottom: 1px solid var(--row-bdr);
     vertical-align: middle; color: #ffffff; font-weight: 500;
+    overflow: hidden;
 }
 tbody tr:last-child td { border-bottom: none; }
 tbody tr:hover { background: var(--row-hover); }
-.id-cell { font-family: 'DM Mono', monospace; font-size: 12px; color: rgba(255,255,255,0.70); font-weight: 500; }
-.name-cell { font-weight: 600; font-size: 14px; }
+.id-cell   { font-family: 'DM Mono', monospace; font-size: 12.5px; color: rgba(255,255,255,0.70); font-weight: 500; }
+.name-cell { font-weight: 600; font-size: 14px; white-space: normal; word-break: break-word; }
 .part-cell { font-family: 'DM Mono', monospace; font-size: 11.5px; color: var(--muted); word-break: break-word; }
 .type-pill {
     background: rgba(255,215,0,0.18); border: 1px solid rgba(255,215,0,0.40);
-    color: var(--gold); border-radius: 20px; padding: 4px 12px;
-    font-size: 12px; font-weight: 600; display: inline-block;
+    color: var(--gold); border-radius: 20px; padding: 4px 10px;
+    font-size: 12px; font-weight: 600; display: inline-block; white-space: nowrap;
 }
-.size-cell { font-family: 'DM Mono', monospace; font-size: 13px; color: rgba(255,255,255,0.90); }
-.price-cell { font-weight: 700; font-size: 14px; color: #ffffff; }
-.qty-cell { font-family: 'DM Mono', monospace; font-size: 13px; font-weight: 600; color: #fecaca; }
+.size-cell  { font-family: 'DM Mono', monospace; font-size: 13px; color: rgba(255,255,255,0.90); }
+.price-cell { font-weight: 700; font-size: 13.5px; color: #ffffff; white-space: nowrap; }
+.qty-cell   { font-family: 'DM Mono', monospace; font-size: 13.5px; font-weight: 600; text-align: center; }
+.qty-cell.low-stock { color: #fecaca; }
+.desc-cell {
+    font-size: 13px; color: var(--muted);
+    white-space: normal; word-break: break-word; line-height: 1.55;
+}
+
+/* ── Stock status badge ── */
 .stock-status {
-    display: inline-flex; align-items: center; gap: 6px;
+    display: inline-flex; align-items: center; gap: 2px;
     padding: 4px 10px; border-radius: 999px;
-    font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px;
-    background: rgba(255,107,107,0.18); border: 1px solid rgba(255,107,107,0.35); color: #fecaca;
+    font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.4px; white-space: nowrap;
 }
-.action-cell { display: flex; gap: 6px; align-items: center; }
+.stock-status.low { background: rgba(255,107,107,0.18); border: 1px solid rgba(255,107,107,0.35); color: #fecaca; }
+.stock-status.ok  { background: rgba(74,222,128,0.18);  border: 1px solid rgba(74,222,128,0.35);  color: #bbf7d0; }
+tbody tr.table-low-stock { background: rgba(255,107,107,0.04); }
+
+.action-cell { display: flex; flex-direction: column; gap: 5px; align-items: stretch; }
 .btn-edit {
     background: rgba(96,165,250,0.20); border: 1px solid rgba(96,165,250,0.40);
     color: #93c5fd; border-radius: 7px; padding: 5px 13px; font-size: 12px; font-weight: 600;
-    text-decoration: none; display: flex; align-items: center; gap: 5px; transition: 0.2s;
+    text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 5px; transition: 0.2s;
 }
 .btn-edit:hover { background: rgba(96,165,250,0.35); }
 .thumb {
-    width: 48px; height: 48px; object-fit: cover;
+    width: 38px; height: 38px; object-fit: cover;
     border-radius: 8px; border: 1px solid var(--card-bdr); display: block;
 }
 .no-img {
-    width: 48px; height: 48px; border-radius: 8px;
+    width: 38px; height: 38px; border-radius: 8px;
     background: rgba(255,255,255,0.07); border: 1px dashed rgba(255,255,255,0.20);
     display: flex; align-items: center; justify-content: center;
     color: rgba(255,255,255,0.30); font-size: 16px;
 }
 .desc-cell {
     font-size: 13px; color: var(--muted);
-    max-width: 220px; white-space: normal;
-    word-break: break-word; line-height: 1.55;
+    white-space: normal; word-break: break-word; line-height: 1.55;
 }
 .empty-state { text-align: center; padding: 48px 20px; color: rgba(255,255,255,0.50); }
 .empty-state i { font-size: 36px; margin-bottom: 12px; display: block; opacity: 0.4; }
@@ -583,7 +605,7 @@ body.dark .stock-status {
                     <td class="size-cell"><?= htmlspecialchars($row['size']) ?></td>
                     <td class="price-cell">₹<?= number_format($row['unit_price'], 2) ?></td>
                     <td class="qty-cell"><?= $row['quantity'] ?></td>
-                    <td><span class="stock-status">Below Minimum</span></td>
+                    <td><span class="stock-status low">Below Minimum</span></td>
                     <td class="desc-cell"><?= htmlspecialchars($row['description'] ?? '—') ?></td>
                 </tr>
                 <?php endforeach; endif; ?>
