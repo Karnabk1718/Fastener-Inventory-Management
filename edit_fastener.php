@@ -25,7 +25,6 @@ $errorMsg = '';
 
 if(isset($_POST['update'])) {
     $name  = trim($_POST['name']);
-    $partNumber = trim($_POST['part_number']);
     $type  = trim($_POST['type']);
     $size  = trim($_POST['size']);
     $price = $_POST['price'];
@@ -51,18 +50,16 @@ if(isset($_POST['update'])) {
         } else {
             $desc_safe = mysqli_real_escape_string($conn, $desc);
             $name_safe = mysqli_real_escape_string($conn, $name);
-            $part_safe = mysqli_real_escape_string($conn, $partNumber);
             $type_safe = mysqli_real_escape_string($conn, $type);
             $size_safe = mysqli_real_escape_string($conn, $size);
             $img_safe  = mysqli_real_escape_string($conn, $imageName);
-            mysqli_query($conn, "UPDATE fastener SET name='$name_safe', part_number='$part_safe', type='$type_safe', size='$size_safe', unit_price='$price', description='$desc_safe', image='$img_safe' WHERE id=$id");
+            mysqli_query($conn, "UPDATE fastener SET name='$name_safe', type='$type_safe', size='$size_safe', unit_price='$price', description='$desc_safe', image='$img_safe' WHERE id=$id");
             header("Location: fastener.php?success=updated");
             exit();
         }
     }
     // keep form values from POST on error
     $editData['name']        = $_POST['name'];
-    $editData['part_number'] = $_POST['part_number'];
     $editData['type']        = $_POST['type'];
     $editData['size']        = $_POST['size'];
     $editData['unit_price']  = $_POST['price'];
@@ -139,231 +136,6 @@ body{font-family:'DM Sans','Segoe UI',sans-serif;background:linear-gradient(135d
 .img-preview-wrap img{width:120px;height:120px;object-fit:cover;border-radius:10px;border:2px solid var(--gold-br);display:block;box-shadow:0 4px 18px rgba(0,0,0,0.40);}
 .img-preview-wrap .remove-img{position:absolute;top:-8px;right:-8px;width:22px;height:22px;background:#ff6b6b;border:none;border-radius:50%;color:#fff;font-size:11px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
 .img-preview-label{font-size:11px;color:var(--gold);margin-top:5px;font-weight:600;text-transform:uppercase;letter-spacing:0.6px;}
-
-
-/* Page theme overrides */
-:root {
-    --supervisor-red: #CD1C18;
-    --supervisor-peach: #FFA896;
-    --supervisor-deep: #9B1313;
-    --supervisor-dark: #38000A;
-    --supervisor-panel: #fff7f5;
-    --supervisor-panel-soft: #ffe3dc;
-    --supervisor-muted: #6f2220;
-    --supervisor-border: #38000A;
-    --bg-from: #fff0ec;
-    --bg-to: var(--supervisor-peach);
-    --text: var(--supervisor-dark);
-    --muted: var(--supervisor-muted);
-    --gold: var(--supervisor-red);
-    --gold-bg: var(--supervisor-panel-soft);
-    --gold-br: var(--supervisor-border);
-    --card-bg: var(--supervisor-panel);
-    --card-bdr: var(--supervisor-border);
-    --input-bg: #fff;
-    --input-bdr: var(--supervisor-border);
-    --thead-bg: #ffd6cc;
-    --row-bdr: rgba(56, 0, 10, 0.22);
-    --row-hover: #ffe8e2;
-    --border: rgba(56, 0, 10, 0.26);
-}
-
-body {
-    background: linear-gradient(135deg, #fff7f5 0%, #ffd8d0 46%, var(--supervisor-peach) 100%) !important;
-    color: var(--supervisor-dark) !important;
-    overflow-x: hidden;
-}
-
-body.dark {
-    --text: #fff7f5;
-    --muted: #ffd6cc;
-    --gold: #FFA896;
-    --card-bg: rgba(56, 0, 10, 0.72);
-    --card-bdr: #FFA896;
-    --input-bg: rgba(56, 0, 10, 0.78);
-    --input-bdr: #FFA896;
-    --thead-bg: rgba(56, 0, 10, 0.92);
-    --row-bdr: rgba(255, 168, 150, 0.30);
-    --row-hover: rgba(255, 168, 150, 0.14);
-    background: linear-gradient(135deg, var(--supervisor-dark) 0%, #6d0710 48%, var(--supervisor-deep) 100%) !important;
-    color: #fff7f5 !important;
-}
-
-.navbar {
-    background: linear-gradient(90deg, var(--supervisor-dark) 0%, var(--supervisor-deep) 100%) !important;
-    border-bottom-color: var(--supervisor-border) !important;
-    box-shadow: 0 8px 22px rgba(56, 0, 10, 0.24);
-}
-
-.logo,
-.navbar .logo,
-.navbar .logo *:not(.logo-icon):not(.logo-icon *) {
-    color: #fff !important;
-}
-
-.logo-icon,
-.page-title-icon {
-    background: var(--supervisor-peach) !important;
-    border-color: var(--supervisor-border) !important;
-    color: var(--supervisor-dark) !important;
-}
-
-.logo-icon i,
-.page-title-icon i,
-.page-header i,
-.count-badge i {
-    color: var(--supervisor-dark) !important;
-}
-
-.nav-links a {
-    color: rgba(255, 255, 255, 0.84) !important;
-    border: 1px solid rgba(255, 168, 150, 0.32);
-}
-
-.nav-links a:hover,
-.nav-links a.active {
-    background: rgba(255, 168, 150, 0.22) !important;
-    color: #fff !important;
-    border-color: var(--supervisor-peach) !important;
-}
-
-.navbar .pill,
-.navbar .icon-btn,
-.toggle-btn {
-    background: rgba(255, 168, 150, 0.14) !important;
-    border-color: rgba(255, 168, 150, 0.35) !important;
-    color: #fff !important;
-}
-
-.page-title h1,
-.page-header h1 {
-    color: var(--supervisor-dark) !important;
-}
-
-.page-title p,
-.page-header p {
-    color: var(--supervisor-muted) !important;
-}
-
-.logout-btn {
-    background: var(--supervisor-red) !important;
-    border: 1px solid var(--supervisor-border) !important;
-    color: #fff !important;
-}
-
-.logout-btn:hover {
-    background: var(--supervisor-dark) !important;
-    color: #fff !important;
-}
-
-body.dark .page-title h1,
-body.dark .page-header h1 {
-    color: #fff7f5 !important;
-}
-
-body.dark .page-title p,
-body.dark .page-header p {
-    color: #ffd6cc !important;
-}
-.form-card {
-    background: var(--supervisor-panel) !important;
-    border-color: var(--supervisor-border) !important;
-    color: var(--supervisor-dark) !important;
-    box-shadow: 0 8px 18px rgba(56, 0, 10, 0.12);
-}
-
-.form-card-title,
-.field label {
-    color: var(--supervisor-dark) !important;
-}
-
-.field input,
-.field textarea,
-.field select,
-.file-label {
-    background: var(--input-bg) !important;
-    border-color: var(--input-bdr) !important;
-    color: var(--supervisor-dark) !important;
-}
-
-.field input::placeholder,
-.field textarea::placeholder {
-    color: rgba(56, 0, 10, 0.48) !important;
-}
-
-.field input:focus,
-.field textarea:focus,
-.field select:focus,
-.file-label:hover {
-    border-color: var(--supervisor-red) !important;
-    box-shadow: 0 0 0 3px rgba(205, 28, 24, 0.12);
-}
-
-.btn-primary,
-button[type="submit"] {
-    background: var(--supervisor-red) !important;
-    border: 1px solid var(--supervisor-border) !important;
-    color: #fff !important;
-}
-
-.btn-primary:hover {
-    background: var(--supervisor-peach) !important;
-    color: var(--supervisor-dark) !important;
-}
-
-button[type="submit"]:hover {
-    background: var(--supervisor-dark) !important;
-    color: #fff !important;
-}
-
-.btn-cancel {
-    background: #fff !important;
-    border: 1px solid var(--supervisor-border) !important;
-    color: var(--supervisor-dark) !important;
-    box-shadow: 0 4px 12px rgba(56, 0, 10, 0.10);
-}
-
-.btn-cancel i {
-    color: var(--supervisor-red) !important;
-}
-
-.btn-cancel:hover {
-    background: var(--supervisor-peach) !important;
-    color: var(--supervisor-dark) !important;
-    box-shadow: 0 6px 16px rgba(56, 0, 10, 0.16);
-}
-
-.alert.error {
-    background: rgba(205, 28, 24, 0.14) !important;
-    border-color: var(--supervisor-red) !important;
-    color: var(--supervisor-deep) !important;
-}
-
-body.dark .form-card {
-    background: rgba(56, 0, 10, 0.72) !important;
-}
-
-body.dark .form-card-title,
-body.dark .field label {
-    color: #fff7f5 !important;
-}
-
-body.dark .field input,
-body.dark .field textarea,
-body.dark .field select,
-body.dark .file-label {
-    color: #fff7f5 !important;
-}
-
-body.dark .btn-cancel {
-    background: rgba(255, 168, 150, 0.16) !important;
-    border-color: #FFA896 !important;
-    color: #fff7f5 !important;
-}
-
-body.dark .btn-cancel i {
-    color: #FFA896 !important;
-}
 </style>
 </head>
 <body>
@@ -377,7 +149,6 @@ body.dark .btn-cancel i {
         <a href="dashboard.php">Dashboard</a>
         <a href="fastener.php" class="active">Fasteners</a>
         <a href="inventory.php">Inventory</a>
-        <a href="pick_list.php">Pick List</a>
         <a href="supplier.php">Suppliers</a>
         <a href="orders.php">Orders</a>
     </div>
@@ -412,12 +183,6 @@ body.dark .btn-cancel i {
                     <input type="text" name="name" placeholder="e.g. Hex Bolt"
                         pattern="[A-Za-z0-9 ]+" required
                         value="<?= htmlspecialchars($editData['name']) ?>">
-                </div>
-                <div class="field">
-                    <label>Part Number</label>
-                    <input type="text" name="part_number" placeholder="e.g. HHB-10"
-                        pattern="[A-Za-z0-9._ -]+"
-                        value="<?= htmlspecialchars($editData['part_number'] ?? '') ?>">
                 </div>
                 <div class="field">
                     <label>Type</label>
@@ -507,4 +272,4 @@ function clearImage() {
 }
 </script>
 </body>
-</html>
+</html>                                                                                 
