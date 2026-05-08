@@ -1,13 +1,9 @@
 <?php
-
 $conn = mysqli_connect("localhost", "root", "1718", "fastener_db");
-
 if (!$conn) {
     die("Connection Failed: " . mysqli_connect_error());
 }
-
 mysqli_set_charset($conn, "utf8mb4");
-
 function db_exec_safe($sql)
 {
     global $conn;
@@ -18,7 +14,6 @@ function db_exec_safe($sql)
         return false;
     }
 }
-
 function db_has_column($table, $column)
 {
     global $conn;
@@ -27,7 +22,6 @@ function db_has_column($table, $column)
     $res = mysqli_query($conn, "SHOW COLUMNS FROM `$table` LIKE '$column'");
     return $res && mysqli_num_rows($res) > 0;
 }
-
 function db_has_index($table, $index)
 {
     global $conn;
@@ -36,7 +30,6 @@ function db_has_index($table, $index)
     $res = mysqli_query($conn, "SHOW INDEX FROM `$table` WHERE Key_name='$index'");
     return $res && mysqli_num_rows($res) > 0;
 }
-
 function ensure_user_security_schema()
 {
     if (!db_has_column('users', 'email')) {
@@ -61,16 +54,13 @@ function ensure_user_security_schema()
         db_exec_safe("ALTER TABLE users ADD UNIQUE users_phone_unique (phone)");
     }
 }
-
 function ensure_fastener_schema()
 {
     if (!db_has_column('fastener', 'part_number')) {
         db_exec_safe("ALTER TABLE fastener ADD part_number VARCHAR(80) NULL AFTER name");
     }
 }
-
 ensure_fastener_schema();
-
 function ensure_pick_list_schema()
 {
     db_exec_safe("CREATE TABLE IF NOT EXISTS pick_list (
@@ -82,9 +72,7 @@ function ensure_pick_list_schema()
         INDEX pick_list_fastener_idx (fastener_id)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
 }
-
 ensure_pick_list_schema();
-
 function generate_captcha()
 {
     if (session_status() !== PHP_SESSION_ACTIVE) {
@@ -95,20 +83,16 @@ function generate_captcha()
     $_SESSION['captcha_answer'] = (string)($a + $b);
     return "$a + $b";
 }
-
 function valid_name($name)
 {
     return (bool)preg_match('/^[A-Za-z][A-Za-z .\'-]{1,78}$/', trim($name));
 }
-
 function valid_phone($phone)
 {
     return (bool)preg_match('/^[6-9][0-9]{9}$/', trim($phone));
 }
-
 function valid_email_addr($email)
 {
     return filter_var(trim($email), FILTER_VALIDATE_EMAIL) !== false;
 }
-
 ?>
