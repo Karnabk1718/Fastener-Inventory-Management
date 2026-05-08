@@ -266,9 +266,11 @@ function render_report_choice(string $title): void
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Download Report</title>
-<link rel="stylesheet" href="css/user.css">
+<style>
+*{box-sizing:border-box}body{margin:0;min-height:100vh;display:grid;place-items:center;font-family:Segoe UI,Arial,sans-serif;background:linear-gradient(135deg,#fff7f5,#ffa896);color:#38000a}.panel{width:min(420px,calc(100% - 32px));background:#fff7f5;border:1px solid #38000a;border-radius:12px;padding:26px;box-shadow:0 18px 44px rgba(56,0,10,.22)}h1{font-size:22px;margin:0 0 8px}p{margin:0 0 22px;color:#6f2220}.actions{display:flex;gap:12px;flex-wrap:wrap}a{flex:1 1 150px;text-align:center;text-decoration:none;border:1px solid #38000a;border-radius:8px;padding:12px 16px;font-weight:800}.pdf{background:#cd1c18;color:#fff}.excel{background:#176a36;color:#fff}.back{display:block;margin-top:14px;color:#38000a;font-size:13px;font-weight:700}
+</style>
 </head>
-<body class="page-export_report">
+<body>
 <div class="panel">
 <h1>{$safeTitle}</h1>
 <p>Choose the file format for this report.</p>
