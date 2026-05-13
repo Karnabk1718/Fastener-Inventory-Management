@@ -68,7 +68,13 @@ $captchaQuestion = generate_captcha();
 <title>Bolt Base — Register</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <style>
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
 body {
     font-family: 'Segoe UI', sans-serif;
     background: #1a1a1a;
@@ -89,18 +95,41 @@ body::before {
     inset: 0;
     background: rgba(0,0,0,0.62);
 }
-.role-tabs { position: relative; display: flex; gap: 10px; z-index: 1; }
+.role-tabs {
+    position: relative;
+    display: flex;
+    gap: 10px;
+    z-index: 1;
+}
 .role-tab {
     padding: 10px 32px;
     border-radius: 10px 10px 0 0;
-    font-size: 14px; font-weight: 700;
-    cursor: pointer; border: none; letter-spacing: 0.5px; transition: 0.2s;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    border: none;
+    letter-spacing: 0.5px;
+    transition: 0.2s;
 }
-.role-tab.supervisor { background: #6B001A; color: #fff; }
-.role-tab.manager    { background: rgba(255,255,255,0.15); color: rgba(255,255,255,0.7); }
-.role-tab.supervisor.active { background: white; color: #6B001A; }
-.role-tab.manager.active    { background: #1a3a6b; color: white; }
-.role-tab:not(.active):hover { opacity: 0.85; }
+.role-tab.supervisor {
+    background: #6B001A;
+    color: #fff;
+}
+.role-tab.manager {
+    background: rgba(255,255,255,0.15);
+    color: rgba(255,255,255,0.7);
+}
+.role-tab.supervisor.active {
+    background: white;
+    color: #6B001A;
+}
+.role-tab.manager.active {
+    background: #1a3a6b;
+    color: white;
+}
+.role-tab:not(.active):hover {
+    opacity: 0.85;
+}
 .back-home {
     position: fixed;
     right: 22px;
@@ -128,119 +157,332 @@ body::before {
     border-color: #fff7f5;
 }
 .page {
-    position: relative; display: flex;
-    width: 680px; min-height: 460px;
+    position: relative;
+    display: flex;
+    width: 700px;
+    min-height: 480px;
     border-radius: 0 16px 16px 16px;
     overflow: hidden;
     box-shadow: 0 24px 60px rgba(0,0,0,0.55);
     z-index: 1;
 }
 .left {
-    width: 220px; flex-shrink: 0;
-    display: flex; flex-direction: column;
-    align-items: center; justify-content: center;
-    padding: 2.5rem 1.5rem; gap: 18px; transition: background 0.3s;
+    width: 220px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2.5rem 1.5rem;
+    gap: 18px;
+    transition: background 0.3s;
 }
-.left.supervisor-bg { background: #6B001A; }
-.left.manager-bg    { background: #1a3a6b; }
-.bolt-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; opacity: 0.18; }
-.bolt { width: 18px; height: 18px; background: white; border-radius: 50%; position: relative; }
+.left.supervisor-bg {
+    background: #6B001A;
+}
+.left.manager-bg {
+    background: #1a3a6b;
+}
+.bolt-grid {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 10px;
+    opacity: 0.18;
+}
+.bolt {
+    width: 18px;
+    height: 18px;
+    background: white;
+    border-radius: 50%;
+    position: relative;
+}
 .bolt::after {
-    content: ''; position: absolute;
-    top: 50%; left: 50%; transform: translate(-50%,-50%);
-    width: 7px; height: 7px; border-radius: 50%;
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
 }
-.left.supervisor-bg .bolt::after { background: #6B001A; }
-.left.manager-bg    .bolt::after { background: #1a3a6b; }
-.brand { color: white; text-align: center; }
-.brand-title { font-size: 22px; font-weight: 600; letter-spacing: 1.5px; }
-.brand-sub   { font-size: 11px; opacity: 0.55; letter-spacing: 2.5px; text-transform: uppercase; margin-top: 5px; }
-.role-badge  {
-    font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px;
-    padding: 5px 14px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.30);
-    color: rgba(255,255,255,0.80); margin-top: 2px;
+.left.supervisor-bg .bolt::after {
+    background: #6B001A;
 }
-.divider { width: 40px; height: 1px; background: rgba(255,255,255,0.2); }
-.step-list { list-style: none; display: flex; flex-direction: column; gap: 11px; width: 100%; }
+.left.manager-bg .bolt::after {
+    background: #1a3a6b;
+}
+.brand {
+    color: white;
+    text-align: center;
+}
+.brand-title {
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+}
+.brand-sub {
+    font-size: 11px;
+    opacity: 0.55;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    margin-top: 5px;
+}
+.role-badge {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    padding: 5px 14px;
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0.30);
+    color: rgba(255,255,255,0.80);
+    margin-top: 2px;
+}
+.divider {
+    width: 40px;
+    height: 1px;
+    background: rgba(255,255,255,0.2);
+}
+.step-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 11px;
+    width: 100%;
+}
 .step-list li {
-    display: flex; align-items: center; gap: 10px;
-    font-size: 11px; color: rgba(255,255,255,0.55); font-weight: 500; letter-spacing: 0.3px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 11px;
+    color: rgba(255,255,255,0.55);
+    font-weight: 500;
+    letter-spacing: 0.3px;
 }
-.step-list li i { font-size: 12px; opacity: 0.75; }
+.step-list li i {
+    font-size: 12px;
+    opacity: 0.75;
+}
 .right {
-    flex: 1; background: white;
-    display: flex; flex-direction: column; justify-content: center;
-    padding: 3rem 2.5rem; color: #000;
+    flex: 1;
+    background: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 3rem 2.5rem;
+    color: #000;
 }
-.accent-bar { width: 36px; height: 3px; border-radius: 2px; margin-bottom: 14px; transition: background 0.3s; }
-.accent-bar.supervisor { background: #6B001A; }
-.accent-bar.manager    { background: #1a3a6b; }
-.form-header { margin-bottom: 1.75rem; }
-.form-header h2 { font-size: 22px; font-weight: 600; color: #000; }
-.form-header p  { font-size: 13px; color: #444; margin-top: 4px; font-weight: 500; }
+.accent-bar {
+    width: 36px;
+    height: 3px;
+    border-radius: 2px;
+    margin-bottom: 14px;
+    transition: background 0.3s;
+}
+.accent-bar.supervisor {
+    background: #6B001A;
+}
+.accent-bar.manager {
+    background: #1a3a6b;
+}
+.form-header {
+    margin-bottom: 1.75rem;
+}
+.form-header h2 {
+    font-size: 22px;
+    font-weight: 600;
+    color: #000;
+}
+.form-header p {
+    font-size: 13px;
+    color: #444;
+    margin-top: 4px;
+    font-weight: 500;
+}
 .alert {
-    font-size: 13px; font-weight: 600;
-    padding: 9px 14px; border-radius: 8px; margin-bottom: 1.25rem;
-    display: flex; align-items: center; gap: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 9px 14px;
+    border-radius: 8px;
+    margin-bottom: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
-.alert.error   { background: #fff0f2; border: 1px solid #f5c0cb; color: #7a0000; }
-.alert.success { background: #f0fff4; border: 1px solid #b2dfdb; color: #005a34; }
-.alert.success a { color: #005a34; font-weight: 700; text-decoration: none; }
-.alert.success a:hover { text-decoration: underline; }
-.field { margin-bottom: 1.2rem; }
+.alert.error {
+    background: #fff0f2;
+    border: 1px solid #f5c0cb;
+    color: #7a0000;
+}
+.alert.success {
+    background: #f0fff4;
+    border: 1px solid #b2dfdb;
+    color: #005a34;
+}
+.alert.success a {
+    color: #005a34;
+    font-weight: 700;
+    text-decoration: none;
+}
+.alert.success a:hover {
+    text-decoration: underline;
+}
+.field {
+    margin-bottom: 1.2rem;
+}
 .field label {
-    display: block; font-size: 11px; font-weight: 700; color: #111;
-    letter-spacing: 0.8px; text-transform: uppercase; margin-bottom: 7px;
+    display: block;
+    font-size: 11px;
+    font-weight: 700;
+    color: #111;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    margin-bottom: 7px;
 }
-.field-wrap { position: relative; }
+.field-wrap {
+    position: relative;
+}
 .field-wrap i.icon {
-    position: absolute; left: 13px; top: 50%;
-    transform: translateY(-50%); color: #444; font-size: 14px;
+    position: absolute;
+    left: 13px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #444;
+    font-size: 14px;
 }
 .field input {
-    width: 100%; height: 42px; padding: 0 38px;
-    border: 1.5px solid #ccc; border-radius: 8px;
-    font-size: 14px; color: #000; font-weight: 500;
-    background: #f5f5f5; outline: none;
+    width: 100%;
+    height: 42px;
+    padding: 0 38px;
+    border: 1.5px solid #ccc;
+    border-radius: 8px;
+    font-size: 14px;
+    color: #000;
+    font-weight: 500;
+    background: #f5f5f5;
+    outline: none;
     transition: border-color 0.2s, background 0.2s;
 }
-.field input::placeholder { color: #777; font-weight: 400; }
-.field input:focus { background: white; }
-.field input.sup:focus { border-color: #6B001A; }
-.field input.mgr:focus { border-color: #1a3a6b; }
-.field input.valid   { border-color: #2e7d52; background: #f6fff9; }
-.field input.invalid { border-color: #c0392b; background: #fff6f6; }
-.vicon { position: absolute; right: 36px; top: 50%; transform: translateY(-50%); font-size: 13px; display: none; }
-.vicon.show { display: block; }
-.vicon.ok  { color: #2e7d52; }
-.vicon.err { color: #c0392b; }
-.eye {
-    position: absolute; right: 12px; top: 50%;
-    transform: translateY(-50%); cursor: pointer; color: #444; font-size: 14px;
+.field input::placeholder {
+    color: #777;
+    font-weight: 400;
 }
-.strength-wrap { margin-top: 6px; }
-.strength-bar-bg { height: 4px; background: #e0e0e0; border-radius: 4px; overflow: hidden; }
-.strength-bar { height: 100%; border-radius: 4px; width: 0%; transition: width 0.3s, background 0.3s; }
-.strength-label { font-size: 10px; color: #888; margin-top: 3px; font-weight: 600; letter-spacing: 0.5px; }
-.hint { font-size: 11px; color: #888; margin-top: 4px; font-weight: 500; }
+.field input:focus {
+    background: white;
+}
+.field input.sup:focus {
+    border-color: #6B001A;
+}
+.field input.mgr:focus {
+    border-color: #1a3a6b;
+}
+.field input.valid {
+    border-color: #2e7d52;
+    background: #f6fff9;
+}
+.field input.invalid {
+    border-color: #c0392b;
+    background: #fff6f6;
+}
+.vicon {
+    position: absolute;
+    right: 36px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 13px;
+    display: none;
+}
+.vicon.show {
+    display: block;
+}
+.vicon.ok {
+    color: #2e7d52;
+}
+.vicon.err {
+    color: #c0392b;
+}
+.eye {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #444;
+    font-size: 14px;
+}
+.strength-wrap {
+    margin-top: 6px;
+}
+.strength-bar-bg {
+    height: 4px;
+    background: #e0e0e0;
+    border-radius: 4px;
+    overflow: hidden;
+}
+.strength-bar {
+    height: 100%;
+    border-radius: 4px;
+    width: 0%;
+    transition: width 0.3s, background 0.3s;
+}
+.strength-label {
+    font-size: 10px;
+    color: #888;
+    margin-top: 3px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+.hint {
+    font-size: 11px;
+    color: #888;
+    margin-top: 4px;
+    font-weight: 500;
+}
 .register-btn {
-    width: 100%; height: 44px; border: none; color: white;
-    font-size: 14px; font-weight: 600; letter-spacing: 0.5px;
-    border-radius: 8px; cursor: pointer;
+    width: 100%;
+    height: 44px;
+    border: none;
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    border-radius: 8px;
+    cursor: pointer;
     transition: background 0.2s, transform 0.1s, box-shadow 0.2s;
     margin-top: 0.4rem;
 }
-.register-btn.supervisor { background: #6B001A; box-shadow: 0 4px 15px rgba(107,0,26,0.4); }
-.register-btn.supervisor:hover { background: #8a0022; box-shadow: 0 6px 20px rgba(107,0,26,0.55); }
-.register-btn.manager    { background: #1a3a6b; box-shadow: 0 4px 15px rgba(26,58,107,0.4); }
-.register-btn.manager:hover    { background: #244d8f; box-shadow: 0 6px 20px rgba(26,58,107,0.55); }
-.register-btn:active { transform: scale(0.98); }
-.footer-note { font-size: 12px; color: #555; text-align: center; margin-top: 1.4rem; font-weight: 500; }
-.footer-note a         { color: #6B001A; font-weight: 700; text-decoration: none; }
-.footer-note a.mgr-lnk { color: #1a3a6b; }
-.footer-note a:hover   { text-decoration: underline; }
-
-
+.register-btn.supervisor,
+.register-btn.manager {
+    background: #ff8c00;
+    box-shadow: 0 4px 15px rgba(255,140,0,0.35);
+}
+.register-btn.supervisor:hover,
+.register-btn.manager:hover {
+    background: #e67600;
+    box-shadow: 0 6px 20px rgba(255,140,0,0.45);
+}
+.register-btn:active {
+    transform: scale(0.98);
+}
+.footer-note {
+    font-size: 12px;
+    color: #555;
+    text-align: center;
+    margin-top: 1.4rem;
+    font-weight: 500;
+}
+.footer-note a {
+    color: #6B001A;
+    font-weight: 700;
+    text-decoration: none;
+}
+.footer-note a.mgr-lnk {
+    color: #1a3a6b;
+}
+.footer-note a:hover {
+    text-decoration: underline;
+}
 body.login-page,
 body:has(.role-tabs) {
     --login-manager-olive: #636b2f;
@@ -253,113 +495,132 @@ body:has(.role-tabs) {
     background-size: cover !important;
     background-position: center !important;
 }
-
 .right {
     background: #fff7f5 !important;
     color: var(--supervisor-dark) !important;
 }
-
 .form-header h2,
 .field label {
     color: var(--supervisor-dark) !important;
 }
-
 .form-header p,
 .footer-note,
 .hint {
     color: var(--supervisor-muted) !important;
 }
-
 .field-wrap i.icon,
 .eye {
     color: var(--supervisor-dark) !important;
 }
-
 .field input {
     background: #fff !important;
     border-color: rgba(56, 0, 10, 0.38) !important;
     color: var(--supervisor-dark) !important;
 }
-
 .role-tab.supervisor,
 .left.supervisor-bg,
 .accent-bar.supervisor,
-.login-btn.supervisor,
-.register-btn.supervisor {
+.login-btn.supervisor {
     background: var(--supervisor-deep) !important;
 }
-
 .left.supervisor-bg .bolt::after {
     background: var(--supervisor-deep) !important;
 }
-
 .role-tab.supervisor.active {
     background: #fff7f5 !important;
     color: var(--supervisor-deep) !important;
 }
-
 .field input.supervisor-focus:focus,
 .field input.sup:focus {
     border-color: var(--supervisor-red) !important;
 }
-
-.login-btn.supervisor:hover,
-.register-btn.supervisor:hover {
+.login-btn.supervisor:hover {
     background: var(--supervisor-dark) !important;
     box-shadow: 0 6px 20px rgba(56, 0, 10, 0.42) !important;
 }
-
 .role-tab.manager {
     background: rgba(212, 222, 149, 0.18) !important;
     color: rgba(255, 255, 255, 0.78) !important;
 }
-
 .left.manager-bg,
 .accent-bar.manager,
 .role-tab.manager.active,
-.login-btn.manager,
-.register-btn.manager {
+.login-btn.manager {
     background: var(--login-manager-olive) !important;
 }
-
 .left.manager-bg {
     background: linear-gradient(160deg, var(--login-manager-dark) 0%, var(--login-manager-olive) 100%) !important;
 }
-
 .left.manager-bg .bolt::after {
     background: var(--login-manager-olive) !important;
 }
-
 .role-tab.manager.active,
 .login-btn.manager,
 .register-btn.manager {
     color: #fff !important;
 }
-
 body.manager-mode .right {
     background: var(--login-manager-panel) !important;
     color: var(--login-manager-dark) !important;
 }
-
 body.manager-mode .form-header h2,
 body.manager-mode .field label,
 body.manager-mode .field-wrap i.icon,
 body.manager-mode .eye {
     color: var(--login-manager-dark) !important;
 }
-
 body.manager-mode .form-header p,
 body.manager-mode .footer-note {
     color: var(--login-manager-muted) !important;
 }
-
 body.manager-mode .field input.manager-focus:focus,
 .field input.mgr:focus {
     border-color: var(--login-manager-olive) !important;
 }
+
+/* Polished login-style box for register page */
+body.login-page,
+body:has(.role-tabs) {
+    --supervisor-deep: #6b001a;
+    --supervisor-red: #9f1239;
+    --supervisor-dark: #38000a;
+    --supervisor-muted: #7a3747;
+    --supervisor-panel: #fff8f6;
+    --supervisor-field: #fffdfc;
+    --supervisor-border: rgba(56, 0, 10, 0.22);
+}
+body.supervisor-mode .page {
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    box-shadow: 0 28px 70px rgba(31, 0, 8, 0.52);
+}
+body.supervisor-mode .left.supervisor-bg {
+    background: linear-gradient(160deg, #38000a 0%, #6b001a 58%, #9f1239 100%) !important;
+}
+body.supervisor-mode .right {
+    background: linear-gradient(180deg, #fffdfc 0%, var(--supervisor-panel) 100%) !important;
+    padding: 3.1rem 2.75rem;
+}
+body.supervisor-mode .accent-bar.supervisor {
+    width: 48px;
+    height: 4px;
+    background: linear-gradient(90deg, var(--supervisor-deep), var(--supervisor-red)) !important;
+}
+body.supervisor-mode .form-header h2 {
+    font-size: 25px;
+    font-weight: 800;
+    color: var(--supervisor-dark) !important;
+}
+body.supervisor-mode .form-header p,
+body.supervisor-mode .footer-note {
+    color: var(--supervisor-muted) !important;
+}
+body.manager-mode .page {
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    box-shadow: 0 28px 70px rgba(31, 0, 8, 0.52);
+}
 </style>
 </head>
-<body>
+<body class="login-page supervisor-mode">
 
 <a href="index.php" class="back-home"><i class="fa fa-arrow-left"></i> Back to Home</a>
 
@@ -415,7 +676,7 @@ body.manager-mode .field input.manager-focus:focus,
       </div>
     <?php endif; ?>
 
-    <form method="POST" novalidate>
+    <form method="POST" novalidate autocomplete="off">
       <input type="hidden" name="role" id="roleInput" value="supervisor">
 
       <!-- Username -->
@@ -425,7 +686,7 @@ body.manager-mode .field input.manager-focus:focus,
           <i class="fa-solid fa-user icon"></i>
           <input type="text" name="username" id="username"
                  placeholder="Letters, numbers, underscores" class="sup"
-                 value="<?= htmlspecialchars($_POST['username'] ?? '') ?>" required>
+                 autocomplete="off" value="<?= htmlspecialchars($_POST['username'] ?? '') ?>" required>
           <span class="vicon" id="vnUser"></span>
         </div>
         <div class="hint">3–50 characters &nbsp;&middot;&nbsp; a–z, 0–9, underscore only</div>
@@ -436,7 +697,7 @@ body.manager-mode .field input.manager-focus:focus,
         <div class="field-wrap">
           <i class="fa-solid fa-envelope icon"></i>
           <input type="email" name="email" id="email" placeholder="you@example.com" class="sup"
-                 value="<?= htmlspecialchars($_POST['email'] ?? '') ?>" required>
+                 autocomplete="off" value="<?= htmlspecialchars($_POST['email'] ?? '') ?>" required>
           <span class="vicon" id="vnEmail"></span>
         </div>
         <div class="hint" id="emailHint">Used for forgot-password OTP</div>
@@ -447,7 +708,7 @@ body.manager-mode .field input.manager-focus:focus,
         <div class="field-wrap">
           <i class="fa-solid fa-phone icon"></i>
           <input type="tel" name="phone" id="phone" placeholder="9876543210" class="sup"
-                 maxlength="10" value="<?= htmlspecialchars($_POST['phone'] ?? '') ?>" required>
+                 maxlength="10" autocomplete="off" value="<?= htmlspecialchars($_POST['phone'] ?? '') ?>" required>
           <span class="vicon" id="vnPhone"></span>
         </div>
         <div class="hint" id="phoneHint">10 digits, starting with 6-9</div>
@@ -460,7 +721,7 @@ body.manager-mode .field input.manager-focus:focus,
           <i class="fa-solid fa-lock icon"></i>
           <input type="password" name="password" id="password"
                  placeholder="Minimum 8 characters" class="sup"
-                 required oninput="checkStrength(this.value)">
+                 autocomplete="new-password" required oninput="checkStrength(this.value)">
           <span class="eye" onclick="togglePw('password','eye1')">
             <i id="eye1" class="fa-solid fa-eye-slash"></i>
           </span>
@@ -477,7 +738,7 @@ body.manager-mode .field input.manager-focus:focus,
         <div class="field-wrap">
           <i class="fa-solid fa-lock icon"></i>
           <input type="password" name="confirm_password" id="confirmPw"
-                 placeholder="Re-enter your password" class="sup" required>
+                 placeholder="Re-enter your password" class="sup" autocomplete="new-password" required>
           <span class="vicon" id="vnConfirm"></span>
           <span class="eye" onclick="togglePw('confirmPw','eye2')">
             <i id="eye2" class="fa-solid fa-eye-slash"></i>
@@ -489,7 +750,7 @@ body.manager-mode .field input.manager-focus:focus,
         <label>Captcha: <?= htmlspecialchars($captchaQuestion) ?> = ?</label>
         <div class="field-wrap">
           <i class="fa-solid fa-shield-halved icon"></i>
-          <input type="text" name="captcha" id="captcha" placeholder="Answer" class="sup" required>
+          <input type="text" name="captcha" id="captcha" placeholder="Answer" class="sup" autocomplete="off" required>
         </div>
       </div>
 
@@ -508,6 +769,8 @@ body.manager-mode .field input.manager-focus:focus,
 function switchRole(role) {
     const isSup = role === 'supervisor';
     document.getElementById('roleInput').value = role;
+    document.body.classList.toggle('supervisor-mode', isSup);
+    document.body.classList.toggle('manager-mode', !isSup);
     document.getElementById('tab-supervisor').classList.toggle('active', isSup);
     document.getElementById('tab-manager').classList.toggle('active', !isSup);
     document.getElementById('leftPanel').className = 'left ' + (isSup ? 'supervisor-bg' : 'manager-bg');

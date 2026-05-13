@@ -255,7 +255,6 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
     margin:0;
     padding:0;
 }
-
 body{
     font-family:'Segoe UI',sans-serif;
     min-height:100vh;
@@ -266,14 +265,12 @@ body{
     padding:24px;
     color:#38000a;
 }
-
 body:before{
     content:'';
     position:fixed;
     inset:0;
     background:rgba(0,0,0,.62);
 }
-
 .card{
     position:relative;
     width:min(440px,100%);
@@ -282,22 +279,18 @@ body:before{
     padding:30px;
     box-shadow:0 24px 60px rgba(0,0,0,.45);
 }
-
 h1{
     font-size:24px;
     margin-bottom:8px;
 }
-
 p{
     font-size:13px;
     color:#6f2220;
     margin-bottom:20px;
 }
-
 .field{
     margin-bottom:15px;
 }
-
 .field label{
     display:block;
     font-size:11px;
@@ -305,18 +298,15 @@ p{
     font-weight:800;
     margin-bottom:7px;
 }
-
 .wrap{
     position:relative;
 }
-
 .wrap i.icon{
     position:absolute;
     left:13px;
     top:50%;
     transform:translateY(-50%);
 }
-
 input{
     width:100%;
     height:44px;
@@ -325,7 +315,6 @@ input{
     padding:0 40px 0 38px;
     font-size:14px;
 }
-
 .eye{
     position:absolute;
     right:13px;
@@ -333,7 +322,6 @@ input{
     transform:translateY(-50%);
     cursor:pointer;
 }
-
 .btn{
     width:100%;
     height:44px;
@@ -344,7 +332,6 @@ input{
     font-weight:800;
     cursor:pointer;
 }
-
 .alert{
     padding:11px 13px;
     border-radius:8px;
@@ -352,19 +339,16 @@ input{
     font-size:13px;
     font-weight:650;
 }
-
 .error{
     background:#fff0f2;
     border:1px solid #f5c0cb;
     color:#7a0000;
 }
-
 .success{
     background:#effaf1;
     border:1px solid #9ad4a6;
     color:#075c22;
 }
-
 </style>
 </head>
 <body>

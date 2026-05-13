@@ -23,7 +23,6 @@ $lowStockItems  = mysqli_fetch_row(mysqli_query($conn,"SELECT COUNT(*) FROM stoc
 <title>Bolt Base – Dashboard</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <style>
-
 /* ── THEME VARIABLES ── */
 :root {
     --bg-from:  #800020;
@@ -37,7 +36,6 @@ $lowStockItems  = mysqli_fetch_row(mysqli_query($conn,"SELECT COUNT(*) FROM stoc
     --gold-bg:  rgba(255,215,0,0.18);
     --gold-bdr: rgba(255,215,0,0.35);
 }
-
 body.dark {
     --bg-from: #0f172a;
     --bg-to:   #334155;
@@ -45,10 +43,14 @@ body.dark {
     --card-h:  rgba(255,255,255,0.09);
     --border:  rgba(255,255,255,0.10);
 }
-
 /* ── RESET & BASE ── */
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
 body {
     font-family: 'Segoe UI', sans-serif;
     background: linear-gradient(135deg, var(--bg-from) 0%, var(--bg-to) 100%);
@@ -56,7 +58,6 @@ body {
     min-height: 100vh;
     transition: background 0.35s, color 0.35s;
 }
-
 /* ── NAVBAR ── */
 .navbar {
     display: flex;
@@ -70,7 +71,6 @@ body {
     top: 0;
     z-index: 100;
 }
-
 .logo {
     font-size: 22px;
     font-weight: 700;
@@ -79,7 +79,6 @@ body {
     gap: 8px;
     letter-spacing: -0.3px;
 }
-
 .logo-icon {
     width: 36px;
     height: 36px;
@@ -91,9 +90,10 @@ body {
     justify-content: center;
     font-size: 18px;
 }
-
-.nav-links { display: flex; gap: 4px; }
-
+.nav-links {
+    display: flex;
+    gap: 4px;
+}
 .nav-links a {
     color: rgba(255,255,255,0.80);
     padding: 8px 15px;
@@ -103,15 +103,16 @@ body {
     font-weight: 500;
     transition: 0.2s;
 }
-
 .nav-links a:hover,
 .nav-links a.active {
     background: rgba(255,255,255,0.15);
     color: #fff;
 }
-
-.nav-right { display: flex; align-items: center; gap: 9px; }
-
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+}
 .pill {
     background: var(--card);
     border: 1px solid var(--border);
@@ -122,9 +123,10 @@ body {
     align-items: center;
     gap: 6px;
 }
-
-.pill i { font-size: 11px; opacity: 0.75; }
-
+.pill i {
+    font-size: 11px;
+    opacity: 0.75;
+}
 .toggle-btn {
     width: 34px;
     height: 34px;
@@ -139,9 +141,9 @@ body {
     transition: 0.2s;
     color: var(--text);
 }
-
-.toggle-btn:hover { background: var(--card-h); }
-
+.toggle-btn:hover {
+    background: var(--card-h);
+}
 .logout-btn {
     background: var(--gold);
     color: #1a0a00;
@@ -154,12 +156,13 @@ body {
     text-decoration: none;
     transition: 0.2s;
 }
-
-.logout-btn:hover { background: #ffe040; }
-
+.logout-btn:hover {
+    background: #ffe040;
+}
 /* ── MAIN ── */
-.main { padding: 30px 28px 40px; }
-
+.main {
+    padding: 30px 28px 40px;
+}
 /* ── WELCOME ROW ── */
 .welcome-row {
     display: flex;
@@ -169,10 +172,15 @@ body {
     flex-wrap: wrap;
     gap: 12px;
 }
-
-.welcome-text h1 { font-size: 26px; font-weight: 700; margin-bottom: 4px; }
-.welcome-text p  { font-size: 14px; color: var(--muted); }
-
+.welcome-text h1 {
+    font-size: 26px;
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+.welcome-text p {
+    font-size: 14px;
+    color: var(--muted);
+}
 /* ── STAT CARDS ── */
 .stats-grid {
     display: grid;
@@ -180,7 +188,6 @@ body {
     gap: 18px;
     margin-bottom: 22px;
 }
-
 .stat-card {
     background: var(--card);
     border: 1px solid var(--border);
@@ -191,13 +198,11 @@ body {
     transition: 0.25s;
     cursor: pointer;
 }
-
 .stat-card:hover {
     transform: translateY(-5px);
     background: var(--card-h);
     box-shadow: 0 14px 30px rgba(0,0,0,0.25);
 }
-
 .stat-card::before {
     content: '';
     position: absolute;
@@ -208,12 +213,18 @@ body {
     border-radius: 50%;
     opacity: 0.13;
 }
-
-.stat-card.s1::before { background: #ffd700; }
-.stat-card.s2::before { background: #60efff; }
-.stat-card.s3::before { background: #a78bfa; }
-.stat-card.s4::before { background: #4ade80; }
-
+.stat-card.s1::before {
+    background: #ffd700;
+}
+.stat-card.s2::before {
+    background: #60efff;
+}
+.stat-card.s3::before {
+    background: #a78bfa;
+}
+.stat-card.s4::before {
+    background: #4ade80;
+}
 .stat-icon {
     position: absolute;
     top: 18px;
@@ -227,7 +238,6 @@ body {
     justify-content: center;
     font-size: 16px;
 }
-
 .stat-label {
     font-size: 11px;
     font-weight: 600;
@@ -236,16 +246,16 @@ body {
     color: var(--muted);
     margin-bottom: 8px;
 }
-
 .stat-value {
     font-size: 34px;
     font-weight: 700;
     line-height: 1;
     margin-bottom: 6px;
 }
-
-.stat-sub { font-size: 12px; color: var(--muted); }
-
+.stat-sub {
+    font-size: 12px;
+    color: var(--muted);
+}
 /* ── ACTION CARDS ── */
 .action-row {
     display: grid;
@@ -266,7 +276,6 @@ body {
     letter-spacing: 1px;
     margin: 22px 0 14px;
 }
-
 .action-card {
     background: var(--card);
     border: 1px solid var(--border);
@@ -278,16 +287,17 @@ body {
     transition: 0.25s;
     cursor: pointer;
 }
-
 .action-card:hover {
     transform: translateY(-4px);
     background: var(--card-h);
     border-color: var(--gold-bdr);
     box-shadow: 0 10px 24px rgba(0,0,0,0.2);
 }
-
-.ac-header { display: flex; align-items: center; gap: 12px; }
-
+.ac-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
 .ac-icon {
     width: 44px;
     height: 44px;
@@ -298,17 +308,36 @@ body {
     font-size: 20px;
     flex-shrink: 0;
 }
-
-.ac-icon.i1 { background: rgba(255,215,0,0.18);  border: 1px solid rgba(255,215,0,0.30); }
-.ac-icon.i2 { background: rgba(96,239,255,0.15); border: 1px solid rgba(96,239,255,0.25); }
-.ac-icon.i3 { background: rgba(167,139,250,0.18);border: 1px solid rgba(167,139,250,0.28); }
-.ac-icon.i4 { background: rgba(74,222,128,0.15); border: 1px solid rgba(74,222,128,0.25); }
-.ac-icon.i5 { background: rgba(255,107,107,0.18); border: 1px solid rgba(255,107,107,0.28); }
-
-.ac-title { font-size: 16px; font-weight: 600; }
-
-.ac-desc { font-size: 13px; color: var(--muted); line-height: 1.5; flex: 1; }
-
+.ac-icon.i1 {
+    background: rgba(255,215,0,0.18);
+    border: 1px solid rgba(255,215,0,0.30);
+}
+.ac-icon.i2 {
+    background: rgba(96,239,255,0.15);
+    border: 1px solid rgba(96,239,255,0.25);
+}
+.ac-icon.i3 {
+    background: rgba(167,139,250,0.18);
+    border: 1px solid rgba(167,139,250,0.28);
+}
+.ac-icon.i4 {
+    background: rgba(74,222,128,0.15);
+    border: 1px solid rgba(74,222,128,0.25);
+}
+.ac-icon.i5 {
+    background: rgba(255,107,107,0.18);
+    border: 1px solid rgba(255,107,107,0.28);
+}
+.ac-title {
+    font-size: 16px;
+    font-weight: 600;
+}
+.ac-desc {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.5;
+    flex: 1;
+}
 .ac-footer {
     display: flex;
     justify-content: space-between;
@@ -316,10 +345,14 @@ body {
     border-top: 1px solid var(--border);
     padding-top: 12px;
 }
-
-.ac-count { font-size: 13px; color: var(--muted); }
-.ac-count span { color: var(--text); font-weight: 600; }
-
+.ac-count {
+    font-size: 13px;
+    color: var(--muted);
+}
+.ac-count span {
+    color: var(--text);
+    font-weight: 600;
+}
 .ac-btn {
     background: var(--gold);
     color: #1a0a00;
@@ -332,8 +365,9 @@ body {
     text-decoration: none;
     transition: 0.2s;
 }
-
-.ac-btn:hover { background: #ffe040; }
+.ac-btn:hover {
+    background: #ffe040;
+}
 .report-card {
     background: var(--card);
     border: 1px solid var(--border);
@@ -344,8 +378,14 @@ body {
     align-items: center;
     gap: 14px;
 }
-.report-meta h3 { font-size: 15px; margin-bottom: 4px; }
-.report-meta p { font-size: 12px; color: var(--muted); }
+.report-meta h3 {
+    font-size: 15px;
+    margin-bottom: 4px;
+}
+.report-meta p {
+    font-size: 12px;
+    color: var(--muted);
+}
 .report-btn {
     background: rgba(255,255,255,0.12);
     border: 1px solid var(--border);
@@ -356,10 +396,9 @@ body {
     font-size: 12px;
     font-weight: 700;
 }
-.report-btn:hover { background: var(--card-h); }
-
-
-
+.report-btn:hover {
+    background: var(--card-h);
+}
 /* Page theme overrides */
 :root {
     --supervisor-red: #CD1C18;
@@ -386,13 +425,11 @@ body {
     --row-hover: #ffe8e2;
     --border: rgba(56, 0, 10, 0.26);
 }
-
 body {
     background: linear-gradient(135deg, #fff7f5 0%, #ffd8d0 46%, var(--supervisor-peach) 100%) !important;
     color: var(--supervisor-dark) !important;
     overflow-x: hidden;
 }
-
 body.dark {
     --text: #fff7f5;
     --muted: #ffd6cc;
@@ -407,45 +444,38 @@ body.dark {
     background: linear-gradient(135deg, var(--supervisor-dark) 0%, #6d0710 48%, var(--supervisor-deep) 100%) !important;
     color: #fff7f5 !important;
 }
-
 .navbar {
     background: linear-gradient(90deg, var(--supervisor-dark) 0%, var(--supervisor-deep) 100%) !important;
     border-bottom-color: var(--supervisor-border) !important;
     box-shadow: 0 8px 22px rgba(56, 0, 10, 0.24);
 }
-
 .logo,
 .navbar .logo,
 .navbar .logo *:not(.logo-icon):not(.logo-icon *) {
     color: #fff !important;
 }
-
 .logo-icon,
 .page-title-icon {
     background: var(--supervisor-peach) !important;
     border-color: var(--supervisor-border) !important;
     color: var(--supervisor-dark) !important;
 }
-
 .logo-icon i,
 .page-title-icon i,
 .page-header i,
 .count-badge i {
     color: var(--supervisor-dark) !important;
 }
-
 .nav-links a {
     color: rgba(255, 255, 255, 0.84) !important;
     border: 1px solid rgba(255, 168, 150, 0.32);
 }
-
 .nav-links a:hover,
 .nav-links a.active {
     background: rgba(255, 168, 150, 0.22) !important;
     color: #fff !important;
     border-color: var(--supervisor-peach) !important;
 }
-
 .navbar .pill,
 .navbar .icon-btn,
 .toggle-btn {
@@ -453,33 +483,27 @@ body.dark {
     border-color: rgba(255, 168, 150, 0.35) !important;
     color: #fff !important;
 }
-
 .page-title h1,
 .page-header h1 {
     color: var(--supervisor-dark) !important;
 }
-
 .page-title p,
 .page-header p {
     color: var(--supervisor-muted) !important;
 }
-
 .logout-btn {
     background: var(--supervisor-red) !important;
     border: 1px solid var(--supervisor-border) !important;
     color: #fff !important;
 }
-
 .logout-btn:hover {
     background: var(--supervisor-dark) !important;
     color: #fff !important;
 }
-
 body.dark .page-title h1,
 body.dark .page-header h1 {
     color: #fff7f5 !important;
 }
-
 body.dark .page-title p,
 body.dark .page-header p {
     color: #ffd6cc !important;
@@ -492,7 +516,6 @@ body.dark .page-header p {
     color: var(--supervisor-dark) !important;
     box-shadow: 0 8px 18px rgba(56, 0, 10, 0.12);
 }
-
 .stat-card:hover,
 .action-card:hover,
 .report-card:hover {
@@ -501,7 +524,6 @@ body.dark .page-header p {
     color: var(--supervisor-dark) !important;
     box-shadow: 0 12px 26px rgba(56, 0, 10, 0.18);
 }
-
 .welcome-text h1,
 .ac-title,
 .stat-value,
@@ -509,7 +531,6 @@ body.dark .page-header p {
 .section-title {
     color: var(--supervisor-dark) !important;
 }
-
 .welcome-text p,
 .ac-desc,
 .ac-count,
@@ -518,42 +539,44 @@ body.dark .page-header p {
 .report-meta p {
     color: var(--supervisor-muted) !important;
 }
-
 .stat-icon,
 .ac-icon {
     background: var(--supervisor-peach) !important;
     border-color: var(--supervisor-border) !important;
     color: var(--supervisor-dark) !important;
 }
-
 .stat-icon i,
 .ac-icon i {
     color: var(--supervisor-dark) !important;
 }
-
 .stat-card::before {
     opacity: 0.28 !important;
     filter: saturate(1.15);
 }
-
-.stat-card.s1::before { background: var(--supervisor-red) !important; }
-.stat-card.s2::before { background: #9B1313 !important; }
-.stat-card.s3::before { background: #FFA896 !important; opacity: 0.42 !important; }
-.stat-card.s4::before { background: #38000A !important; }
-
+.stat-card.s1::before {
+    background: var(--supervisor-red) !important;
+}
+.stat-card.s2::before {
+    background: #9B1313 !important;
+}
+.stat-card.s3::before {
+    background: #FFA896 !important;
+    opacity: 0.42 !important;
+}
+.stat-card.s4::before {
+    background: #38000A !important;
+}
 .ac-btn,
 .report-btn {
     background: var(--supervisor-red) !important;
     border: 1px solid var(--supervisor-border) !important;
     color: #fff !important;
 }
-
 .ac-btn:hover,
 .report-btn:hover {
     background: var(--supervisor-peach) !important;
     color: var(--supervisor-dark) !important;
 }
-
 body.dark .stat-card,
 body.dark .action-card,
 body.dark .report-card {
@@ -561,6 +584,7 @@ body.dark .report-card {
     color: #fff7f5 !important;
 }
 </style>
+<link rel="stylesheet" href="dark_mode_fix.css">
 </head>
 <body>
 

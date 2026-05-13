@@ -10,8 +10,13 @@ $year = date('Y');
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=DM+Mono:wght@500&display=swap" rel="stylesheet">
 <style>
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
 :root {
     --ink: #270009;
     --red: #7a001d;
@@ -22,14 +27,12 @@ $year = date('Y');
     --line: rgba(39, 0, 9, 0.18);
     --muted: #70414d;
 }
-
 body {
     font-family: 'DM Sans', 'Segoe UI', sans-serif;
     background: var(--paper);
     color: var(--ink);
     min-height: 100vh;
 }
-
 .nav {
     position: fixed;
     top: 0;
@@ -45,7 +48,6 @@ body {
     border-bottom: 1px solid rgba(255, 255, 255, 0.18);
     backdrop-filter: blur(14px);
 }
-
 .brand {
     color: #fff;
     display: flex;
@@ -53,7 +55,6 @@ body {
     gap: 12px;
     text-decoration: none;
 }
-
 .brand-mark {
     width: 36px;
     height: 36px;
@@ -63,26 +64,22 @@ body {
     border-radius: 8px;
     background: rgba(255, 255, 255, 0.12);
 }
-
 .brand-title {
     font-size: 18px;
     font-weight: 800;
     letter-spacing: 1px;
 }
-
 .brand-sub {
     font-size: 10px;
     letter-spacing: 2px;
     text-transform: uppercase;
     color: rgba(255, 255, 255, 0.62);
 }
-
 .nav-actions {
     display: flex;
     align-items: center;
     gap: 10px;
 }
-
 .nav-link,
 .hero-btn {
     display: inline-flex;
@@ -100,37 +97,30 @@ body {
     transition: 0.2s ease;
     white-space: nowrap;
 }
-
 .nav-link.primary,
 .hero-btn.primary {
     background: #fff;
     color: var(--red);
     border-color: #fff;
 }
-
 .nav-link:hover,
 .hero-btn:hover {
     background: var(--sage);
     color: var(--ink);
     border-color: var(--ink);
 }
-
 .hero {
     min-height: 88vh;
     display: grid;
     align-items: end;
-    background:
-        linear-gradient(90deg, rgba(39, 0, 9, 0.92) 0%, rgba(78, 0, 18, 0.76) 45%, rgba(39, 0, 9, 0.30) 100%),
-        url('fastener.jpg');
+    background:         linear-gradient(90deg, rgba(39, 0, 9, 0.92) 0%, rgba(78, 0, 18, 0.76) 45%, rgba(39, 0, 9, 0.30) 100%),         url('fastener.jpg');
     background-size: cover;
     background-position: center;
     padding: 112px clamp(18px, 5vw, 72px) 54px;
 }
-
 .hero-inner {
     width: min(100%, 1060px);
 }
-
 .eyebrow {
     display: inline-flex;
     align-items: center;
@@ -146,7 +136,6 @@ body {
     text-transform: uppercase;
     margin-bottom: 18px;
 }
-
 h1 {
     color: #fff;
     font-size: clamp(38px, 7vw, 76px);
@@ -154,7 +143,6 @@ h1 {
     letter-spacing: 0;
     max-width: 820px;
 }
-
 .hero-copy {
     color: rgba(255, 255, 255, 0.80);
     font-size: clamp(15px, 2vw, 18px);
@@ -162,23 +150,19 @@ h1 {
     max-width: 610px;
     margin-top: 18px;
 }
-
 .hero-actions {
     display: flex;
     flex-wrap: wrap;
     gap: 12px;
     margin-top: 28px;
 }
-
 .hero-btn {
     min-height: 46px;
     padding: 0 22px;
 }
-
 .hero-btn.secondary {
     background: rgba(255, 255, 255, 0.12);
 }
-
 .metrics {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -187,12 +171,10 @@ h1 {
     border-top: 1px solid var(--ink);
     border-bottom: 1px solid var(--ink);
 }
-
 .metric {
     background: #fffdfc;
     padding: 24px clamp(16px, 3vw, 34px);
 }
-
 .metric strong {
     display: block;
     color: var(--red);
@@ -200,7 +182,6 @@ h1 {
     font-family: 'DM Mono', monospace;
     margin-bottom: 4px;
 }
-
 .metric span {
     color: var(--muted);
     font-size: 12px;
@@ -208,11 +189,9 @@ h1 {
     letter-spacing: 0.8px;
     text-transform: uppercase;
 }
-
 .section {
     padding: 58px clamp(18px, 5vw, 72px);
 }
-
 .section-head {
     display: flex;
     align-items: end;
@@ -220,30 +199,25 @@ h1 {
     gap: 24px;
     margin-bottom: 24px;
 }
-
 .section-head h2 {
     font-size: clamp(26px, 4vw, 40px);
 }
-
 .section-head p {
     color: var(--muted);
     line-height: 1.6;
     max-width: 520px;
 }
-
 .feature-grid {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 14px;
 }
-
 .feature {
     border: 1px solid var(--line);
     border-radius: 8px;
     padding: 20px;
     background: #fffdfc;
 }
-
 .feature i {
     width: 38px;
     height: 38px;
@@ -254,18 +228,15 @@ h1 {
     color: var(--red);
     margin-bottom: 16px;
 }
-
 .feature h3 {
     font-size: 16px;
     margin-bottom: 8px;
 }
-
 .feature p {
     color: var(--muted);
     font-size: 13px;
     line-height: 1.6;
 }
-
 .workflow {
     display: grid;
     grid-template-columns: 1.05fr 0.95fr;
@@ -275,7 +246,6 @@ h1 {
     border-top: 1px solid var(--line);
     border-bottom: 1px solid var(--line);
 }
-
 .workflow-image {
     position: relative;
     overflow: hidden;
@@ -284,19 +254,16 @@ h1 {
     border: 1px solid var(--ink);
     border-radius: 8px;
 }
-
 .workflow-list {
     display: grid;
     gap: 12px;
 }
-
 .step {
     display: grid;
     grid-template-columns: 42px 1fr;
     gap: 12px;
     align-items: start;
 }
-
 .step-num {
     height: 42px;
     display: grid;
@@ -307,18 +274,15 @@ h1 {
     font-family: 'DM Mono', monospace;
     font-weight: 800;
 }
-
 .step h3 {
     font-size: 15px;
     margin-bottom: 4px;
 }
-
 .step p {
     color: #45501f;
     font-size: 13px;
     line-height: 1.55;
 }
-
 .footer {
     display: flex;
     justify-content: space-between;
@@ -329,16 +293,23 @@ h1 {
     color: rgba(255, 255, 255, 0.70);
     font-size: 12px;
 }
-
 .footer strong {
     color: #fff;
     letter-spacing: 1px;
 }
-
 @media (max-width: 900px) {
-    .nav { height: auto; min-height: 66px; gap: 12px; }
-    .nav-actions { gap: 8px; }
-    .nav-link { padding: 0 12px; font-size: 12px; }
+    .nav {
+        height: auto;
+        min-height: 66px;
+        gap: 12px;
+    }
+    .nav-actions {
+        gap: 8px;
+    }
+    .nav-link {
+        padding: 0 12px;
+        font-size: 12px;
+    }
     .metrics,
     .feature-grid,
     .workflow {
@@ -351,7 +322,6 @@ h1 {
         margin-top: 10px;
     }
 }
-
 @media (max-width: 620px) {
     .nav {
         position: absolute;

@@ -95,4 +95,17 @@ function valid_email_addr($email)
 {
     return filter_var(trim($email), FILTER_VALIDATE_EMAIL) !== false;
 }
+function valid_part_number($partNumber)
+{
+    return strpos((string)$partNumber, '#') === false;
+}
+function part_number_without_hashtags($partNumber)
+{
+    return str_replace('#', '', trim((string)$partNumber));
+}
+function display_part_number($partNumber, $fallback = '-')
+{
+    $cleanPartNumber = part_number_without_hashtags($partNumber);
+    return $cleanPartNumber === '' ? $fallback : $cleanPartNumber;
+}
 ?>

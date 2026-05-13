@@ -58,7 +58,13 @@ if(isset($_POST['login']))
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <style>
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
 body {
     font-family: 'Segoe UI', sans-serif;
     background: #1a1a1a;
@@ -95,11 +101,25 @@ body::before {
     letter-spacing: 0.5px;
     transition: 0.2s;
 }
-.role-tab.supervisor { background: #6B001A; color: #fff; }
-.role-tab.manager    { background: rgba(255,255,255,0.15); color: rgba(255,255,255,0.7); }
-.role-tab.supervisor.active { background: white; color: #6B001A; }
-.role-tab.manager.active    { background: #1a3a6b; color: white; }
-.role-tab:not(.active):hover { opacity: 0.85; }
+.role-tab.supervisor {
+    background: #6B001A;
+    color: #fff;
+}
+.role-tab.manager {
+    background: rgba(255,255,255,0.15);
+    color: rgba(255,255,255,0.7);
+}
+.role-tab.supervisor.active {
+    background: white;
+    color: #6B001A;
+}
+.role-tab.manager.active {
+    background: #1a3a6b;
+    color: white;
+}
+.role-tab:not(.active):hover {
+    opacity: 0.85;
+}
 .back-home {
     position: fixed;
     right: 22px;
@@ -147,8 +167,12 @@ body::before {
     gap: 20px;
     transition: background 0.3s;
 }
-.left.supervisor-bg { background: #6B001A; }
-.left.manager-bg    { background: #1a3a6b; }
+.left.supervisor-bg {
+    background: #6B001A;
+}
+.left.manager-bg {
+    background: #1a3a6b;
+}
 .bolt-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -156,29 +180,66 @@ body::before {
     opacity: 0.18;
 }
 .bolt {
-    width: 18px; height: 18px;
-    background: white; border-radius: 50%; position: relative;
+    width: 18px;
+    height: 18px;
+    background: white;
+    border-radius: 50%;
+    position: relative;
 }
 .bolt::after {
     content: '';
     position: absolute;
-    top: 50%; left: 50%;
+    top: 50%;
+    left: 50%;
     transform: translate(-50%, -50%);
-    width: 7px; height: 7px;
+    width: 7px;
+    height: 7px;
     border-radius: 50%;
 }
-.left.supervisor-bg .bolt::after { background: #6B001A; }
-.left.manager-bg    .bolt::after { background: #1a3a6b; }
-.brand { color: white; text-align: center; }
-.brand-title { font-size: 22px; font-weight: 600; letter-spacing: 1.5px; }
-.brand-sub   { font-size: 11px; opacity: 0.55; letter-spacing: 2.5px; text-transform: uppercase; margin-top: 5px; }
-.role-badge  {
-    font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px;
-    padding: 5px 14px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.30);
-    color: rgba(255,255,255,0.80); margin-top: 2px;
+.left.supervisor-bg .bolt::after {
+    background: #6B001A;
 }
-.divider { width: 40px; height: 1px; background: rgba(255,255,255,0.2); }
-.tagline { font-size: 12px; color: rgba(255,255,255,0.4); text-align: center; line-height: 1.8; }
+.left.manager-bg .bolt::after {
+    background: #1a3a6b;
+}
+.brand {
+    color: white;
+    text-align: center;
+}
+.brand-title {
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+}
+.brand-sub {
+    font-size: 11px;
+    opacity: 0.55;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    margin-top: 5px;
+}
+.role-badge {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    padding: 5px 14px;
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0.30);
+    color: rgba(255,255,255,0.80);
+    margin-top: 2px;
+}
+.divider {
+    width: 40px;
+    height: 1px;
+    background: rgba(255,255,255,0.2);
+}
+.tagline {
+    font-size: 12px;
+    color: rgba(255,255,255,0.4);
+    text-align: center;
+    line-height: 1.8;
+}
 /* ── Right panel ── */
 .right {
     flex: 1;
@@ -190,49 +251,111 @@ body::before {
     color: #000000;
 }
 .accent-bar {
-    width: 36px; height: 3px; border-radius: 2px; margin-bottom: 14px;
+    width: 36px;
+    height: 3px;
+    border-radius: 2px;
+    margin-bottom: 14px;
     transition: background 0.3s;
 }
-.accent-bar.supervisor { background: #6B001A; }
-.accent-bar.manager    { background: #1a3a6b; }
-.form-header { margin-bottom: 1.75rem; }
-.form-header h2 { font-size: 22px; font-weight: 600; color: #000000; }
-.form-header p  { font-size: 13px; color: #111111; margin-top: 4px; font-weight: 500; }
+.accent-bar.supervisor {
+    background: #6B001A;
+}
+.accent-bar.manager {
+    background: #1a3a6b;
+}
+.form-header {
+    margin-bottom: 1.75rem;
+}
+.form-header h2 {
+    font-size: 22px;
+    font-weight: 600;
+    color: #000000;
+}
+.form-header p {
+    font-size: 13px;
+    color: #111111;
+    margin-top: 4px;
+    font-weight: 500;
+}
 .error {
-    background: #fff0f2; border: 1px solid #f5c0cb;
-    color: #7a0000; font-size: 13px; font-weight: 600;
-    padding: 9px 14px; border-radius: 8px; margin-bottom: 1.25rem;
+    background: #fff0f2;
+    border: 1px solid #f5c0cb;
+    color: #7a0000;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 9px 14px;
+    border-radius: 8px;
+    margin-bottom: 1.25rem;
 }
-.field { margin-bottom: 1.2rem; }
+.field {
+    margin-bottom: 1.2rem;
+}
 .field label {
-    display: block; font-size: 11px; font-weight: 700; color: #000000;
-    letter-spacing: 0.8px; text-transform: uppercase; margin-bottom: 7px;
+    display: block;
+    font-size: 11px;
+    font-weight: 700;
+    color: #000000;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    margin-bottom: 7px;
 }
-.field-wrap { position: relative; }
+.field-wrap {
+    position: relative;
+}
 .field-wrap i.icon {
-    position: absolute; left: 13px; top: 50%;
-    transform: translateY(-50%); color: #333333; font-size: 14px;
+    position: absolute;
+    left: 13px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #333333;
+    font-size: 14px;
 }
 .field input {
-    width: 100%; height: 42px; padding: 0 38px;
-    border: 1.5px solid #cccccc; border-radius: 8px;
-    font-size: 14px; color: #000000; font-weight: 500;
-    background: #f5f5f5; outline: none;
+    width: 100%;
+    height: 42px;
+    padding: 0 38px;
+    border: 1.5px solid #cccccc;
+    border-radius: 8px;
+    font-size: 14px;
+    color: #000000;
+    font-weight: 500;
+    background: #f5f5f5;
+    outline: none;
     transition: border-color 0.2s, background 0.2s;
 }
-.field input::placeholder { color: #555555; font-weight: 400; }
-.field input:focus { background: white; }
-.field input.supervisor-focus:focus { border-color: #6B001A; }
-.field input.manager-focus:focus    { border-color: #1a3a6b; }
+.field input::placeholder {
+    color: #555555;
+    font-weight: 400;
+}
+.field input:focus {
+    background: white;
+}
+.field input.supervisor-focus:focus {
+    border-color: #6B001A;
+}
+.field input.manager-focus:focus {
+    border-color: #1a3a6b;
+}
 .eye {
-    position: absolute; right: 12px; top: 50%;
-    transform: translateY(-50%); cursor: pointer; color: #333333;
-    font-size: 14px; transition: color 0.2s;
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #333333;
+    font-size: 14px;
+    transition: color 0.2s;
 }
 .login-btn {
-    width: 100%; height: 44px; border: none; color: white;
-    font-size: 14px; font-weight: 600; letter-spacing: 0.5px;
-    border-radius: 8px; cursor: pointer;
+    width: 100%;
+    height: 44px;
+    border: none;
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    border-radius: 8px;
+    cursor: pointer;
     transition: background 0.2s, transform 0.1s, box-shadow 0.2s;
     margin-top: 0.25rem;
 }
@@ -240,14 +363,28 @@ body::before {
     background: #6B001A;
     box-shadow: 0 4px 15px rgba(107,0,26,0.45);
 }
-.login-btn.supervisor:hover { background: #8a0022; box-shadow: 0 6px 20px rgba(107,0,26,0.6); }
+.login-btn.supervisor:hover {
+    background: #8a0022;
+    box-shadow: 0 6px 20px rgba(107,0,26,0.6);
+}
 .login-btn.manager {
     background: #1a3a6b;
     box-shadow: 0 4px 15px rgba(26,58,107,0.45);
 }
-.login-btn.manager:hover { background: #244d8f; box-shadow: 0 6px 20px rgba(26,58,107,0.6); }
-.login-btn:active { transform: scale(0.98); }
-.footer-note { font-size: 11px; color: #333333; font-weight: 500; text-align: center; margin-top: 1.5rem; }
+.login-btn.manager:hover {
+    background: #244d8f;
+    box-shadow: 0 6px 20px rgba(26,58,107,0.6);
+}
+.login-btn:active {
+    transform: scale(0.98);
+}
+.footer-note {
+    font-size: 11px;
+    color: #333333;
+    font-weight: 500;
+    text-align: center;
+    margin-top: 1.5rem;
+}
 body.login-page,
 body:has(.role-tabs) {
     --login-manager-olive: #636b2f;
@@ -400,7 +537,9 @@ body.supervisor-mode .login-btn.supervisor:hover {
     background: linear-gradient(135deg, #4e0012, var(--supervisor-deep)) !important;
 }
 @media (max-width: 760px) {
-    body { padding: 18px 12px; }
+    body {
+        padding: 18px 12px;
+    }
     .role-tabs {
         width: min(100%, 420px);
         gap: 6px;
@@ -468,14 +607,14 @@ body.supervisor-mode .login-btn.supervisor:hover {
     <?php if($error != ""): ?>
     <div class="error"><?= htmlspecialchars($error) ?></div>
     <?php endif; ?>
-    <form method="POST">
+    <form method="POST" autocomplete="off">
       <input type="hidden" name="role" id="roleInput" value="supervisor">
       <div class="field">
         <label>Username</label>
         <div class="field-wrap">
           <i class="fa-solid fa-user icon"></i>
           <input type="text" name="username" placeholder="Enter username or email" id="usernameInput"
-                 class="supervisor-focus" autocomplete="username" required>
+                 class="supervisor-focus" autocomplete="off" required>
         </div>
       </div>
       <div class="field">
@@ -483,7 +622,7 @@ body.supervisor-mode .login-btn.supervisor:hover {
         <div class="field-wrap">
           <i class="fa-solid fa-lock icon"></i>
           <input type="password" id="password" name="password" placeholder="Enter password"
-                 class="supervisor-focus" autocomplete="current-password" required>
+                 class="supervisor-focus" autocomplete="new-password" required>
           <span class="eye" onclick="togglePassword()">
             <i id="eyeIcon" class="fa-solid fa-eye-slash"></i>
           </span>
@@ -493,7 +632,7 @@ body.supervisor-mode .login-btn.supervisor:hover {
         <label>Captcha: <?= htmlspecialchars($captchaQuestion) ?> = ?</label>
         <div class="field-wrap">
           <i class="fa-solid fa-shield-halved icon"></i>
-          <input type="text" name="captcha" placeholder="Answer" class="supervisor-focus" required>
+          <input type="text" name="captcha" placeholder="Answer" class="supervisor-focus" autocomplete="off" required>
         </div>
       </div>
       <button type="submit" name="login" class="login-btn supervisor" id="loginBtn">Sign in</button>
