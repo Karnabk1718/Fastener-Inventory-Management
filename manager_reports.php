@@ -93,12 +93,6 @@ $healthyStock = mysqli_fetch_row(mysqli_query($conn,"SELECT COUNT(*) FROM stock 
     --row-bdr:rgba(255,255,255,0.10);
     --row-hover:rgba(255,255,255,0.06);
 }
-body.dark {
-    --bg-from:#0f172a;
-    --bg-to:#1e293b;
-    --card-bg:rgba(0,0,0,0.55);
-    --card-bdr:rgba(255,255,255,0.10);
-}
 *,
 *::before,
 *::after {
@@ -485,12 +479,6 @@ tbody tr:hover {
     --input-bg:#fff;
     --input-bdr:#000;
 }
-body.dark {
-    --bg-from:#dff3ff;
-    --bg-to:#b9e3ff;
-    --card-bg:rgba(255,255,255,0.82);
-    --card-bdr:#000;
-}
 .navbar,
 .pill,
 .icon-btn,
@@ -572,18 +560,6 @@ body {
     background: linear-gradient(135deg, #f7f9e8 0%, #e7edbd 48%, var(--manager-sage) 100%) !important;
     color: var(--manager-dark) !important;
     overflow-x: hidden;
-}
-body.dark {
-    --text: #f8fadf;
-    --muted: #d4de95;
-    --gold: var(--manager-light);
-    --card-bg: #343820;
-    --input-bg: #2f331f;
-    --thead-bg: #262a17;
-    --row-bdr: rgba(0, 0, 0, 0.45);
-    --row-hover: #4a502f;
-    background: linear-gradient(135deg, #2f331f 0%, #3d4127 48%, #636b2f 100%) !important;
-    color: #f8fadf !important;
 }
 .navbar {
     background: linear-gradient(90deg, var(--manager-dark) 0%, var(--manager-olive) 100%) !important;
@@ -709,18 +685,6 @@ a[class*="btn"]:hover {
     box-shadow: 0 5px 14px rgba(99, 107, 47, 0.18) !important;
     text-decoration: none;
 }
-body.dark .page-title h1,
-body.dark .page-header h1,
-body.dark h1 {
-    color: #f8fadf !important;
-}
-body.dark .page-title p,
-body.dark .page-header p,
-body.dark .sub,
-body.dark .sec-label,
-body.dark .sec-head {
-    color: #d4de95 !important;
-}
 .report-card,
 .range-card,
 .chart-card,
@@ -784,19 +748,6 @@ th {
     color: #5b170d !important;
     border-color: #000 !important;
 }
-body.dark .report-card,
-body.dark .range-card,
-body.dark .chart-card,
-body.dark .table-card {
-    background: #343820 !important;
-    color: #f8fadf !important;
-}
-body.dark .report-card h3,
-body.dark .chart-card h3,
-body.dark .table-card-header h3,
-body.dark td {
-    color: #f8fadf !important;
-}
 /* Manager hover readability fixes */
 .stat-card:hover,
 .report-card:hover,
@@ -849,27 +800,354 @@ input[type="submit"]:hover *,
 a[class*="btn"]:hover * {
     color: #fff !important;
 }
-body.dark .stat-card:hover,
-body.dark .report-card:hover,
-body.dark .range-card:hover,
-body.dark .chart-card:hover,
-body.dark .table-card:hover,
-body.dark .readonly-notice:hover,
-body.dark tbody tr:hover {
-    background: #4a502f !important;
-    color: #f8fadf !important;
+/* Embedded dark-mode contrast layer */
+/* Final dark-mode contrast layer loaded after page inline styles. */
+body.dark {
+    --text: #f8fafc !important;
+    --muted: #cbd5e1 !important;
+    --gold: #facc15 !important;
+    --gold-bg: rgba(250, 204, 21, 0.16) !important;
+    --gold-br: rgba(250, 204, 21, 0.55) !important;
+    --card-bg: #1f2937 !important;
+    --card-bdr: #94a3b8 !important;
+    --input-bg: #0f172a !important;
+    --input-bdr: #94a3b8 !important;
+    --thead-bg: #334155 !important;
+    --row-bdr: rgba(203, 213, 225, 0.28) !important;
+    --row-hover: #334155 !important;
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 52%, #312e81 100%) !important;
+    color: #f8fafc !important;
 }
-body.dark .stat-card:hover *,
-body.dark .report-card:hover *,
-body.dark .range-card:hover *,
-body.dark .chart-card:hover *,
+
+body.dark .navbar {
+    background: linear-gradient(90deg, #020617 0%, #1e293b 100%) !important;
+    border-bottom-color: #64748b !important;
+}
+
+body.dark .logo,
+body.dark .navbar .logo,
+body.dark .navbar a,
+body.dark .navbar .pill,
+body.dark .navbar .icon-btn,
+body.dark .role-chip {
+    color: #f8fafc !important;
+}
+
+body.dark .nav-links a:hover,
+body.dark .nav-links a.active {
+    background: rgba(250, 204, 21, 0.18) !important;
+    color: #fef9c3 !important;
+    border-color: #facc15 !important;
+}
+
+body.dark .page-title h1,
+body.dark .page-header h1,
+body.dark h1,
+body.dark h2,
+body.dark h3,
+body.dark h4,
+body.dark .form-card-title,
+body.dark .table-card-header h3,
+body.dark .chart-card h3,
+body.dark .report-card h3,
+body.dark .stat-value,
+body.dark .name-cell,
+body.dark .price-cell,
+body.dark td,
+body.dark th,
+body.dark label,
+body.dark .field label {
+    color: #f8fafc !important;
+}
+
+body.dark .page-title p,
+body.dark .page-header p,
+body.dark .stat-label,
+body.dark .stat-sub,
+body.dark .id-cell,
+body.dark .desc-cell,
+body.dark .sub,
+body.dark .sec-label,
+body.dark .sec-head,
+body.dark .empty-state,
+body.dark small {
+    color: #cbd5e1 !important;
+}
+
+body.dark .table-card,
+body.dark .form-card,
+body.dark .history-card,
+body.dark .stat-card,
+body.dark .action-card,
+body.dark .report-card,
+body.dark .report-btn-card,
+body.dark .chart-card,
+body.dark .range-card,
+body.dark .readonly-notice,
+body.dark .alert,
+body.dark .datetime-cell {
+    background: #1f2937 !important;
+    border-color: #94a3b8 !important;
+    color: #f8fafc !important;
+    box-shadow: 0 10px 24px rgba(2, 6, 23, 0.28) !important;
+}
+
+body.dark .table-card *,
+body.dark .form-card *,
+body.dark .history-card *,
+body.dark .stat-card *,
+body.dark .action-card *,
+body.dark .report-card *,
+body.dark .report-btn-card *,
+body.dark .chart-card *,
+body.dark .range-card *,
+body.dark .readonly-notice *,
+body.dark .datetime-cell * {
+    color: inherit;
+}
+
+body.dark thead tr,
+body.dark th {
+    background: #334155 !important;
+    color: #f8fafc !important;
+}
+
+body.dark tbody tr:hover,
+body.dark .table-card:hover,
+body.dark .form-card:hover,
+body.dark .history-card:hover,
+body.dark .stat-card:hover,
+body.dark .action-card:hover,
+body.dark .report-card:hover,
+body.dark .report-btn-card:hover,
+body.dark .chart-card:hover,
+body.dark .range-card:hover,
+body.dark .readonly-notice:hover {
+    background: #334155 !important;
+    color: #f8fafc !important;
+}
+
+body.dark tbody tr:hover *,
 body.dark .table-card:hover *,
+body.dark .form-card:hover *,
+body.dark .history-card:hover *,
+body.dark .stat-card:hover *,
+body.dark .action-card:hover *,
+body.dark .report-card:hover *,
+body.dark .report-btn-card:hover *,
+body.dark .chart-card:hover *,
+body.dark .range-card:hover *,
 body.dark .readonly-notice:hover * {
-    color: #f8fadf !important;
+    color: #f8fafc !important;
+}
+
+body.dark input,
+body.dark select,
+body.dark textarea,
+body.dark .search-box,
+body.dark .field input,
+body.dark .field select,
+body.dark .field textarea,
+body.dark .file-label {
+    background: #0f172a !important;
+    border-color: #94a3b8 !important;
+    color: #f8fafc !important;
+}
+
+body.dark input::placeholder,
+body.dark textarea::placeholder,
+body.dark .search-box::placeholder {
+    color: #94a3b8 !important;
+}
+
+body.dark select option {
+    background: #0f172a !important;
+    color: #f8fafc !important;
+}
+
+body.dark .btn-primary,
+body.dark .btn-add,
+body.dark .btn-export,
+body.dark .btn-download,
+body.dark .btn-report,
+body.dark .btn-dl,
+body.dark .logout-btn,
+body.dark button,
+body.dark input[type="button"],
+body.dark input[type="submit"],
+body.dark a[class*="btn"] {
+    background: #facc15 !important;
+    border-color: #fef08a !important;
+    color: #111827 !important;
+}
+
+body.dark .btn-primary *,
+body.dark .btn-add *,
+body.dark .btn-export *,
+body.dark .btn-download *,
+body.dark .btn-report *,
+body.dark .btn-dl *,
+body.dark .logout-btn *,
+body.dark button *,
+body.dark a[class*="btn"] * {
+    color: #111827 !important;
+}
+
+body.dark .btn-primary:hover,
+body.dark .btn-add:hover,
+body.dark .btn-export:hover,
+body.dark .btn-download:hover,
+body.dark .btn-report:hover,
+body.dark .btn-dl:hover,
+body.dark .logout-btn:hover,
+body.dark button:hover,
+body.dark input[type="button"]:hover,
+body.dark input[type="submit"]:hover,
+body.dark a[class*="btn"]:hover {
+    background: #fde68a !important;
+    color: #111827 !important;
+}
+
+body.dark .btn-cancel,
+body.dark .filter-btn,
+body.dark .icon-btn,
+body.dark .toggle-btn {
+    background: #334155 !important;
+    border-color: #94a3b8 !important;
+    color: #f8fafc !important;
+}
+
+body.dark .btn-cancel *,
+body.dark .filter-btn *,
+body.dark .icon-btn *,
+body.dark .toggle-btn * {
+    color: #f8fafc !important;
+}
+
+body.dark .filter-btn.active,
+body.dark .filter-btn:hover {
+    background: #facc15 !important;
+    color: #111827 !important;
+}
+
+body.dark .filter-btn.active *,
+body.dark .filter-btn:hover * {
+    color: #111827 !important;
+}
+
+body.dark .count-badge,
+body.dark .type-pill,
+body.dark .role-chip {
+    background: #334155 !important;
+    border-color: #94a3b8 !important;
+    color: #f8fafc !important;
+}
+
+body.dark .pending-badge,
+body.dark .badge.pending,
+body.dark .status-badge.pending {
+    background: #fef3c7 !important;
+    border-color: #f59e0b !important;
+    color: #451a03 !important;
+}
+
+body.dark .deliv-badge,
+body.dark .badge.delivered,
+body.dark .status-badge.delivered,
+body.dark .stock-status.ok,
+body.dark .stock-ok {
+    background: #dcfce7 !important;
+    border-color: #22c55e !important;
+    color: #052e16 !important;
+}
+
+body.dark .low-badge,
+body.dark .stock-status.low,
+body.dark .stock-low,
+body.dark .status-badge.not-delivered,
+body.dark .alert.error {
+    background: #fee2e2 !important;
+    border-color: #ef4444 !important;
+    color: #450a0a !important;
+}
+
+body.dark .alert.success {
+    background: #dcfce7 !important;
+    border-color: #22c55e !important;
+    color: #052e16 !important;
+}
+
+/* Comprehensive white text color for all elements in dark mode */
+body.dark,
+body.dark * {
+    color: #f8fafc !important;
+}
+
+/* Exception: Keep specific badge colors */
+body.dark .pending-badge,
+body.dark .badge.pending,
+body.dark .status-badge.pending,
+body.dark .pending-badge *,
+body.dark .badge.pending *,
+body.dark .status-badge.pending * {
+    color: #451a03 !important;
+}
+
+body.dark .deliv-badge,
+body.dark .badge.delivered,
+body.dark .status-badge.delivered,
+body.dark .stock-status.ok,
+body.dark .stock-ok,
+body.dark .deliv-badge *,
+body.dark .badge.delivered *,
+body.dark .status-badge.delivered *,
+body.dark .stock-status.ok *,
+body.dark .stock-ok * {
+    color: #052e16 !important;
+}
+
+body.dark .low-badge,
+body.dark .stock-status.low,
+body.dark .stock-low,
+body.dark .status-badge.not-delivered,
+body.dark .alert.error,
+body.dark .low-badge *,
+body.dark .stock-status.low *,
+body.dark .stock-low *,
+body.dark .status-badge.not-delivered *,
+body.dark .alert.error * {
+    color: #450a0a !important;
+}
+
+body.dark .alert.success,
+body.dark .alert.success * {
+    color: #052e16 !important;
+}
+
+/* Button text colors - keep them for visibility */
+body.dark .btn-primary,
+body.dark .btn-add,
+body.dark .btn-export,
+body.dark .btn-download,
+body.dark .btn-report,
+body.dark .btn-dl,
+body.dark .logout-btn,
+body.dark button,
+body.dark input[type="button"],
+body.dark input[type="submit"],
+body.dark a[class*="btn"],
+body.dark .btn-primary *,
+body.dark .btn-add *,
+body.dark .btn-export *,
+body.dark .btn-download *,
+body.dark .btn-report *,
+body.dark .btn-dl *,
+body.dark .logout-btn *,
+body.dark button *,
+body.dark a[class*="btn"] * {
+    color: #111827 !important;
 }
 </style>
-<link rel="stylesheet" href="dark_mode_fix.css">
-
 </head>
 <body>
 <div class="navbar">
