@@ -1,0 +1,112 @@
+-- ─────────────────────────────────────────
+-- Create & select the database
+-- ─────────────────────────────────────────
+CREATE DATABASE IF NOT EXISTS fastener_db
+  CHARACTER SET utf8mb4
+  COLLATE utf8mb4_unicode_ci;
+
+USE fastener_db;
+
+-- ─────────────────────────────────────────
+-- 1. users
+-- ─────────────────────────────────────────
+CREATE TABLE users (
+  id               INT            NOT NULL AUTO_INCREMENT,
+  username         VARCHAR(50)    NOT NULL,
+  email            VARCHAR(120)   DEFAULT NULL,
+  phone            VARCHAR(15)    DEFAULT NULL,
+  password         VARCHAR(255)   DEFAULT NULL,
+  role             ENUM('supervisor','manager') NOT NULL DEFAULT 'supervisor',
+  reset_otp        VARCHAR(255)   DEFAULT NULL,
+  reset_otp_expires DATETIME      DEFAULT NULL,
+  PRIMARY KEY (id),
+  UNIQUE KEY users_username_unique (username),
+  UNIQUE KEY users_email_unique    (email),
+  UNIQUE KEY users_phone_unique    (phone)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- ─────────────────────────────────────────
+-- 2. fastener  (no FK dependencies)
+-- ─────────────────────────────────────────
+CREATE TABLE fastener (
+  id          INT            NOT NULL AUTO_INCREMENT,
+  name        VARCHAR(100)   NOT NULL,
+  part_number VARCHAR(80)    DEFAULT NULL,
+  type        VARCHAR(50)    DEFAULT NULL,
+  size        VARCHAR(50)    DEFAULT NULL,
+  unit_price  DECIMAL(10,2)  DEFAULT NULL,
+  description TEXT           DEFAULT NULL,
+  image       VARCHAR(255)   DEFAULT NULL,
+  PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- ─────────────────────────────────────────
+-- 3. supplier  (no FK dependencies)
+-- ─────────────────────────────────────────
+CREATE TABLE supplier (
+  id            INT           NOT NULL AUTO_INCREMENT,
+  name          VARCHAR(100)  NOT NULL,
+  contact       VARCHAR(20)   DEFAULT NULL,
+  address       VARCHAR(255)  DEFAULT NULL,
+  contract_date DATE          DEFAULT NULL,
+  PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- ─────────────────────────────────────────
+-- 4. stock  (FK → fastener)
+-- ─────────────────────────────────────────
+CREATE TABLE stock (
+  id          INT  NOT NULL AUTO_INCREMENT,
+  fastener_id INT  DEFAULT NULL,
+  quantity    INT  NOT NULL DEFAULT 0,
+  PRIMARY KEY (id),
+  KEY fk_stock_fastener (fastener_id),
+  CONSTRAINT fk_stock_fastener
+    FOREIGN KEY (fastener_id)
+    REFERENCES fastener (id)
+    ON DELETE SET NULL
+    ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- ─────────────────────────────────────────
+-- 5. orders  (FK → fastener, supplier)
+-- ─────────────────────────────────────────
+CREATE TABLE orders (
+  order_id    INT          NOT NULL AUTO_INCREMENT,
+  fastener_id INT          DEFAULT NULL,
+  supplier_id INT          DEFAULT NULL,
+  quantity    INT          DEFAULT NULL,
+  order_date  DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  status      VARCHAR(20)  DEFAULT 'On the Way',
+  PRIMARY KEY (order_id),
+  KEY fk_orders_fastener (fastener_id),
+  KEY fk_orders_supplier (supplier_id),
+  CONSTRAINT fk_orders_fastener
+    FOREIGN KEY (fastener_id)
+    REFERENCES fastener (id)
+    ON DELETE SET NULL
+    ON UPDATE CASCADE,
+  CONSTRAINT fk_orders_supplier
+    FOREIGN KEY (supplier_id)
+    REFERENCES supplier (id)
+    ON DELETE SET NULL
+    ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- ─────────────────────────────────────────
+-- 6. pick_list  (FK → fastener)
+-- ─────────────────────────────────────────
+CREATE TABLE pick_list (
+  id          INT           NOT NULL AUTO_INCREMENT,
+  fastener_id INT           NOT NULL,
+  quantity    INT           NOT NULL,
+  picked_by   VARCHAR(100)  DEFAULT NULL,
+  picked_at   DATETIME      NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (id),
+  KEY pick_list_fastener_idx (fastener_id),
+  CONSTRAINT fk_pick_list_fastener
+    FOREIGN KEY (fastener_id)
+    REFERENCES fastener (id)
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
