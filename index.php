@@ -376,8 +376,8 @@ h1 {
             <h1>Bolt Base</h1>
             <p class="hero-copy">A fastener inventory management system for tracking stock, suppliers, orders, low-stock alerts, and management reports from one clean workspace.</p>
             <div class="hero-actions">
-                <a class="hero-btn primary" href="login.php"><i class="fa-solid fa-user-shield"></i> Supervisor Login</a>
-                <a class="hero-btn secondary" href="login.php" onclick="localStorage.setItem('boltLoginRole','manager')"><i class="fa-solid fa-user-tie"></i> Manager Login</a>
+                <a class="hero-btn primary" href="login.php?role=supervisor"><i class="fa-solid fa-user-shield"></i> Supervisor Login</a>
+                <a class="hero-btn secondary" href="login.php?role=manager"><i class="fa-solid fa-user-tie"></i> Manager Login</a>
             </div>
         </div>
     </section>

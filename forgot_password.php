@@ -279,6 +279,22 @@ body:before{
     padding:30px;
     box-shadow:0 24px 60px rgba(0,0,0,.45);
 }
+.back-link{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    color:#6f2220;
+    font-size:13px;
+    font-weight:800;
+    text-decoration:none;
+    margin-bottom:18px;
+    transition:color .2s ease, transform .2s ease;
+}
+.back-link:hover,
+.back-link:focus-visible{
+    color:#9b1313;
+    transform:translateX(-3px);
+}
 h1{
     font-size:24px;
     margin-bottom:8px;
@@ -331,6 +347,16 @@ input{
     color:white;
     font-weight:800;
     cursor:pointer;
+    transition:background .2s ease, box-shadow .2s ease, transform .2s ease;
+}
+.btn:hover,
+.btn:focus-visible{
+    background:#c62525;
+    box-shadow:0 10px 24px rgba(155,19,19,.32);
+    transform:translateY(-2px);
+}
+.btn:active{
+    transform:translateY(0);
 }
 .alert{
     padding:11px 13px;
@@ -353,6 +379,10 @@ input{
 </head>
 <body>
 <div class="card">
+<a class="back-link" href="login.php">
+<i class="fa fa-arrow-left"></i>
+Back to Login
+</a>
 <h1>Forgot Password</h1>
 <p>
 Use your registered email to receive an OTP

@@ -1,5 +1,5 @@
 <?php
-$conn = mysqli_connect("localhost", "root", "1718", "fastener_db");
+$conn = mysqli_connect("localhost", "root", "", "fastener_db");
 if (!$conn) {
     die("Connection Failed: " . mysqli_connect_error());
 }

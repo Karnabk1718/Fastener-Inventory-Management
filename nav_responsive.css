@@ -1,0 +1,87 @@
+/* Shared responsive navbar sizing across app pages */
+.navbar {
+    width: 100%;
+    min-height: 64px;
+    padding: 12px clamp(12px, 2vw, 24px) !important;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+    overflow: visible;
+}
+
+.logo {
+    flex: 0 1 auto;
+    min-width: max-content;
+    font-size: 18px !important;
+    line-height: 1.2;
+}
+
+.nav-links {
+    flex: 1 1 420px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    flex-wrap: wrap;
+    min-width: 0;
+}
+
+.nav-links a {
+    min-height: 34px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 7px 10px !important;
+    font-size: 13px !important;
+    line-height: 1.15;
+    white-space: nowrap;
+}
+
+.nav-right {
+    flex: 0 1 auto;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+    flex-wrap: wrap;
+    min-width: max-content;
+}
+
+.pill,
+.logout-btn,
+.icon-btn {
+    flex: 0 0 auto;
+}
+
+@media (max-width: 900px) {
+    .navbar {
+        justify-content: center;
+    }
+
+    .logo,
+    .nav-right {
+        min-width: 0;
+    }
+
+    .nav-links {
+        order: 3;
+        flex-basis: 100%;
+    }
+}
+
+@media (max-width: 520px) {
+    .navbar {
+        padding: 10px 8px !important;
+    }
+
+    .nav-links a {
+        flex: 1 1 calc(50% - 8px);
+        min-width: 130px;
+    }
+
+    .nav-right {
+        justify-content: center;
+    }
+}

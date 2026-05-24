@@ -3,12 +3,15 @@ session_start();
 include "db.php";
 ensure_user_security_schema();
 $error = "";
+$selectedRole = ($_GET['role'] ?? '') === 'manager' ? 'manager' : 'supervisor';
 $captchaQuestion = $_SERVER['REQUEST_METHOD'] === 'POST' ? '' : generate_captcha();
 if(isset($_POST['login']))
 {
     $username = trim($_POST['username']);
     $password = $_POST['password'];
     $role_req = $_POST['role'] ?? 'supervisor'; // which login panel submitted
+    $role_req = $role_req === 'manager' ? 'manager' : 'supervisor';
+    $selectedRole = $role_req;
     $captcha  = trim($_POST['captcha'] ?? '');
     if ($captcha === '' || !isset($_SESSION['captcha_answer']) || $captcha !== $_SESSION['captcha_answer']) {
         $error = "Captcha answer is incorrect.";
@@ -286,6 +289,15 @@ body::before {
     padding: 9px 14px;
     border-radius: 8px;
     margin-bottom: 1.25rem;
+    transition: opacity 0.35s ease, transform 0.35s ease, margin 0.35s ease, padding 0.35s ease;
+}
+.error.hide-warning {
+    opacity: 0;
+    transform: translateY(-8px);
+    margin-bottom: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    pointer-events: none;
 }
 .field {
     margin-bottom: 1.2rem;
@@ -536,6 +548,46 @@ body.supervisor-mode .login-btn.supervisor {
 body.supervisor-mode .login-btn.supervisor:hover {
     background: linear-gradient(135deg, #4e0012, var(--supervisor-deep)) !important;
 }
+body.manager-mode .page {
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    box-shadow: 0 28px 70px rgba(31, 0, 8, 0.52);
+}
+body.manager-mode .right {
+    background: linear-gradient(180deg, #fffef8 0%, var(--login-manager-panel) 100%) !important;
+    padding: 3.1rem 2.75rem;
+}
+body.manager-mode .accent-bar.manager {
+    width: 48px;
+    height: 4px;
+    background: linear-gradient(90deg, var(--login-manager-dark), var(--login-manager-olive)) !important;
+}
+body.manager-mode .form-header h2 {
+    font-size: 25px;
+    font-weight: 800;
+    color: var(--login-manager-dark) !important;
+}
+body.manager-mode .form-header p,
+body.manager-mode .footer-note {
+    color: var(--login-manager-muted) !important;
+}
+body.manager-mode .field input {
+    height: 46px;
+    background: #fffef8 !important;
+    border: 1.5px solid rgba(37, 41, 20, 0.22) !important;
+    box-shadow: 0 6px 16px rgba(37, 41, 20, 0.05);
+}
+body.manager-mode .field input:focus {
+    border-color: var(--login-manager-olive) !important;
+    box-shadow: 0 0 0 4px rgba(99, 107, 47, 0.14);
+}
+body.manager-mode .login-btn.manager {
+    height: 46px;
+    background: linear-gradient(135deg, var(--login-manager-dark), var(--login-manager-olive)) !important;
+    box-shadow: 0 10px 24px rgba(99, 107, 47, 0.28) !important;
+}
+body.manager-mode .login-btn.manager:hover {
+    background: linear-gradient(135deg, #171a0d, var(--login-manager-muted)) !important;
+}
 @media (max-width: 760px) {
     body {
         padding: 18px 12px;
@@ -572,49 +624,49 @@ body.supervisor-mode .login-btn.supervisor:hover {
 }
 </style>
 </head>
-<body class="login-page supervisor-mode">
+<body class="login-page <?= $selectedRole === 'manager' ? 'manager-mode' : 'supervisor-mode' ?>">
 <a href="index.php" class="back-home"><i class="fa fa-arrow-left"></i> Back to Home</a>
 <div class="role-tabs">
-    <button class="role-tab supervisor active" id="tab-supervisor" onclick="switchRole('supervisor')">
+    <button class="role-tab supervisor <?= $selectedRole === 'supervisor' ? 'active' : '' ?>" id="tab-supervisor" onclick="switchRole('supervisor')">
         <i class="fa fa-shield-halved"></i><b> Supervisor Login</b>
     </button>
-    <button class="role-tab manager" id="tab-manager" onclick="switchRole('manager')">
+    <button class="role-tab manager <?= $selectedRole === 'manager' ? 'active' : '' ?>" id="tab-manager" onclick="switchRole('manager')">
         <i class="fa fa-user-tie"></i><b> Manager Login</b>
     </button>
 </div>
 <div class="page" id="loginCard">
-  <div class="left supervisor-bg" id="leftPanel">
+  <div class="left <?= $selectedRole === 'manager' ? 'manager-bg' : 'supervisor-bg' ?>" id="leftPanel">
     <div class="bolt-grid">
       <?php for($i=0;$i<9;$i++) echo '<div class="bolt"></div>'; ?>
     </div>
     <div class="brand">
       <div class="brand-title">BOLT BASE</div>
       <div class="brand-sub">Fastener Inventory</div>
-      <div class="role-badge" id="roleBadge">Supervisor</div>
+      <div class="role-badge" id="roleBadge"><?= $selectedRole === 'manager' ? 'Manager' : 'Supervisor' ?></div>
     </div>
     <div class="divider"></div>
-    <div class="tagline" id="tagline">Precision parts.<br>Reliable tracking.<br>Zero loose ends.</div>
+    <div class="tagline" id="tagline"><?= $selectedRole === 'manager' ? 'Full visibility.<br>Smart reports.<br>Data-driven decisions.' : 'Precision parts.<br>Reliable tracking.<br>Zero loose ends.' ?></div>
     <div class="bolt-grid" style="opacity:0.1;">
       <?php for($i=0;$i<9;$i++) echo '<div class="bolt"></div>'; ?>
     </div>
   </div>
   <div class="right">
-    <div class="accent-bar supervisor" id="accentBar"></div>
+    <div class="accent-bar <?= $selectedRole ?>" id="accentBar"></div>
     <div class="form-header">
-      <h2 id="formTitle">Supervisor Login</h2>
-      <p id="formSub">Sign in to manage inventory and operations</p>
+      <h2 id="formTitle"><?= $selectedRole === 'manager' ? 'Manager Login' : 'Supervisor Login' ?></h2>
+      <p id="formSub"><?= $selectedRole === 'manager' ? 'Sign in to view reports and analytics' : 'Sign in to manage inventory and operations' ?></p>
     </div>
     <?php if($error != ""): ?>
-    <div class="error"><?= htmlspecialchars($error) ?></div>
+    <div class="error" id="loginWarning"><?= htmlspecialchars($error) ?></div>
     <?php endif; ?>
     <form method="POST" autocomplete="off">
-      <input type="hidden" name="role" id="roleInput" value="supervisor">
+      <input type="hidden" name="role" id="roleInput" value="<?= $selectedRole ?>">
       <div class="field">
         <label>Username</label>
         <div class="field-wrap">
           <i class="fa-solid fa-user icon"></i>
           <input type="text" name="username" placeholder="Enter username or email" id="usernameInput"
-                 class="supervisor-focus" autocomplete="off" required>
+                 class="<?= $selectedRole ?>-focus" autocomplete="off" required>
         </div>
       </div>
       <div class="field">
@@ -622,7 +674,7 @@ body.supervisor-mode .login-btn.supervisor:hover {
         <div class="field-wrap">
           <i class="fa-solid fa-lock icon"></i>
           <input type="password" id="password" name="password" placeholder="Enter password"
-                 class="supervisor-focus" autocomplete="new-password" required>
+                 class="<?= $selectedRole ?>-focus" autocomplete="new-password" required>
           <span class="eye" onclick="togglePassword()">
             <i id="eyeIcon" class="fa-solid fa-eye-slash"></i>
           </span>
@@ -632,13 +684,13 @@ body.supervisor-mode .login-btn.supervisor:hover {
         <label>Captcha: <?= htmlspecialchars($captchaQuestion) ?> = ?</label>
         <div class="field-wrap">
           <i class="fa-solid fa-shield-halved icon"></i>
-          <input type="text" name="captcha" placeholder="Answer" class="supervisor-focus" autocomplete="off" required>
+          <input type="text" name="captcha" placeholder="Answer" class="<?= $selectedRole ?>-focus" autocomplete="off" required>
         </div>
       </div>
-      <button type="submit" name="login" class="login-btn supervisor" id="loginBtn">Sign in</button>
+      <button type="submit" name="login" class="login-btn <?= $selectedRole ?>" id="loginBtn">Sign in</button>
     </form>
     <div class="footer-note" id="footerNote">
-      <a href="forgot_password.php" style="color:inherit;font-weight:800;">Forgot password?</a> &nbsp; Authorized personnel only
+      <a href="forgot_password.php" style="color:inherit;font-weight:800;">Forgot password?</a> &nbsp; <?= $selectedRole === 'manager' ? 'Read-only access with full reporting' : 'Authorized personnel only' ?>
     </div>
   </div>
 </div>
@@ -688,10 +740,15 @@ function togglePassword() {
         icon.classList.replace('fa-eye', 'fa-eye-slash');
     }
 }
-const savedRole = localStorage.getItem('boltLoginRole');
-if(savedRole === 'manager') {
+const selectedRole = <?= json_encode($selectedRole) ?>;
+if(selectedRole === 'manager') {
     switchRole('manager');
-    localStorage.removeItem('boltLoginRole');
+}
+const loginWarning = document.getElementById('loginWarning');
+if(loginWarning) {
+    setTimeout(() => {
+        loginWarning.classList.add('hide-warning');
+    }, 4000);
 }
 </script>
 </body>

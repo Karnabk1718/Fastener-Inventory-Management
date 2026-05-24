@@ -1148,6 +1148,7 @@ body.dark a[class*="btn"] * {
     color: #111827 !important;
 }
 </style>
+<link rel="stylesheet" href="nav_responsive.css">
 </head>
 <body>
 <div class="navbar">
@@ -1217,21 +1218,21 @@ body.dark a[class*="btn"] * {
             <h3>Today's Orders</h3>
             <p>Orders placed on <?= date('d M Y') ?></p>
             <div class="stat"><?= $ordersToday ?></div>
-            <a href="manager_report_export.php?type=daily" class="btn-dl"><i class="fa fa-file-pdf"></i> Download</a>
+            <a href="manager_report_export.php?type=daily" class="btn-dl"><i class="fa fa-file-pdf"></i> Daily Report</a>
         </div>
         <div class="report-card">
             <div class="report-card-icon" style="background:rgba(167,139,250,0.18);color:#a78bfa"><i class="fa fa-calendar-week"></i></div>
             <h3>This Month's Orders</h3>
             <p><?= date('F Y') ?> order summary</p>
             <div class="stat"><?= $ordersMonth ?></div>
-            <a href="manager_report_export.php?type=monthly" class="btn-dl"><i class="fa fa-file-pdf"></i> Download</a>
+            <a href="manager_report_export.php?type=monthly" class="btn-dl"><i class="fa fa-file-pdf"></i> Monthly Report</a>
         </div>
         <div class="report-card">
             <div class="report-card-icon" style="background:rgba(251,191,36,0.18);color:#fbbf24"><i class="fa fa-calendar"></i></div>
             <h3>This Year's Orders</h3>
             <p><?= date('Y') ?> annual order report</p>
             <div class="stat"><?= $ordersYear ?></div>
-            <a href="manager_report_export.php?type=yearly" class="btn-dl"><i class="fa fa-file-pdf"></i> Download</a>
+            <a href="manager_report_export.php?type=yearly" class="btn-dl"><i class="fa fa-file-pdf"></i> Yearly Report</a>
         </div>
     </div>
 
@@ -1243,35 +1244,35 @@ body.dark a[class*="btn"] * {
             <h3>Full Inventory</h3>
             <p>Current stock levels for all fasteners</p>
             <div class="stat">₹<?= number_format($invValue, 0) ?></div>
-            <a href="manager_report_export.php?type=inventory" class="btn-dl"><i class="fa fa-file-pdf"></i> Download</a>
+            <a href="manager_report_export.php?type=inventory" class="btn-dl"><i class="fa fa-file-pdf"></i> Inventory Report</a>
         </div>
         <div class="report-card">
             <div class="report-card-icon" style="background:rgba(255,107,107,0.18);color:#ff6b6b"><i class="fa fa-triangle-exclamation"></i></div>
             <h3>Low Stock Alert</h3>
             <p>Items below minimum (20 units)</p>
             <div class="stat" style="color:#ff6b6b"><?= $lowStock ?></div>
-            <a href="manager_report_export.php?type=low_stock" class="btn-dl"><i class="fa fa-file-pdf"></i> Download</a>
+            <a href="manager_report_export.php?type=low_stock" class="btn-dl"><i class="fa fa-file-pdf"></i> Low Stock Report</a>
         </div>
         <div class="report-card">
             <div class="report-card-icon" style="background:rgba(255,215,0,0.18);color:var(--gold)"><i class="fa fa-screwdriver-wrench"></i></div>
             <h3>Fastener Catalog</h3>
             <p>Full catalog with prices and specs</p>
             <div class="stat"><?= $totalFast ?></div>
-            <a href="manager_report_export.php?type=fasteners" class="btn-dl"><i class="fa fa-file-pdf"></i> Download</a>
+            <a href="manager_report_export.php?type=fasteners" class="btn-dl"><i class="fa fa-file-pdf"></i> Fasteners Report</a>
         </div>
         <div class="report-card">
             <div class="report-card-icon" style="background:rgba(96,165,250,0.18);color:#60a5fa"><i class="fa fa-industry"></i></div>
             <h3>Supplier List</h3>
             <p>All suppliers with contact details</p>
             <div class="stat"><?= $totalSup ?></div>
-            <a href="manager_report_export.php?type=supplier" class="btn-dl"><i class="fa fa-file-pdf"></i> Download</a>
+            <a href="manager_report_export.php?type=supplier" class="btn-dl"><i class="fa fa-file-pdf"></i> Supplier Report</a>
         </div>
         <div class="report-card">
             <div class="report-card-icon" style="background:rgba(167,139,250,0.18);color:#a78bfa"><i class="fa fa-cart-shopping"></i></div>
             <h3>All Orders</h3>
             <p>Complete order history export</p>
             <div class="stat"><?= mysqli_fetch_row(mysqli_query($conn,"SELECT COUNT(*) FROM orders"))[0] ?></div>
-            <a href="manager_report_export.php?type=orders" class="btn-dl"><i class="fa fa-file-pdf"></i> Download</a>
+            <a href="manager_report_export.php?type=orders" class="btn-dl"><i class="fa fa-file-pdf"></i> Orders Report</a>
         </div>
     </div>
 

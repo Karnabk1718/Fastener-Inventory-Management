@@ -896,6 +896,7 @@ body.dark a[class*="btn"] * {
     color: #111827 !important;
 }
 </style>
+<link rel="stylesheet" href="nav_responsive.css">
 </head>
 <body>
 
@@ -1047,7 +1048,7 @@ body.dark a[class*="btn"] * {
         </div>
         <div class="report-card">
             <div class="report-meta">
-                <h3>Download</h3>
+                <h3>Inventory PDF</h3>
                 <p>Includes stock quantities and low-stock status.</p>
             </div>
             <a href="export_report.php?type=inventory" class="report-btn">Download</a>
@@ -1061,7 +1062,7 @@ body.dark a[class*="btn"] * {
         </div>
         <div class="report-card">
             <div class="report-meta">
-                <h3>Download</h3>
+                <h3>Orders PDF</h3>
                 <p>Download order quantities, dates, and statuses.</p>
             </div>
             <a href="export_report.php?type=orders" class="report-btn">Download</a>

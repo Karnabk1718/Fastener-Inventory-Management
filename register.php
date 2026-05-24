@@ -5,6 +5,7 @@ ensure_user_security_schema();
 
 $error   = "";
 $success = "";
+$selectedRole = ($_GET['role'] ?? '') === 'manager' ? 'manager' : 'supervisor';
 $captchaQuestion = $_SERVER['REQUEST_METHOD'] === 'POST' ? '' : generate_captcha();
 
 if (isset($_POST['register'])) {
@@ -13,7 +14,8 @@ if (isset($_POST['register'])) {
     $phone    = trim($_POST['phone'] ?? '');
     $password = $_POST['password'];
     $confirm  = $_POST['confirm_password'];
-    $role     = $_POST['role'] ?? 'supervisor';
+    $role     = ($_POST['role'] ?? 'supervisor') === 'manager' ? 'manager' : 'supervisor';
+    $selectedRole = $role;
     $captcha  = trim($_POST['captcha'] ?? '');
 
     if (empty($username) || empty($email) || empty($phone) || empty($password) || empty($confirm)) {
@@ -310,10 +312,19 @@ body::before {
     align-items: center;
     gap: 8px;
 }
+.alert.hide-warning {
+    opacity: 0;
+    transform: translateY(-8px);
+    margin-bottom: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    pointer-events: none;
+}
 .alert.error {
     background: #fff0f2;
     border: 1px solid #f5c0cb;
     color: #7a0000;
+    transition: opacity 0.35s ease, transform 0.35s ease, margin 0.35s ease, padding 0.35s ease;
 }
 .alert.success {
     background: #f0fff4;
@@ -454,13 +465,23 @@ body::before {
 }
 .register-btn.supervisor,
 .register-btn.manager {
-    background: #ff8c00;
-    box-shadow: 0 4px 15px rgba(255,140,0,0.35);
+    color: #fff;
 }
-.register-btn.supervisor:hover,
+.register-btn.supervisor {
+    background: linear-gradient(135deg, var(--supervisor-deep), var(--supervisor-red));
+    box-shadow: 0 4px 15px rgba(107,0,26,0.28);
+}
+.register-btn.manager {
+    background: linear-gradient(135deg, var(--login-manager-dark), var(--login-manager-olive));
+    box-shadow: 0 4px 15px rgba(99,107,47,0.28);
+}
+.register-btn.supervisor:hover {
+    background: linear-gradient(135deg, var(--supervisor-dark), var(--supervisor-deep));
+    box-shadow: 0 6px 20px rgba(56,0,10,0.38);
+}
 .register-btn.manager:hover {
-    background: #e67600;
-    box-shadow: 0 6px 20px rgba(255,140,0,0.45);
+    background: linear-gradient(135deg, #171a0d, var(--login-manager-muted));
+    box-shadow: 0 6px 20px rgba(63,71,42,0.38);
 }
 .register-btn:active {
     transform: scale(0.98);
@@ -478,7 +499,7 @@ body::before {
     text-decoration: none;
 }
 .footer-note a.mgr-lnk {
-    color: #1a3a6b;
+    color: var(--login-manager-olive);
 }
 .footer-note a:hover {
     text-decoration: underline;
@@ -614,35 +635,82 @@ body.supervisor-mode .form-header p,
 body.supervisor-mode .footer-note {
     color: var(--supervisor-muted) !important;
 }
+body.supervisor-mode .field input {
+    height: 46px;
+    background: var(--supervisor-field) !important;
+    border: 1.5px solid var(--supervisor-border) !important;
+    box-shadow: 0 6px 16px rgba(56, 0, 10, 0.05);
+}
+body.supervisor-mode .field input:focus {
+    border-color: var(--supervisor-red) !important;
+    box-shadow: 0 0 0 4px rgba(159, 18, 57, 0.12);
+}
+body.supervisor-mode .register-btn.supervisor {
+    height: 46px;
+    box-shadow: 0 10px 24px rgba(107, 0, 26, 0.28) !important;
+}
 body.manager-mode .page {
     border: 1px solid rgba(255, 255, 255, 0.18);
     box-shadow: 0 28px 70px rgba(31, 0, 8, 0.52);
 }
+body.manager-mode .right {
+    background: linear-gradient(180deg, #fffef8 0%, var(--login-manager-panel) 100%) !important;
+    padding: 3.1rem 2.75rem;
+}
+body.manager-mode .accent-bar.manager {
+    width: 48px;
+    height: 4px;
+    background: linear-gradient(90deg, var(--login-manager-dark), var(--login-manager-olive)) !important;
+}
+body.manager-mode .form-header h2 {
+    font-size: 25px;
+    font-weight: 800;
+    color: var(--login-manager-dark) !important;
+}
+body.manager-mode .form-header p,
+body.manager-mode .footer-note,
+body.manager-mode .hint {
+    color: var(--login-manager-muted) !important;
+}
+body.manager-mode .field input {
+    height: 46px;
+    background: #fffef8 !important;
+    border: 1.5px solid rgba(37, 41, 20, 0.22) !important;
+    box-shadow: 0 6px 16px rgba(37, 41, 20, 0.05);
+}
+body.manager-mode .field input:focus {
+    border-color: var(--login-manager-olive) !important;
+    box-shadow: 0 0 0 4px rgba(99, 107, 47, 0.14);
+}
+body.manager-mode .register-btn.manager {
+    height: 46px;
+    box-shadow: 0 10px 24px rgba(99, 107, 47, 0.28) !important;
+}
 </style>
 </head>
-<body class="login-page supervisor-mode">
+<body class="login-page <?= $selectedRole === 'manager' ? 'manager-mode' : 'supervisor-mode' ?>">
 
 <a href="index.php" class="back-home"><i class="fa fa-arrow-left"></i> Back to Home</a>
 
 <div class="role-tabs">
-    <button class="role-tab supervisor active" id="tab-supervisor" onclick="switchRole('supervisor')">
+    <button class="role-tab supervisor <?= $selectedRole === 'supervisor' ? 'active' : '' ?>" id="tab-supervisor" onclick="switchRole('supervisor')">
         <i class="fa fa-shield-halved"></i> Supervisor Register
     </button>
-    <button class="role-tab manager" id="tab-manager" onclick="switchRole('manager')">
+    <button class="role-tab manager <?= $selectedRole === 'manager' ? 'active' : '' ?>" id="tab-manager" onclick="switchRole('manager')">
         <i class="fa fa-user-tie"></i> Manager Register
     </button>
 </div>
 
 <div class="page" id="regCard">
 
-  <div class="left supervisor-bg" id="leftPanel">
+  <div class="left <?= $selectedRole === 'manager' ? 'manager-bg' : 'supervisor-bg' ?>" id="leftPanel">
     <div class="bolt-grid">
       <?php for($i=0;$i<9;$i++) echo '<div class="bolt"></div>'; ?>
     </div>
     <div class="brand">
       <div class="brand-title">BOLT BASE</div>
       <div class="brand-sub">Fastener Inventory</div>
-      <div class="role-badge" id="roleBadge">Supervisor</div>
+      <div class="role-badge" id="roleBadge"><?= $selectedRole === 'manager' ? 'Manager' : 'Supervisor' ?></div>
     </div>
     <div class="divider"></div>
     <ul class="step-list">
@@ -657,14 +725,14 @@ body.manager-mode .page {
   </div>
 
   <div class="right">
-    <div class="accent-bar supervisor" id="accentBar"></div>
+    <div class="accent-bar <?= $selectedRole ?>" id="accentBar"></div>
     <div class="form-header">
-      <h2 id="formTitle">Create Supervisor Account</h2>
-      <p id="formSub">Choose a username and password to get started</p>
+      <h2 id="formTitle"><?= $selectedRole === 'manager' ? 'Create Manager Account' : 'Create Supervisor Account' ?></h2>
+      <p id="formSub"><?= $selectedRole === 'manager' ? 'Set up your manager credentials below' : 'Choose a username and password to get started' ?></p>
     </div>
 
     <?php if ($error !== ''): ?>
-      <div class="alert error">
+      <div class="alert error" id="registerWarning">
         <i class="fa-solid fa-circle-exclamation"></i>
         <span><?= htmlspecialchars($error) ?></span>
       </div>
@@ -677,7 +745,7 @@ body.manager-mode .page {
     <?php endif; ?>
 
     <form method="POST" novalidate autocomplete="off">
-      <input type="hidden" name="role" id="roleInput" value="supervisor">
+      <input type="hidden" name="role" id="roleInput" value="<?= $selectedRole ?>">
 
       <!-- Username -->
       <div class="field">
@@ -685,7 +753,7 @@ body.manager-mode .page {
         <div class="field-wrap">
           <i class="fa-solid fa-user icon"></i>
           <input type="text" name="username" id="username"
-                 placeholder="Letters, numbers, underscores" class="sup"
+                 placeholder="Letters, numbers, underscores" class="<?= $selectedRole === 'manager' ? 'mgr' : 'sup' ?>"
                  autocomplete="off" value="<?= htmlspecialchars($_POST['username'] ?? '') ?>" required>
           <span class="vicon" id="vnUser"></span>
         </div>
@@ -696,7 +764,7 @@ body.manager-mode .page {
         <label>Email</label>
         <div class="field-wrap">
           <i class="fa-solid fa-envelope icon"></i>
-          <input type="email" name="email" id="email" placeholder="you@example.com" class="sup"
+          <input type="email" name="email" id="email" placeholder="you@example.com" class="<?= $selectedRole === 'manager' ? 'mgr' : 'sup' ?>"
                  autocomplete="off" value="<?= htmlspecialchars($_POST['email'] ?? '') ?>" required>
           <span class="vicon" id="vnEmail"></span>
         </div>
@@ -707,7 +775,7 @@ body.manager-mode .page {
         <label>Phone Number</label>
         <div class="field-wrap">
           <i class="fa-solid fa-phone icon"></i>
-          <input type="tel" name="phone" id="phone" placeholder="9876543210" class="sup"
+          <input type="tel" name="phone" id="phone" placeholder="9876543210" class="<?= $selectedRole === 'manager' ? 'mgr' : 'sup' ?>"
                  maxlength="10" autocomplete="off" value="<?= htmlspecialchars($_POST['phone'] ?? '') ?>" required>
           <span class="vicon" id="vnPhone"></span>
         </div>
@@ -720,7 +788,7 @@ body.manager-mode .page {
         <div class="field-wrap">
           <i class="fa-solid fa-lock icon"></i>
           <input type="password" name="password" id="password"
-                 placeholder="Minimum 8 characters" class="sup"
+                 placeholder="Minimum 8 characters" class="<?= $selectedRole === 'manager' ? 'mgr' : 'sup' ?>"
                  autocomplete="new-password" required oninput="checkStrength(this.value)">
           <span class="eye" onclick="togglePw('password','eye1')">
             <i id="eye1" class="fa-solid fa-eye-slash"></i>
@@ -738,7 +806,7 @@ body.manager-mode .page {
         <div class="field-wrap">
           <i class="fa-solid fa-lock icon"></i>
           <input type="password" name="confirm_password" id="confirmPw"
-                 placeholder="Re-enter your password" class="sup" autocomplete="new-password" required>
+                 placeholder="Re-enter your password" class="<?= $selectedRole === 'manager' ? 'mgr' : 'sup' ?>" autocomplete="new-password" required>
           <span class="vicon" id="vnConfirm"></span>
           <span class="eye" onclick="togglePw('confirmPw','eye2')">
             <i id="eye2" class="fa-solid fa-eye-slash"></i>
@@ -750,17 +818,17 @@ body.manager-mode .page {
         <label>Captcha: <?= htmlspecialchars($captchaQuestion) ?> = ?</label>
         <div class="field-wrap">
           <i class="fa-solid fa-shield-halved icon"></i>
-          <input type="text" name="captcha" id="captcha" placeholder="Answer" class="sup" autocomplete="off" required>
+          <input type="text" name="captcha" id="captcha" placeholder="Answer" class="<?= $selectedRole === 'manager' ? 'mgr' : 'sup' ?>" autocomplete="off" required>
         </div>
       </div>
 
-      <button type="submit" name="register" class="register-btn supervisor" id="regBtn">
+      <button type="submit" name="register" class="register-btn <?= $selectedRole ?>" id="regBtn">
         <i class="fa-solid fa-user-plus"></i>&nbsp; Create Account
       </button>
     </form>
 
     <div class="footer-note">
-      Already have an account? <a href="login.php" id="loginLink">Sign in here</a>
+      Already have an account? <a href="login.php?role=<?= $selectedRole ?>" id="loginLink" class="<?= $selectedRole === 'manager' ? 'mgr-lnk' : '' ?>">Sign in here</a>
     </div>
   </div>
 </div>
@@ -784,6 +852,7 @@ function switchRole(role) {
     document.getElementById('regCard').style.borderRadius = isSup
         ? '0 16px 16px 16px' : '16px 0 16px 16px';
     document.getElementById('loginLink').className = isSup ? '' : 'mgr-lnk';
+    document.getElementById('loginLink').href = 'login.php?role=' + role;
     const cls = isSup ? 'sup' : 'mgr';
     document.querySelectorAll('.field input').forEach(el => {
         el.className = el.className.replace(/\bsup\b|\bmgr\b/g, '').trim() + ' ' + cls;
@@ -857,6 +926,12 @@ function checkExisting(field, value, el, iconId, hintId) {
         .catch(() => {
             if (hintId) document.getElementById(hintId).textContent = 'Could not check right now.';
         });
+}
+const registerWarning = document.getElementById('registerWarning');
+if(registerWarning) {
+    setTimeout(() => {
+        registerWarning.classList.add('hide-warning');
+    }, 4000);
 }
 </script>
 </body>

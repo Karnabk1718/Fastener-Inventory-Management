@@ -751,6 +751,7 @@ body.dark a[class*="btn"] * {
     color: #111827 !important;
 }
 </style>
+<link rel="stylesheet" href="nav_responsive.css">
 </head>
 <body>
 <div class="navbar">

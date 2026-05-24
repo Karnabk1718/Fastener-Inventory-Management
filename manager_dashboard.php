@@ -1157,6 +1157,7 @@ body.dark a[class*="btn"] * {
     color: #111827 !important;
 }
 </style>
+<link rel="stylesheet" href="nav_responsive.css">
 </head>
 <body>
 <div class="navbar">
@@ -1229,12 +1230,12 @@ body.dark a[class*="btn"] * {
     <!-- Quick Report Buttons -->
     <div class="sec-label"><i class="fa fa-file-pdf"></i> Quick PDF Exports</div>
     <div class="reports-row">
-        <a href="manager_report_export.php?type=daily" class="report-btn-card"><i class="fa fa-calendar-day"></i> Download</a>
-        <a href="manager_report_export.php?type=monthly" class="report-btn-card"><i class="fa fa-calendar-week"></i> Download</a>
-        <a href="manager_report_export.php?type=yearly" class="report-btn-card"><i class="fa fa-calendar"></i> Download</a>
-        <a href="manager_report_export.php?type=low_stock" class="report-btn-card"><i class="fa fa-triangle-exclamation"></i> Download</a>
-        <a href="manager_report_export.php?type=inventory" class="report-btn-card"><i class="fa fa-boxes-stacked"></i> Download</a>
-        <a href="manager_report_export.php?type=supplier" class="report-btn-card"><i class="fa fa-industry"></i> Download</a>
+        <a href="manager_report_export.php?type=daily" class="report-btn-card"><i class="fa fa-calendar-day"></i> Daily Report</a>
+        <a href="manager_report_export.php?type=monthly" class="report-btn-card"><i class="fa fa-calendar-week"></i> Monthly Report</a>
+        <a href="manager_report_export.php?type=yearly" class="report-btn-card"><i class="fa fa-calendar"></i> Yearly Report</a>
+        <a href="manager_report_export.php?type=low_stock" class="report-btn-card"><i class="fa fa-triangle-exclamation"></i> Low Stock Report</a>
+        <a href="manager_report_export.php?type=inventory" class="report-btn-card"><i class="fa fa-boxes-stacked"></i> Inventory Report</a>
+        <a href="manager_report_export.php?type=supplier" class="report-btn-card"><i class="fa fa-industry"></i> Supplier Report</a>
     </div>
 
     <!-- Recent Orders -->

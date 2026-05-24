@@ -299,29 +299,86 @@ a {
 </html>
 HTML;
 }
+function render_no_records_alert(string $title): void
+{
+    $safeTitle = htmlspecialchars($title);
+    $fallback = ($_SESSION['role'] ?? '') === 'manager' ? 'manager_reports.php' : 'dashboard.php';
+    $safeFallback = htmlspecialchars($fallback);
+    $alertMessage = json_encode($title . ' cannot be downloaded because there are no records available.');
+    $fallbackUrl = json_encode($fallback);
+    echo <<<HTML
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>No Report Data</title>
+</head>
+<body>
+<script>
+alert({$alertMessage});
+if (window.history.length > 1) {
+    window.history.back();
+} else {
+    window.location.href = {$fallbackUrl};
+}
+</script>
+<noscript>
+<p>{$safeTitle} cannot be downloaded because there are no records available.</p>
+<p><a href="{$safeFallback}">Go back to reports</a></p>
+</noscript>
+</body>
+</html>
+HTML;
+}
 function build_excel_report(string $title, string $filename, array $columns, array $rows): array
 {
     $excelName = preg_replace('/\.pdf$/', '.xls', $filename);
-    $html = "<html><head><meta charset=\"UTF-8\"></head><body>";
-    $html .= "<h2>" . htmlspecialchars($title) . "</h2>";
-    $html .= "<table border=\"1\"><thead><tr>";
+    $generatedAt = date('d-m-Y H:i:s');
+    $preparedFor = $_SESSION['username'] ?? 'User';
+    $recordCount = count($rows);
+    $html = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40">';
+    $html .= '<head><meta charset="UTF-8">';
+    $html .= '<style>
+        body { font-family: Segoe UI, Arial, sans-serif; color:#1f2933; }
+        table { border-collapse: collapse; width:100%; }
+        .title { background:#6b001a; color:#ffffff; font-size:22px; font-weight:800; height:34px; }
+        .meta-label { background:#fff0f2; color:#6b001a; font-weight:800; }
+        .meta-value { background:#fffaf9; color:#1f2933; }
+        .spacer { height:10px; }
+        .head { background:#38000a; color:#ffffff; font-weight:800; text-align:center; border:1px solid #38000a; }
+        .cell { border:1px solid #d8c8cc; padding:8px; mso-number-format:"\@"; vertical-align:top; }
+        .alt { background:#fff7f5; }
+        .detail { background:#f8fafc; color:#334155; border:1px solid #d8c8cc; padding:8px; }
+        .detail-label { color:#6b001a; font-weight:800; }
+    </style></head><body>';
+    $colspan = max(1, count($columns));
+    $html .= '<table>';
+    $html .= '<tr><td class="title" colspan="' . $colspan . '">' . htmlspecialchars($title) . '</td></tr>';
+    $html .= '<tr><td class="meta-label">Generated On</td><td class="meta-value" colspan="' . max(1, $colspan - 1) . '">' . htmlspecialchars($generatedAt) . '</td></tr>';
+    $html .= '<tr><td class="meta-label">Prepared For</td><td class="meta-value" colspan="' . max(1, $colspan - 1) . '">' . htmlspecialchars($preparedFor) . '</td></tr>';
+    $html .= '<tr><td class="meta-label">Total Records</td><td class="meta-value" colspan="' . max(1, $colspan - 1) . '">' . $recordCount . '</td></tr>';
+    $html .= '<tr><td class="spacer" colspan="' . $colspan . '"></td></tr>';
+    $html .= '<tr>';
     foreach ($columns as $column) {
-        $html .= "<th>" . htmlspecialchars($column['label']) . "</th>";
+        $width = max(10, (int)$column['width'] * 8);
+        $html .= '<th class="head" style="width:' . $width . 'px">' . htmlspecialchars($column['label']) . '</th>';
     }
-    $html .= "</tr></thead><tbody>";
-    foreach ($rows as $row) {
-        $html .= "<tr>";
+    $html .= '</tr>';
+    foreach ($rows as $index => $row) {
+        $rowClass = $index % 2 === 0 ? 'cell' : 'cell alt';
+        $html .= '<tr>';
         foreach ($columns as $column) {
-            $html .= "<td>" . htmlspecialchars((string)($row[$column['key']] ?? '-')) . "</td>";
+            $html .= '<td class="' . $rowClass . '">' . htmlspecialchars((string)($row[$column['key']] ?? '-')) . '</td>';
         }
-        $html .= "</tr>";
+        $html .= '</tr>';
         if (!empty($row['_detail_label']) || !empty($row['_detail_value'])) {
-            $html .= "<tr><td colspan=\"" . count($columns) . "\"><strong>"
-                . htmlspecialchars((string)($row['_detail_label'] ?? 'Details')) . ":</strong> "
-                . htmlspecialchars((string)($row['_detail_value'] ?? '-')) . "</td></tr>";
+            $html .= '<tr><td class="detail" colspan="' . $colspan . '"><span class="detail-label">'
+                . htmlspecialchars((string)($row['_detail_label'] ?? 'Details')) . ':</span> '
+                . htmlspecialchars((string)($row['_detail_value'] ?? '-')) . '</td></tr>';
         }
     }
-    $html .= "</tbody></table></body></html>";
+    $html .= '</table></body></html>';
     return [$html, $excelName];
 }
 $type = $_GET['type'] ?? '';
@@ -527,13 +584,11 @@ switch ($type) {
         echo "Invalid report type.";
         exit();
 }
-if (!$rows) {
-    $rows[] = [
-        $columns[0]['key'] ?? 'id' => '-',
-        $columns[1]['key'] ?? 'name' => 'No records found',
-    ];
-}
 $format = strtolower($_GET['format'] ?? '');
+if (!$rows) {
+    render_no_records_alert($title);
+    exit();
+}
 if ($format === '') {
     render_report_choice($title);
     exit();
