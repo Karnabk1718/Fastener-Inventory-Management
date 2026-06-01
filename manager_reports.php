@@ -16,7 +16,7 @@ $totalFast    = mysqli_fetch_row(mysqli_query($conn,"SELECT COUNT(*) FROM fasten
 $totalSup     = mysqli_fetch_row(mysqli_query($conn,"SELECT COUNT(*) FROM supplier"))[0];
 $invValue     = mysqli_fetch_row(mysqli_query($conn,"SELECT COALESCE(SUM(f.unit_price*s.quantity),0) FROM stock s JOIN fastener f ON s.fastener_id=f.id"))[0];
 $allOrders    = mysqli_fetch_row(mysqli_query($conn,"SELECT COUNT(*) FROM orders"))[0];
-$pendingCnt   = mysqli_fetch_row(mysqli_query($conn,"SELECT COUNT(*) FROM orders WHERE status='Pending'"))[0];
+$pendingCnt   = mysqli_fetch_row(mysqli_query($conn,"SELECT COUNT(*) FROM orders WHERE status <> 'Delivered' OR status IS NULL"))[0];
 $deliveredCnt = mysqli_fetch_row(mysqli_query($conn,"SELECT COUNT(*) FROM orders WHERE status='Delivered'"))[0];
 
 $monthlyChartRes = mysqli_query($conn,"
@@ -78,6 +78,172 @@ $healthyStock = mysqli_fetch_row(mysqli_query($conn,"SELECT COUNT(*) FROM stock 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@500&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script>
+if (!window.Chart) {
+    window.Chart = class {
+        constructor(canvas, config) {
+            this.canvas = canvas && canvas.canvas ? canvas.canvas : canvas;
+            this.ctx = this.canvas.getContext('2d');
+            this.config = config;
+            this.data = config.data || {};
+            this.options = config.options || {};
+            this.update();
+        }
+        update() {
+            const canvas = this.canvas;
+            const ctx = this.ctx;
+            const ratio = window.devicePixelRatio || 1;
+            const cssWidth = Math.max(canvas.clientWidth || canvas.parentElement.clientWidth || 320, 260);
+            const cssHeight = Math.max(Number(canvas.getAttribute('height')) || canvas.clientHeight || 190, 170);
+            canvas.style.width = '100%';
+            canvas.style.height = cssHeight + 'px';
+            canvas.width = Math.floor(cssWidth * ratio);
+            canvas.height = Math.floor(cssHeight * ratio);
+            ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+            ctx.clearRect(0, 0, cssWidth, cssHeight);
+            if (this.config.type === 'doughnut') this.drawDoughnut(cssWidth, cssHeight);
+            else if (this.config.type === 'polarArea') this.drawPolar(cssWidth, cssHeight);
+            else this.drawBar(cssWidth, cssHeight);
+        }
+        colors() {
+            const dark = document.body.classList.contains('dark');
+            return {
+                text: dark ? '#f8fafc' : '#252914',
+                grid: dark ? 'rgba(248,250,252,0.18)' : 'rgba(37,41,20,0.16)',
+                empty: dark ? '#334155' : '#e9edc6'
+            };
+        }
+        dataset() {
+            return (this.data.datasets && this.data.datasets[0]) || { data: [] };
+        }
+        colorAt(colors, i, fallback) {
+            return Array.isArray(colors) ? (colors[i] || fallback) : (colors || fallback);
+        }
+        drawLabel(text, x, y, align = 'center', size = 11) {
+            const ctx = this.ctx;
+            ctx.fillStyle = this.colors().text;
+            ctx.font = `600 ${size}px "DM Sans", Segoe UI, sans-serif`;
+            ctx.textAlign = align;
+            ctx.textBaseline = 'middle';
+            ctx.fillText(String(text), x, y);
+        }
+        drawBar(width, height) {
+            const ctx = this.ctx;
+            const labels = this.data.labels || [];
+            const ds = this.dataset();
+            const values = (ds.data || []).map(Number);
+            const max = Math.max(...values, 1);
+            const horizontal = this.options.indexAxis === 'y';
+            const pad = horizontal ? { l: 96, r: 18, t: 10, b: 24 } : { l: 36, r: 16, t: 10, b: 42 };
+            const plotW = width - pad.l - pad.r;
+            const plotH = height - pad.t - pad.b;
+            ctx.strokeStyle = this.colors().grid;
+            ctx.lineWidth = 1;
+            for (let i = 0; i <= 3; i++) {
+                const y = pad.t + plotH - (plotH * i / 3);
+                ctx.beginPath();
+                ctx.moveTo(pad.l, y);
+                ctx.lineTo(width - pad.r, y);
+                ctx.stroke();
+            }
+            if (!values.length) {
+                this.drawLabel('No data', width / 2, height / 2, 'center', 12);
+                return;
+            }
+            if (horizontal) {
+                const gap = 8;
+                const barH = Math.max(12, (plotH - gap * (values.length - 1)) / values.length);
+                values.forEach((value, i) => {
+                    const y = pad.t + i * (barH + gap);
+                    const barW = Math.max(2, plotW * value / max);
+                    ctx.fillStyle = this.colorAt(ds.backgroundColor, i, '#636b2f');
+                    ctx.fillRect(pad.l, y, barW, barH);
+                    this.drawLabel((labels[i] || '').slice(0, 14), pad.l - 8, y + barH / 2, 'right', 10);
+                    this.drawLabel(value, pad.l + barW + 8, y + barH / 2, 'left', 10);
+                });
+                return;
+            }
+            const gap = 10;
+            const barW = Math.max(14, (plotW - gap * (values.length - 1)) / values.length);
+            values.forEach((value, i) => {
+                const barH = plotH * value / max;
+                const x = pad.l + i * (barW + gap);
+                const y = pad.t + plotH - barH;
+                ctx.fillStyle = this.colorAt(ds.backgroundColor, i, '#636b2f');
+                ctx.fillRect(x, y, barW, barH);
+                this.drawLabel(value, x + barW / 2, y - 8, 'center', 10);
+                this.drawLabel((labels[i] || '').slice(0, 9), x + barW / 2, height - 18, 'center', 9);
+            });
+        }
+        drawDoughnut(width, height) {
+            const ctx = this.ctx;
+            const labels = this.data.labels || [];
+            const ds = this.dataset();
+            const values = (ds.data || []).map(Number);
+            const total = values.reduce((sum, n) => sum + n, 0);
+            const cx = width * 0.42;
+            const cy = height / 2;
+            const radius = Math.min(width * 0.24, height * 0.36);
+            const inner = radius * 0.62;
+            let angle = -Math.PI / 2;
+            if (!total) {
+                ctx.fillStyle = this.colors().empty;
+                ctx.beginPath(); ctx.arc(cx, cy, radius, 0, Math.PI * 2); ctx.arc(cx, cy, inner, 0, Math.PI * 2, true); ctx.fill();
+                this.drawLabel('No data', cx, cy, 'center', 12);
+            } else {
+                values.forEach((value, i) => {
+                    const slice = Math.PI * 2 * value / total;
+                    ctx.fillStyle = this.colorAt(ds.backgroundColor, i, '#636b2f');
+                    ctx.beginPath();
+                    ctx.moveTo(cx, cy);
+                    ctx.arc(cx, cy, radius, angle, angle + slice);
+                    ctx.arc(cx, cy, inner, angle + slice, angle, true);
+                    ctx.closePath();
+                    ctx.fill();
+                    angle += slice;
+                });
+            }
+            labels.forEach((label, i) => {
+                const y = cy - 18 + i * 26;
+                ctx.fillStyle = this.colorAt(ds.backgroundColor, i, '#636b2f');
+                ctx.fillRect(width * 0.68, y - 6, 12, 12);
+                this.drawLabel(`${label}: ${values[i] || 0}`, width * 0.68 + 18, y, 'left', 11);
+            });
+        }
+        drawPolar(width, height) {
+            const ctx = this.ctx;
+            const labels = this.data.labels || [];
+            const ds = this.dataset();
+            const values = (ds.data || []).map(Number);
+            const max = Math.max(...values, 1);
+            const cx = width * 0.38;
+            const cy = height / 2;
+            const radius = Math.min(width * 0.25, height * 0.36);
+            const step = values.length ? Math.PI * 2 / values.length : 0;
+            if (!values.length) {
+                this.drawLabel('No data', width / 2, height / 2, 'center', 12);
+                return;
+            }
+            values.forEach((value, i) => {
+                const start = -Math.PI / 2 + i * step;
+                const r = radius * Math.sqrt(value / max);
+                ctx.fillStyle = this.colorAt(ds.backgroundColor, i, '#636b2f');
+                ctx.beginPath();
+                ctx.moveTo(cx, cy);
+                ctx.arc(cx, cy, r, start, start + step);
+                ctx.closePath();
+                ctx.fill();
+            });
+            labels.slice(0, 6).forEach((label, i) => {
+                const y = 26 + i * 22;
+                ctx.fillStyle = this.colorAt(ds.backgroundColor, i, '#636b2f');
+                ctx.fillRect(width * 0.66, y - 6, 12, 12);
+                this.drawLabel(`${label}: ${values[i] || 0}`, width * 0.66 + 18, y, 'left', 10);
+            });
+        }
+    };
+}
+</script>
 <style>
 :root {
     --bg-from:#1a3a6b;
@@ -1324,7 +1490,7 @@ const topChart=new Chart(document.getElementById('topChart'),{
 });
 const statusChart=new Chart(document.getElementById('statusChart'),{
     type:'doughnut',
-    data:{labels:['Pending','Delivered'],datasets:[{data:[<?= $pendingCnt ?>,<?= $deliveredCnt ?>],backgroundColor:[theme.pending,theme.delivered],borderColor:['#fbbf24','#16a34a'],borderWidth:1.5}]},
+    data:{labels:['Pending / On the Way','Delivered'],datasets:[{data:[<?= $pendingCnt ?>,<?= $deliveredCnt ?>],backgroundColor:[theme.pending,theme.delivered],borderColor:['#fbbf24','#16a34a'],borderWidth:1.5}]},
     options:{cutout:'68%',plugins:{legend:{labels:{color:theme.tick,font:{size:12,weight:'600'}}}}}
 });
 const supplierChart=new Chart(document.getElementById('supplierChart'),{

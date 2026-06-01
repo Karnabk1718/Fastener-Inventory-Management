@@ -39,6 +39,7 @@ $lowStockCount = 0;
 foreach($rows as $stockRow) {
     if((int)$stockRow['quantity'] < 20) $lowStockCount++;
 }
+$inStockCount = $totalCount - $lowStockCount;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -570,6 +571,54 @@ tbody tr.table-low-stock {
 .empty-state p {
     font-size: 14px;
 }
+.inventory-summary {
+    display: grid;
+    grid-template-columns: repeat(2, 220px);
+    gap: 12px;
+    margin-top: 14px;
+    justify-content: flex-start;
+}
+.summary-box {
+    background: var(--card-bg);
+    border: 1px solid var(--card-bdr);
+    border-radius: 10px;
+    padding: 12px 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.summary-icon {
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
+    background: var(--gold-bg);
+    border: 1px solid var(--gold-br);
+    color: var(--gold);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+}
+.summary-label {
+    color: var(--muted);
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+}
+.summary-value {
+    color: #fff;
+    font-family: 'DM Mono', monospace;
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 1.1;
+    margin-top: 4px;
+}
+.summary-box.low .summary-icon {
+    background: rgba(255,107,107,0.15);
+    border-color: rgba(255,107,107,0.35);
+    color: var(--danger);
+}
 .thumb {
     width: 56px;
     height: 56px;
@@ -780,6 +829,33 @@ tbody tr:hover {
 .no-img {
     border-color: var(--supervisor-border) !important;
 }
+.summary-box {
+    background: var(--supervisor-panel) !important;
+    border-color: var(--supervisor-border) !important;
+    color: var(--supervisor-dark) !important;
+    box-shadow: 0 8px 18px rgba(56, 0, 10, 0.12);
+}
+.summary-label {
+    color: var(--supervisor-muted) !important;
+}
+.summary-value {
+    color: var(--supervisor-dark) !important;
+}
+.summary-icon {
+    background: var(--supervisor-panel-soft) !important;
+    border-color: var(--supervisor-border) !important;
+    color: var(--supervisor-red) !important;
+}
+.summary-box.low .summary-icon {
+    background: rgba(205, 28, 24, 0.12) !important;
+    border-color: var(--supervisor-red) !important;
+    color: var(--supervisor-deep) !important;
+}
+@media (max-width: 680px) {
+    .inventory-summary {
+        grid-template-columns: 1fr;
+    }
+}
 /* Embedded dark-mode contrast layer */
 /* Final dark-mode contrast layer loaded after page inline styles. */
 body.dark {
@@ -858,6 +934,7 @@ body.dark .table-card,
 body.dark .form-card,
 body.dark .history-card,
 body.dark .stat-card,
+body.dark .summary-box,
 body.dark .action-card,
 body.dark .report-card,
 body.dark .report-btn-card,
@@ -876,6 +953,7 @@ body.dark .table-card *,
 body.dark .form-card *,
 body.dark .history-card *,
 body.dark .stat-card *,
+body.dark .summary-box *,
 body.dark .action-card *,
 body.dark .report-card *,
 body.dark .report-btn-card *,
@@ -884,6 +962,26 @@ body.dark .range-card *,
 body.dark .readonly-notice *,
 body.dark .datetime-cell * {
     color: inherit;
+}
+
+body.dark .summary-label {
+    color: #cbd5e1 !important;
+}
+
+body.dark .summary-value {
+    color: #f8fafc !important;
+}
+
+body.dark .summary-icon {
+    background: rgba(250, 204, 21, 0.16) !important;
+    border-color: rgba(250, 204, 21, 0.55) !important;
+    color: #facc15 !important;
+}
+
+body.dark .summary-box.low .summary-icon {
+    background: rgba(248, 113, 113, 0.16) !important;
+    border-color: rgba(248, 113, 113, 0.55) !important;
+    color: #fca5a5 !important;
 }
 
 body.dark thead tr,
@@ -897,6 +995,7 @@ body.dark .table-card:hover,
 body.dark .form-card:hover,
 body.dark .history-card:hover,
 body.dark .stat-card:hover,
+body.dark .summary-box:hover,
 body.dark .action-card:hover,
 body.dark .report-card:hover,
 body.dark .report-btn-card:hover,
@@ -912,6 +1011,7 @@ body.dark .table-card:hover *,
 body.dark .form-card:hover *,
 body.dark .history-card:hover *,
 body.dark .stat-card:hover *,
+body.dark .summary-box:hover *,
 body.dark .action-card:hover *,
 body.dark .report-card:hover *,
 body.dark .report-btn-card:hover *,
@@ -1237,6 +1337,21 @@ body.dark a[class*="btn"] * {
                 <?php endforeach; endif; ?>
             </tbody>
         </table>
+    </div>
+
+    <div class="inventory-summary">
+        <div class="summary-box">
+            <div>
+                <div class="summary-label">Total Fasteners In Stock</div>
+                <div class="summary-value"><?= number_format($inStockCount) ?></div>
+            </div>
+        </div>
+        <div class="summary-box low">
+            <div>
+                <div class="summary-label">Low Stock Fasteners</div>
+                <div class="summary-value"><?= number_format($lowStockCount) ?></div>
+            </div>
+        </div>
     </div>
 
 </div>
